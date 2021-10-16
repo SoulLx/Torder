@@ -4,7 +4,7 @@ import { BottomBar } from '../../components/BottomBar';
 import styles from './styles'
 
 
-export function Profile() {
+export function UserProfile() {
   return (
     <SafeAreaView style={styles.container}>
     <View style={styles.foto}>
