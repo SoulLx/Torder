@@ -8,6 +8,9 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@react-native-community/masked-view": "^0.1.11",
+    "@react-navigation/native": "^6.0.6",
+    "@react-navigation/native-stack": "^6.2.5",
     "expo": "~42.0.1",
     "expo-status-bar": "~1.0.4",
     "feather-icons": "^4.28.0",
@@ -15,7 +18,11 @@
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-42.0.0.tar.gz",
     "react-native-feather": "^1.1.2",
+    "react-native-gesture-handler": "^1.10.3",
     "react-native-modal": "^13.0.0",
+    "react-native-reanimated": "^2.2.3",
+    "react-native-safe-area-context": "3.2.0",
+    "react-native-screens": "^3.8.0",
     "react-native-svg": "12.1.1",
     "react-native-web": "~0.13.12"
   },

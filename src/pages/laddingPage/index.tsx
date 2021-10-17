@@ -1,13 +1,18 @@
 import React, {useState} from 'react';
-import { Text, View, Image, TouchableOpacity,TextInput,TouchableWithoutFeedback} from 'react-native';
-import { ArrowLeft } from "react-native-feather";
+import { Text, View, Image, TouchableOpacity,TextInput} from 'react-native';
+import { ArrowLeft} from "react-native-feather";
 import styles from './styles'
 import Modal from "react-native-modal";
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NavigationContainer } from '@react-navigation/native';
 
 
-export function LaddingPage() {
+export function LaddingPage({navigation}:{navigation:any}) {
     const[visibleRegister,setVisibleRegister]=useState(false)
     const[visibleLogin,setVisibleLogin]=useState(false)
+    
+    
+    
     return (
       
     <View style={styles.container}>
@@ -73,7 +78,10 @@ export function LaddingPage() {
           >
         <View style={styles.centeredView}>
             <View style={styles.modalView}>
-          <TouchableOpacity style={styles.backtouch} onPress={()=>{setVisibleLogin(false)}}>
+          <TouchableOpacity 
+          style={styles.backtouch} 
+          onPress={()=>{setVisibleLogin(false)}}
+          >
           <ArrowLeft stroke="black"/>
           </TouchableOpacity>
           
@@ -86,7 +94,8 @@ export function LaddingPage() {
           
           <TouchableOpacity 
           style={styles.registrar} 
-          onPress={()=>{setVisibleLogin(false)}}>
+          onPress={() => {navigation.push('UserProfile');setVisibleLogin(false)}}
+          >
               
               <Text 
               style={styles.registrarText}
