@@ -1,6 +1,6 @@
-
 import React from 'react';
-import { StyleSheet, TextInput, View } from 'react-native';
+import { TextInput, View } from 'react-native';
+import styles from './styles'
 
 interface TextFieldProps{
     fieldName: string;
@@ -19,14 +19,6 @@ export function TextField({fieldName} : TextFieldProps){
     )
 }
 
-const styles=StyleSheet.create({
-        box:{
-            textAlign: 'justify',
-            borderWidth: 1,
-            borderRadius:3,
-            padding:"5%",
-            margin:"5%",
-        },
-});
+
 
 export default TextField;

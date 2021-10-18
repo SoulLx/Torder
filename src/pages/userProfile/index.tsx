@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text, View, Image, SafeAreaView,TouchableOpacity} from 'react-native';
-import { BottomBar } from '../../components/BottomBar';
+import { BottomBar } from '../../components/BottomBar/BottomBar';
 import styles from './styles'
 
 

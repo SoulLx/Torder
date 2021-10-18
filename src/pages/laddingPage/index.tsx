@@ -3,8 +3,7 @@ import { Text, View, Image, TouchableOpacity,TextInput} from 'react-native';
 import { ArrowLeft} from "react-native-feather";
 import styles from './styles'
 import Modal from "react-native-modal";
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { NavigationContainer } from '@react-navigation/native';
+
 
 
 export function LaddingPage({navigation}:{navigation:any}) {
