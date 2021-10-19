@@ -8,6 +8,25 @@ const styles=StyleSheet.create({
         alignItems:'center',
         justifyContent:'space-between'
     },
+    head:{
+        paddingTop: "5%",
+    },
+    body:{
+        marginTop:"-50%",
+        borderWidth: 1,
+        paddingHorizontal:"25%",
+        paddingVertical:"5%",
+    },
+    booking:{
+        paddingVertical:"5%",
+    },
+    bookingAction:{
+        flexWrap: "wrap",
+        flexDirection: "row",
+        
+        
+        
+    },
 });
 
 export default styles;

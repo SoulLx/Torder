@@ -39,12 +39,6 @@ const styles=StyleSheet.create({
     registrarLadding:{
         color:'white',
     },
-
-
-
-
-
-    
     modalView: {
         backgroundColor:"white",
         margin:5,
@@ -88,10 +82,6 @@ const styles=StyleSheet.create({
         color:'white',
         fontWeight:'bold',
 
-    },
-   
-    modal:{
-        
     },
 });
 
