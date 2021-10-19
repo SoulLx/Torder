@@ -2,9 +2,12 @@ import { StyleSheet} from 'react-native';
 
 const styles=StyleSheet.create({
     barra:{
+        borderTopColor:'#d1d1d1',
         justifyContent:'space-between',
         flexWrap: "wrap",
-        flexDirection: "row"
+        flexDirection: "row",
+        borderTopWidth: 1,
+        
     },
     buttons:{
     paddingHorizontal: 1,
@@ -12,11 +15,13 @@ const styles=StyleSheet.create({
     borderRadius: 0,
     alignSelf: "flex-start",
     marginHorizontal: "0.6%",
-    marginBottom: 5,
+    marginBottom: "2%",
+    marginTop:"2%",
     minWidth: "32%",
     textAlign: "center",
     },
     textbutton:{
+        
        fontSize:14,
        alignSelf:"center"
     },

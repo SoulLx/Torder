@@ -3,6 +3,7 @@ import { Text, View, Image, TouchableOpacity,TextInput} from 'react-native';
 import { ArrowLeft} from "react-native-feather";
 import styles from './styles'
 import Modal from "react-native-modal";
+import BottomBar from '../../components/BottomBar/BottomBar';
 
 
 
@@ -136,6 +137,7 @@ export function LaddingPage({navigation}:{navigation:any}) {
       </Text>
       </TouchableOpacity>
       </View>
+      <BottomBar/>
       </View>
     
     )
