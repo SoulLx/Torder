@@ -1,12 +1,12 @@
 import React from 'react';
-import { TextInput, View } from 'react-native';
+import { TextInput, View, StyleSheet } from 'react-native';
 import styles from './styles'
 
-interface TextFieldProps{
+interface TextFieldProps extends StyleSheet{
     fieldName: string;
 }
 
-export function TextField({fieldName} : TextFieldProps){
+export function TextField({fieldName,} : TextFieldProps){
     return(
         <View >
     

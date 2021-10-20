@@ -5,7 +5,7 @@ import { UserProfile } from '../pages/userProfile';
 import { SearchRestaurant } from '../pages/searchRestaurant';
 import { Restaurant } from '../pages/restaurant';
 import { Booking } from '../pages/booking';
-
+import { UserSettings } from '../pages/userProfile/userSettings';
 
 const stackRoutes = createNativeStackNavigator();
 
@@ -35,7 +35,10 @@ const AppRoutes: React.FC= ()=> (
             name="Booking"
             component={Booking}
         />
-    
+        <stackRoutes.Screen
+            name="UserSettings"
+            component={UserSettings}
+        />
        
 
     </stackRoutes.Navigator>

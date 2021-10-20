@@ -29,7 +29,11 @@ export function LaddingPage({navigation}:{navigation:any}) {
         <View style={styles.centeredView}>
             <View style={styles.modalView}>
           <TouchableOpacity style={styles.backtouch} onPress={()=>{setVisibleRegister(false)}}>
-          <ArrowLeft stroke="black" />
+          <ArrowLeft
+           stroke="black" 
+           width="30"
+        height="30"
+           />
           </TouchableOpacity>
 
           <View >
