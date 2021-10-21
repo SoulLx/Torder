@@ -4,7 +4,7 @@ import styles from './styles'
 import BottomBar from '../../components/BottomBar/BottomBar';
 import Modal from "react-native-modal";
 
-export function Booking() {
+export function Booking({navigation}:{navigation:any}) {
   const[confirm,setconfirm]=useState(false)
   const[details,setdetails]=useState(false)
   const[cancel,setcancel]=useState(false)
@@ -34,6 +34,11 @@ export function Booking() {
             <TouchableOpacity 
             style={{marginTop:20,backgroundColor:'white',width:40,height:40}}
             onPress={()=>{setconfirm(false)}}
+            >
+            </TouchableOpacity>
+            <TouchableOpacity 
+            style={{marginTop:20,backgroundColor:'white',width:40,height:40}}
+            onPress={()=>{navigation.navigate('RestaurantLadding')}}
             >
             </TouchableOpacity>
             </View>
