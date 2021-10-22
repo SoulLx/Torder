@@ -1,12 +1,13 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { LaddingPage } from '../pages/laddingPage';
+import { LaddingPage } from '../pages/laddingPage Client';
 import { UserProfile } from '../pages/userProfile';
 import { SearchRestaurant } from '../pages/searchRestaurant';
 import { Restaurant } from '../pages/restaurant';
 import { Booking } from '../pages/booking';
 import { UserSettings } from '../pages/userProfile/userSettings';
 import { RestaurantLadding } from '../pages/restaurantLadding';
+import { LaddingPageClient } from '../pages/laddingPage Restaurant';
 
 const stackRoutes = createNativeStackNavigator();
 
@@ -16,11 +17,15 @@ const AppRoutes: React.FC= ()=> (
     <stackRoutes.Navigator
         screenOptions={{headerShown:false}}
     >
-        
-        <stackRoutes.Screen
+          <stackRoutes.Screen
             name="LaddingPage"
             component={LaddingPage}
         />
+        <stackRoutes.Screen
+            name="LaddingPageClient"
+            component={LaddingPageClient}
+        />
+      
         <stackRoutes.Screen
             name="UserProfile"
             component={UserProfile}

@@ -3,7 +3,7 @@ import { Text, View, Image, TouchableOpacity,TextInput} from 'react-native';
 import { ArrowLeft} from "react-native-feather";
 import styles from './styles'
 import Modal from "react-native-modal";
-import BottomBar from '../../components/BottomBar/BottomBar';
+
 
 
 
@@ -35,13 +35,19 @@ export function LaddingPage({navigation}:{navigation:any}) {
         height="30"
            />
           </TouchableOpacity>
-
+          <View style={styles.modalTitle}>
+          <Text
+              style={styles.registerModalName}
+              
+              >Registrar</Text>
+            </View> 
           <View >
     
               <TextInput 
               style={styles.box}
               placeholder="Email"
               ></TextInput>
+              
               
            </View>
            <View >
@@ -88,11 +94,20 @@ export function LaddingPage({navigation}:{navigation:any}) {
           >
           <ArrowLeft stroke="black"/>
           </TouchableOpacity>
-          
+          <View style={styles.modalTitle}>
+          <Text
+              style={styles.registerModalName}
+              
+              >Entrar</Text>
+            </View> 
           <View >
               <TextInput 
               style={styles.box}
               placeholder="Email"
+              ></TextInput>
+               <TextInput 
+              style={styles.box}
+              placeholder="Senha"
               ></TextInput>
            </View>
           
@@ -141,7 +156,6 @@ export function LaddingPage({navigation}:{navigation:any}) {
       </Text>
       </TouchableOpacity>
       </View>
-      <BottomBar/>
       </View>
     
     )

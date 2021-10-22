@@ -62,6 +62,14 @@ const styles=StyleSheet.create({
         
         
     },
+    registerModalName:{
+        fontWeight:'bold',
+        fontSize:16,
+        textDecorationLine: 'underline',
+    },
+    modalTitle:{
+        alignItems:'center',
+    },
     backtouch:{
         alignSelf: "flex-start",
         paddingBottom:"5%",
