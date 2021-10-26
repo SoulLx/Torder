@@ -7,7 +7,7 @@ import Modal from "react-native-modal";
 
 
 
-export function LaddingPage({navigation}:{navigation:any}) {
+export function LaddingPage() {
     const[visibleRegister,setVisibleRegister]=useState(false)
     const[visibleLogin,setVisibleLogin]=useState(false)
     

@@ -3,11 +3,15 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { LaddingPage } from '../pages/laddingPage Client';
 import { UserProfile } from '../pages/userProfile';
 import { SearchRestaurant } from '../pages/searchRestaurant';
-import { Restaurant } from '../pages/restaurant';
+import { RestaurantClient } from '../pages/restaurantClient';
 import { Booking } from '../pages/booking';
 import { UserSettings } from '../pages/userProfile/userSettings';
 import { RestaurantLadding } from '../pages/restaurantLadding';
 import { LaddingPageClient } from '../pages/laddingPage Restaurant';
+import { RestaurantIn } from '../pages/restaurantIn';
+import { Book } from '../pages/book';
+import { Table } from '../pages/table';
+
 
 const stackRoutes = createNativeStackNavigator();
 
@@ -17,6 +21,10 @@ const AppRoutes: React.FC= ()=> (
     <stackRoutes.Navigator
         screenOptions={{headerShown:false}}
     >
+        <stackRoutes.Screen
+            name="RestaurantIn"
+            component={RestaurantIn}
+        />
           <stackRoutes.Screen
             name="LaddingPage"
             component={LaddingPage}
@@ -35,8 +43,8 @@ const AppRoutes: React.FC= ()=> (
             component={SearchRestaurant}
         />
         <stackRoutes.Screen
-            name="Restaurant"
-            component={Restaurant}
+            name="RestaurantClient"
+            component={RestaurantClient}
         />
         <stackRoutes.Screen
             name="Booking"
@@ -49,6 +57,14 @@ const AppRoutes: React.FC= ()=> (
         <stackRoutes.Screen
             name="RestaurantLadding"
             component={RestaurantLadding}
+        />
+        <stackRoutes.Screen
+            name="Book"
+            component={Book}
+        />
+        <stackRoutes.Screen
+            name="Table"
+            component={Table}
         />
        
 

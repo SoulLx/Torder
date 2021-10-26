@@ -3,7 +3,7 @@ import {SafeAreaView, Text} from 'react-native';
 import styles from './styles'
 
 
-export function Restaurant() {
+export function RestaurantClient() {
   return (
     <SafeAreaView style={styles.container}>
       <Text> RESTAURANTE </Text>
