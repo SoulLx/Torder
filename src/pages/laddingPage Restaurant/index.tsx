@@ -205,7 +205,7 @@ export function LaddingPageClient({navigation}:{navigation:any}) {
           
           <TouchableOpacity 
           style={styles.registrar} 
-          onPress={() => {navigation.push('UserProfile');setVisibleLogin(false)}}
+          onPress={() => {navigation.push('RestaurantIn');setVisibleLogin(false)}}
           >
               
               <Text 
@@ -248,7 +248,6 @@ export function LaddingPageClient({navigation}:{navigation:any}) {
       </Text>
       </TouchableOpacity>
       </View>
-      <BottomBar/>
       </View>
     
     )

@@ -21,14 +21,15 @@ const AppRoutes: React.FC= ()=> (
     <stackRoutes.Navigator
         screenOptions={{headerShown:false}}
     >
-        <stackRoutes.Screen
-            name="RestaurantIn"
-            component={RestaurantIn}
-        />
           <stackRoutes.Screen
             name="LaddingPage"
             component={LaddingPage}
         />
+        <stackRoutes.Screen
+            name="RestaurantIn"
+            component={RestaurantIn}
+        />
+        
         <stackRoutes.Screen
             name="LaddingPageClient"
             component={LaddingPageClient}
