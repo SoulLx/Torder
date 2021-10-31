@@ -20,25 +20,35 @@ export function UserSettings() {
         </TouchableOpacity>
         </View>
         <View style={styles.fields}>
+            
             <Text style={styles.fieldName}>
                 Nome
             </Text>
+            
             <TextInput 
-            style={styles.textInput} 
+            style={styles.textInput}
             ></TextInput >
+           
+            
             <Text style={styles.fieldName}>
                 Número de celular
             </Text>
+            
             <TextInput 
-              style={styles.textInput} 
+               style={styles.textInput}
             ></TextInput >
+            
+            
             <Text style={styles.fieldName}>
                 CPF
             </Text>
+            
             <TextInput 
-            style={styles.textInput} 
+             style={styles.textInput}
+             
             >
             </TextInput >
+            
         </View>
         <TouchableOpacity 
             style={styles.button}
