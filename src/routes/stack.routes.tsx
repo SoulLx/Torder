@@ -1,17 +1,17 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { LaddingPage } from '../pages/laddingPage Client';
+import { LaddingPageClient } from '../pages/laddingPage Client';
 import { UserProfile } from '../pages/userProfile';
 import { SearchRestaurant } from '../pages/searchRestaurant';
 import { RestaurantClient } from '../pages/restaurantClient';
 import { Booking } from '../pages/booking';
 import { UserSettings } from '../pages/userProfile/userSettings';
 import { RestaurantLadding } from '../pages/restaurantLadding';
-import { LaddingPageClient } from '../pages/laddingPage Restaurant';
+import { LaddingPageRestaurant } from '../pages/laddingPage Restaurant';
 import { RestaurantIn } from '../pages/restaurantIn';
 import { Book } from '../pages/book';
 import { Table } from '../pages/table';
-
+import { RestaurantProfileSettings } from '../pages/restaurantProfileSettings';
 
 const stackRoutes = createNativeStackNavigator();
 
@@ -22,8 +22,8 @@ const AppRoutes: React.FC= ()=> (
         screenOptions={{headerShown:false}}
     >
           <stackRoutes.Screen
-            name="LaddingPage"
-            component={LaddingPage}
+            name="LaddingPageClient"
+            component={LaddingPageClient}
         />
         <stackRoutes.Screen
             name="RestaurantIn"
@@ -31,10 +31,14 @@ const AppRoutes: React.FC= ()=> (
         />
         
         <stackRoutes.Screen
-            name="LaddingPageClient"
-            component={LaddingPageClient}
+            name="LaddingPageRestaurant"
+            component={LaddingPageRestaurant}
         />
       
+      <stackRoutes.Screen
+            name="RestaurantProfileSettings"
+            component={RestaurantProfileSettings}
+        />
         <stackRoutes.Screen
             name="UserProfile"
             component={UserProfile}

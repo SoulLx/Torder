@@ -41,7 +41,6 @@ const styles=StyleSheet.create({
     },
     modalView: {
         backgroundColor:"white",
-        margin:5,
         padding:20,
         borderRadius:20,
         elevation:10,
@@ -73,7 +72,7 @@ const styles=StyleSheet.create({
     backtouch:{
         alignSelf: "flex-start",
         paddingBottom:"5%",
-        marginTop: '10%',
+        marginTop: '5%',
         
     },
     

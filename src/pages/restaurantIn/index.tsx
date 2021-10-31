@@ -6,8 +6,7 @@ import { useNavigation } from '@react-navigation/core';
 
 
 
-export function RestaurantIn() {
-    const navigation = useNavigation();
+export function RestaurantIn({navigation}:{navigation:any}) {
     const[openClosed,setOpenClosed]=useState(false)
     let state = ''
 
@@ -33,7 +32,10 @@ export function RestaurantIn() {
     <View style={styles.foto}>
     <Image style={styles.img} source={require('../../assets/mcdonalds-logo.jpg')}/>
     <Text style={styles.name}>MC Donald's</Text>
-    <TouchableOpacity style={styles.profileRestaurant}>
+    <TouchableOpacity 
+    style={styles.profileRestaurant}
+    onPress={()=>navigation.push('RestaurantProfileSettings')}
+    >
     <Text style={styles.profileButtom}>Alterar</Text>
     </TouchableOpacity>
     </View>

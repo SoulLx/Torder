@@ -3,11 +3,11 @@ import { Text, View, Image,ScrollView, TouchableOpacity,TextInput} from 'react-n
 import { ArrowLeft} from "react-native-feather";
 import styles from './styles'
 import Modal from "react-native-modal";
-import BottomBar from '../../components/BottomBar/BottomBar';
+
 import {Picker} from '@react-native-picker/picker';
 
 
-export function LaddingPageClient({navigation}:{navigation:any}) {
+export function LaddingPageRestaurant({navigation}:{navigation:any}) {
     const[visibleRegister,setVisibleRegister]=useState(false)
     const[visibleLogin,setVisibleLogin]=useState(false)
     const [selectedFood, setSelectedFood] = useState();
@@ -245,6 +245,14 @@ export function LaddingPageClient({navigation}:{navigation:any}) {
       >
       <Text style={styles.registrarLadding}>
       Registrar
+      </Text>
+      </TouchableOpacity>
+      <TouchableOpacity 
+      style={{backgroundColor:'#ededed', marginTop:"10%", alignItems:'center',marginHorizontal:'25%', paddingVertical:'1%',borderRadius:20}}
+      onPress={()=>{navigation.push('LaddingPageClient')}}
+      >
+      <Text style={{fontSize:16,color:'black'}}>
+      Cliente?
       </Text>
       </TouchableOpacity>
       </View>

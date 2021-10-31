@@ -7,7 +7,7 @@ import Modal from "react-native-modal";
 
 
 
-export function LaddingPage({navigation}:{navigation:any}) {
+export function LaddingPageClient({navigation}:{navigation:any}) {
     const[visibleRegister,setVisibleRegister]=useState(false)
     const[visibleLogin,setVisibleLogin]=useState(false)
     
@@ -41,6 +41,15 @@ export function LaddingPage({navigation}:{navigation:any}) {
               
               >Registrar</Text>
             </View> 
+            <View >
+    
+    <TextInput 
+    style={styles.box}
+    placeholder="Nome"
+    ></TextInput>
+    
+    
+ </View>
           <View >
     
               <TextInput 
@@ -157,10 +166,10 @@ export function LaddingPage({navigation}:{navigation:any}) {
       </TouchableOpacity>
 
       <TouchableOpacity 
-      style={{backgroundColor:'black', marginTop:"2%", alignItems:'center'}}
-      onPress={()=>{navigation.push('LaddingPageClient')}}
+      style={{backgroundColor:'#ededed', marginTop:"10%", alignItems:'center',marginHorizontal:'25%', paddingVertical:'1%',borderRadius:20}}
+      onPress={()=>{navigation.push('LaddingPageRestaurant')}}
       >
-      <Text style={styles.registrarLadding}>
+      <Text style={{fontSize:16,color:'black'}}>
       Parceiro?
       </Text>
       </TouchableOpacity>
