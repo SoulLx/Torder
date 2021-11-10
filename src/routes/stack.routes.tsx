@@ -12,7 +12,7 @@ import { RestaurantIn } from '../pages/restaurantIn';
 import { Book } from '../pages/book';
 import { Table } from '../pages/table';
 import { RestaurantProfileSettings } from '../pages/restaurantProfileSettings';
-import { teste } from '../teste';
+
 
 const stackRoutes = createNativeStackNavigator();
 
@@ -22,10 +22,7 @@ const AppRoutes: React.FC= ()=> (
     <stackRoutes.Navigator
         screenOptions={{headerShown:false}}
     >
-        <stackRoutes.Screen
-            name="teste"
-            component={teste}
-        />
+        
           <stackRoutes.Screen
             name="LaddingPageClient"
             component={LaddingPageClient}

@@ -10,7 +10,7 @@ const styles=StyleSheet.create({
         
     },
     buttons:{
-    paddingHorizontal:'15%',
+    paddingHorizontal:'19%',
     paddingVertical: 10,
     borderRadius: 0,
     alignSelf: "flex-start",

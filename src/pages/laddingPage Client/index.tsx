@@ -1,18 +1,33 @@
-import React, {useState} from 'react';
-import { Text, View, Image, TouchableOpacity,TextInput} from 'react-native';
+import React, {useState,useEffect} from 'react';
+import { Text, View, Image, TouchableOpacity,TextInput,ActivityIndicator, FlatList} from 'react-native';
 import { ArrowLeft} from "react-native-feather";
 import styles from './styles'
 import Modal from "react-native-modal";
-
-
 
 
 export function LaddingPageClient({navigation}:{navigation:any}) {
     const[visibleRegister,setVisibleRegister]=useState(false)
     const[visibleLogin,setVisibleLogin]=useState(false)
     
-    
-    
+      const [value,setValue] = useState({
+        nome: '',
+        cpf:'',
+        email:'', 
+        telefone:''
+      }) 
+    const postData = async ( ) =>{
+      const response = await fetch('http://192.168.0.39:3000/api/cliente', {
+          method: 'POST', 
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(value)
+      });
+      const data = await response.json( );
+      console.log(data)
+    };
+     
+
     return (
       
     <View style={styles.container}>
@@ -43,18 +58,22 @@ export function LaddingPageClient({navigation}:{navigation:any}) {
             </View> 
             <View >
     
-    <TextInput 
-    style={styles.box}
-    placeholder="Nome"
-    ></TextInput>
+           <TextInput 
+            style={styles.box}
+            placeholder="Nome"
+            onChangeText={(text) => setValue({ ...value, nome: text })}
+            value={value.nome}
+            ></TextInput>
     
     
- </View>
-          <View >
+          </View>
+            <View >
     
               <TextInput 
               style={styles.box}
               placeholder="Email"
+              onChangeText={(text) => setValue({ ...value, email: text })}
+              value={value.email}
               ></TextInput>
               
               
@@ -64,6 +83,8 @@ export function LaddingPageClient({navigation}:{navigation:any}) {
               <TextInput 
               style={styles.box}
               placeholder="CPF"
+              onChangeText={(text) => setValue({ ...value, cpf: text })}
+            value={value.cpf}
               ></TextInput>
              
            </View>
@@ -71,6 +92,8 @@ export function LaddingPageClient({navigation}:{navigation:any}) {
               <TextInput
               style={styles.box} 
               placeholder="Celular"
+              onChangeText={(text) => setValue({ ...value, telefone: text })}
+            value={value.telefone}
               ></TextInput>
               
            </View>
@@ -78,7 +101,7 @@ export function LaddingPageClient({navigation}:{navigation:any}) {
           
           <TouchableOpacity 
           style={styles.registrar} 
-          onPress={()=>{setVisibleRegister(false)}}>
+          onPress={()=>{setVisibleRegister(false);{postData()}}}>
               
               <Text style={styles.registrarText}>
                   Registrar

@@ -13,7 +13,7 @@ const styles=StyleSheet.create({
         borderBottomWidth: 1,
     },
     bottom:{
-        paddingTop: "50%",
+        paddingTop: "10%",
         borderBottomWidth: 1,
     },
     body:{
@@ -22,7 +22,7 @@ const styles=StyleSheet.create({
         borderWidth: 1,
         
         paddingHorizontal:"25%",
-        paddingBottom:"5%",
+        paddingBottom:"10%",
         
     },
     bodyBottom:{

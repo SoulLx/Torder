@@ -40,8 +40,8 @@ const styles=StyleSheet.create({
     },
     config:{
     alignSelf: "flex-start",
-    marginTop:-500,
-    marginLeft:20,
+    marginTop:"-70%",
+    marginLeft:'5%',
     },
     perfiltexto:{
     fontSize:16,
