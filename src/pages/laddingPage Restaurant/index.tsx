@@ -10,9 +10,37 @@ import {Picker} from '@react-native-picker/picker';
 export function LaddingPageRestaurant({navigation}:{navigation:any}) {
     const[visibleRegister,setVisibleRegister]=useState(false)
     const[visibleLogin,setVisibleLogin]=useState(false)
-    const [selectedFood, setSelectedFood] = useState();
+    const [selectedFood, setSelectedFood] = useState('');
     
-    
+    const [value,setValue] = useState({
+        nomeFantasia: "",
+        razaoSocial: "",
+        email: "",
+        cnpj: "",
+        especialidade: "",
+    endereco: {
+        endereco: "",
+        numero: "",
+		complemento: ""
+    },
+    telefones: {
+        telefone1: "",
+    }
+    }) 
+    const postData = async ( ) =>{
+        const response = await fetch('http://192.168.0.39:3000/api/restaurante', {
+            method: 'POST', 
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(value)
+        });
+        const data = await response.json( );
+        console.log(data)
+      };
+
+
+
     return (
       
     <View style={styles.container}>
@@ -48,22 +76,29 @@ export function LaddingPageRestaurant({navigation}:{navigation:any}) {
                 CNPJ
             </Text>
             
-            <TextInput style={styles.box} ></TextInput >
+            <TextInput style={styles.box} 
+            onChangeText={(text) => setValue({ ...value, cnpj: text })}
+            value={value.cnpj}
+            ></TextInput >
             
             <Text style={styles.registertext}>
                 Razão social
             </Text>
             
             <TextInput 
-              style={styles.box} 
+            style={styles.box} 
+            onChangeText={(text) => setValue({ ...value, razaoSocial: text })}
+            value={value.razaoSocial}
             ></TextInput >
             
             <Text style={styles.registertext}>
-                Nome da Loja
+                Nome Fantasia
             </Text>
             
             <TextInput 
-            style={styles.box} 
+            style={styles.box}
+            onChangeText={(text) => setValue({ ...value, nomeFantasia: text })}
+            value={value.nomeFantasia}
             >
             </TextInput >
             <Text style={styles.registertext}>
@@ -72,38 +107,18 @@ export function LaddingPageRestaurant({navigation}:{navigation:any}) {
             
             <TextInput 
             style={styles.box} 
+            onChangeText={(text) => setValue({ ...value, telefones:{telefone1:text} })}
+            value={value.telefones.telefone1}
             >
             </TextInput >
             <Text style={styles.registertext}>
-                CEP
+                Complemento
             </Text>
             
             <TextInput 
             style={styles.box} 
-            >
-            </TextInput >
-            <Text style={styles.registertext}>
-                Cidade
-            </Text>
-            
-            <TextInput 
-            style={styles.box} 
-            >
-            </TextInput >
-            <Text style={styles.registertext}>
-                Estado
-            </Text>
-            
-            <TextInput 
-            style={styles.box} 
-            >
-            </TextInput >
-            <Text style={styles.registertext}>
-                Bairro
-            </Text>
-            
-            <TextInput 
-            style={styles.box} 
+            onChangeText={(text) => setValue({ ...value, endereco:{complemento: text,endereco: value.endereco.endereco,numero: value.endereco.numero}} )}
+            value={value.endereco.complemento}
             >
             </TextInput >
             <Text style={styles.registertext}>
@@ -111,23 +126,19 @@ export function LaddingPageRestaurant({navigation}:{navigation:any}) {
             </Text>
             
             <TextInput 
-            style={styles.box} 
+            style={styles.box}
+            onChangeText={(text) => setValue({ ...value, endereco:{complemento: value.endereco.complemento,endereco: text,numero: value.endereco.numero} })}
+            value={value.endereco.endereco}
             >
             </TextInput >
             <Text style={styles.registertext}>
-                Número
+                Número do prédio
             </Text>
             
             <TextInput 
             style={styles.box} 
-            >
-            </TextInput >
-            <Text style={styles.registertext}>
-                Complemento(Opcional)
-            </Text>
-            
-            <TextInput 
-            style={styles.box} 
+            onChangeText={(text) => setValue({ ...value, endereco:{complemento: value.endereco.complemento,endereco: value.endereco.endereco,numero: text} })}
+            value={value.endereco.numero}
             >
             </TextInput >
             <Text style={styles.registertext}>
@@ -137,8 +148,7 @@ export function LaddingPageRestaurant({navigation}:{navigation:any}) {
             <Picker
             style={styles.picker}
             selectedValue={selectedFood}
-            onValueChange={(itemValue, itemIndex) =>
-            setSelectedFood(itemValue)
+            onValueChange={(itemValue, itemIndex) =>setValue({...value, especialidade:itemValue})
             }>
             <Picker.Item label="Hamburguer" value="Hamburguer" />
             <Picker.Item label="Sopa" value="Sopa" />
@@ -152,6 +162,8 @@ export function LaddingPageRestaurant({navigation}:{navigation:any}) {
             
             <TextInput 
             style={styles.box} 
+            onChangeText={(text) => setValue({ ...value, email: text })}
+            value={value.email}
             >
             </TextInput >
 
@@ -161,8 +173,8 @@ export function LaddingPageRestaurant({navigation}:{navigation:any}) {
           
           <TouchableOpacity 
           style={styles.registrar} 
-          onPress={()=>{setVisibleRegister(false)}}>
-              
+          onPress={()=>{setVisibleRegister(false);{postData()}}}>
+          
               <Text style={styles.registrarText}>
                   Registrar
               </Text>
