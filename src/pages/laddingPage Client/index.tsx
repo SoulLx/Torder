@@ -13,18 +13,58 @@ export function LaddingPageClient({navigation}:{navigation:any}) {
         nome: '',
         cpf:'',
         email:'', 
-        telefone:''
-      }) 
+        telefone:'',
+        senha: '',
+      })
+
+      let token = 'Bearer ';
+
     const postData = async ( ) =>{
-      const response = await fetch('http://192.168.0.39:3000/api/cliente', {
+      await fetch('https://torder-api.vercel.app/api/usuario', {
           method: 'POST', 
           headers: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify(value)
+      }).then(response => response.json())
+        .then((data) => {
+          token += data.token;
+
+          const client = fetch('https://torder-api.vercel.app/api/cliente', {
+            method: 'POST', 
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': token
+            },
+            body: JSON.stringify(value)
+          });
+          
+          let usuario = {
+            _id: data.usuario._id,
+            email: data.usuario.email,
+            senha: value.senha,
+            ehAdminRestuarante: data.usuario.ehAdminRestuarante,
+            cliente: null,
+          };
+          
+          client.then(response => response.json()).then((data) => { 
+            usuario.cliente = data.cliente._id ;
+
+            fetch('https://torder-api.vercel.app/api/usuario/'+ usuario._id, {
+            method: 'PUT', 
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': token
+            },
+            body: JSON.stringify(usuario)
+            }).then(response => {
+              return response.json( )
+              })
+              .then(data => console.log(data));
+
+          });
+          
       });
-      const data = await response.json( );
-      console.log(data)
     };
      
 
@@ -94,6 +134,16 @@ export function LaddingPageClient({navigation}:{navigation:any}) {
               placeholder="Celular"
               onChangeText={(text) => setValue({ ...value, telefone: text })}
             value={value.telefone}
+              ></TextInput>
+              
+           </View>
+
+           <View >
+              <TextInput
+              style={styles.box} 
+              placeholder="Senha"
+              onChangeText={(text) => setValue({ ...value, senha: text })}
+            value={value.senha}
               ></TextInput>
               
            </View>

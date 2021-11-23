@@ -28,7 +28,7 @@ export function LaddingPageRestaurant({navigation}:{navigation:any}) {
     }
     }) 
     const postData = async ( ) =>{
-        const response = await fetch('http://192.168.0.39:3000/api/restaurante', {
+        const response = await fetch('https://torder-api.vercel.app/api/restaurante', {
             method: 'POST', 
             headers: {
               'Content-Type': 'application/json'
