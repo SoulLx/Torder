@@ -69,7 +69,7 @@ export function RestaurantIn({navigation}:{navigation:any}) {
     <View style={styles.manager}>
     <TouchableOpacity 
     style={styles.config}
-    onPress={() => navigation.navigate('Book')}
+    onPress={() => navigation.navigate('AddItem')}
     >
         <Text style={styles.perfiltexto}>
             Cardápio
@@ -77,7 +77,7 @@ export function RestaurantIn({navigation}:{navigation:any}) {
         </TouchableOpacity>
         <TouchableOpacity 
     style={styles.config}
-    onPress={() => navigation.navigate('Table')}
+    onPress={() => navigation.navigate('addTable')}
     >
         <Text style={styles.perfiltexto}>
             Mesas
