@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { Text,TextInput, View, Image, SafeAreaView,TouchableOpacity} from 'react-native';
 import { ArrowLeft} from "react-native-feather";
 import styles from './styles'
@@ -6,7 +6,26 @@ import { useNavigation } from '@react-navigation/native';
 
 export function UserSettings() {
     const navigation = useNavigation();
-  return (
+    const userId = ''
+
+    const [value,setValue] = useState({
+      nome: '',
+      cpf:'',
+      telefone:''
+    }) 
+  const postData = async ( ) =>{
+    const response = await fetch('http://192.168.0.39:3000/api/'+{userId}+'', {
+        method: 'PUT', 
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(value)
+    });
+    const data = await response.json( );
+    console.log(data)
+  };
+  
+    return (
     <SafeAreaView style={styles.container}>
         <View style={styles.back}>
         <TouchableOpacity
@@ -27,6 +46,8 @@ export function UserSettings() {
             
             <TextInput 
             style={styles.textInput}
+            onChangeText={(text) => setValue({ ...value, nome: text })}
+            value={value.nome}
             ></TextInput >
            
             
@@ -36,6 +57,8 @@ export function UserSettings() {
             
             <TextInput 
                style={styles.textInput}
+               onChangeText={(text) => setValue({ ...value, telefone: text })}
+            value={value.telefone}
             ></TextInput >
             
             
@@ -45,7 +68,8 @@ export function UserSettings() {
             
             <TextInput 
              style={styles.textInput}
-             
+             onChangeText={(text) => setValue({ ...value, cpf: text })}
+            value={value.cpf}
             >
             </TextInput >
             

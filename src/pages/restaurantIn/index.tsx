@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {SafeAreaView, Text,TouchableOpacity, Image,View} from 'react-native';
+import React, {useState,useEffect} from 'react';
+import {SafeAreaView, Text,TouchableOpacity, Image,View,ActivityIndicator,FlatList} from 'react-native';
 import styles from './styles'
 import BottomBarRestaurant from '../../components/BottomBarRestaurant/BottomBarRestaurant';
 import { useNavigation } from '@react-navigation/core';
@@ -8,6 +8,27 @@ import { useNavigation } from '@react-navigation/core';
 
 export function RestaurantIn({navigation}:{navigation:any}) {
     const[openClosed,setOpenClosed]=useState(false)
+    const restaurantId = ''
+    const [isLoading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
+
+  const getMovies = async () => {
+     try {
+      const response = await fetch('http://192.168.0.39:3000/api/reserva/'+{restaurantId}+'',);
+      const json = await response.json();
+      setData(json.data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    getMovies();
+  }, []);
+  
+    
     let state = ''
 
     if(openClosed==false){
@@ -30,8 +51,16 @@ export function RestaurantIn({navigation}:{navigation:any}) {
     return (
     <SafeAreaView style={styles.container}>
     <View style={styles.foto}>
-    <Image style={styles.img} source={require('../../assets/mcdonalds-logo.jpg')}/>
-    <Text style={styles.name}>MC Donald's</Text>
+        {isLoading ? <ActivityIndicator/> : (
+          <FlatList
+          data={data}
+          keyExtractor={({_id }, index) => _id}
+          renderItem={({ item }) => (
+            <Text style={styles.name}>{item.nome}</Text>
+            
+          )}
+          />
+          )}
     <TouchableOpacity 
     style={styles.profileRestaurant}
     onPress={()=>navigation.push('RestaurantProfileSettings')}
@@ -69,7 +98,7 @@ export function RestaurantIn({navigation}:{navigation:any}) {
     <View style={styles.manager}>
     <TouchableOpacity 
     style={styles.config}
-    onPress={() => navigation.navigate('AddItem')}
+    onPress={() => navigation.navigate('Book')}
     >
         <Text style={styles.perfiltexto}>
             Cardápio
@@ -77,7 +106,7 @@ export function RestaurantIn({navigation}:{navigation:any}) {
         </TouchableOpacity>
         <TouchableOpacity 
     style={styles.config}
-    onPress={() => navigation.navigate('addTable')}
+    onPress={() => navigation.navigate('Table')}
     >
         <Text style={styles.perfiltexto}>
             Mesas
