@@ -20,7 +20,7 @@ export function BottomBarRestaurant(){
         </TouchableOpacity>
         <TouchableOpacity 
         style={styles.buttons}
-        onPress={() => navigation.navigate('Book')}
+        onPress={() => navigation.navigate('AddItem')}
         >
         <Text style={styles.textbutton}>
             Cardápio
