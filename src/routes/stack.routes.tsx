@@ -12,6 +12,10 @@ import { RestaurantIn } from '../pages/restaurantIn';
 import { Book } from '../pages/book';
 import { Table } from '../pages/table';
 import { RestaurantProfileSettings } from '../pages/restaurantProfileSettings';
+import AddItem from '../pages/addItem';
+import AddTable from '../pages/addTable';
+import { RestaurantMenu } from '../pages/restaurantMenu';
+import { MenuItem } from '../pages/restaurantMenu/menuItem';
 
 
 const stackRoutes = createNativeStackNavigator();
@@ -70,8 +74,26 @@ const AppRoutes: React.FC= ()=> (
             component={Book}
         />
         <stackRoutes.Screen
+            name="AddItem"
+            component={AddItem}
+        />
+        <stackRoutes.Screen
+            name="addTable"
+            component={AddTable}
+        />
+        <stackRoutes.Screen
             name="Table"
             component={Table}
+        />
+
+        <stackRoutes.Screen
+            name="RestaurantMenu"
+            component={RestaurantMenu}
+        />
+
+        <stackRoutes.Screen
+            name="MenuItem"
+            component={MenuItem}
         />
        
 
