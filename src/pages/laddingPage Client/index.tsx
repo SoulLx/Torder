@@ -15,11 +15,16 @@ export function LaddingPageClient({navigation}:{navigation:any}) {
         email:'', 
         telefone:'',
         senha: '',
-      })
+      });
+
+      const[loginValue, setLoginValue] = useState({
+        email: "",
+        senha: ""
+      });
 
       let token = 'Bearer ';
 
-    const postData = async ( ) =>{
+    const postRegister = async ( ) =>{
       await fetch('https://torder-api.vercel.app/api/usuario', {
           method: 'POST', 
           headers: {
@@ -67,7 +72,22 @@ export function LaddingPageClient({navigation}:{navigation:any}) {
       });
     };
      
+    const postLogin = async () => {
+      await fetch('https://torder-api.vercel.app/api/login', {
+          method: 'POST', 
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(loginValue)
+      }).then(response => response.json()).then(data => {
 
+      if(data.token != undefined && data.token != null ){
+        navigation.push('UserProfile')
+      }
+
+    })
+    }
+    
     return (
       
     <View style={styles.container}>
@@ -151,7 +171,7 @@ export function LaddingPageClient({navigation}:{navigation:any}) {
           
           <TouchableOpacity 
           style={styles.registrar} 
-          onPress={()=>{setVisibleRegister(false);{postData()}}}>
+          onPress={()=>{setVisibleRegister(false);{postRegister()}}}>
               
               <Text style={styles.registrarText}>
                   Registrar
@@ -186,16 +206,20 @@ export function LaddingPageClient({navigation}:{navigation:any}) {
               <TextInput 
               style={styles.box}
               placeholder="Email"
+              onChangeText = {(text) => setLoginValue({...loginValue, email: text})}
+              value={loginValue.email}
               ></TextInput>
                <TextInput 
               style={styles.box}
+              onChangeText = {(text) => setLoginValue({...loginValue, senha: text})}
               placeholder="Senha"
+              value={loginValue.senha}
               ></TextInput>
            </View>
           
           <TouchableOpacity 
           style={styles.registrar} 
-          onPress={() => {navigation.push('UserProfile');setVisibleLogin(false)}}
+          onPress={() => {setVisibleLogin(false);;{postLogin()}}}
           >
               
               <Text 
