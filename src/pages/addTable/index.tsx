@@ -24,10 +24,10 @@ export default function AddTable() {
              'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOWNmOThhNzcyOWQ1NDFmNmNlM2I4MSIsImlhdCI6MTYzNzcwNTE4MCwiZXhwIjoxNjM3NzkxNTgwfQ.fmXV1A0D71O-SrSjFYDde9rGgkB70JZm0ZGxR_X0P3A'
            },
             body:JSON.stringify(value)
-       })
+       });
             const json = await response.json();
             console.log(json)
-    }
+    };
 
     return (
         <SafeAreaView style={styles.container}>

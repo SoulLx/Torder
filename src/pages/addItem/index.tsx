@@ -15,7 +15,8 @@ export default function AddItem() {
 
     const [valueItem,setValueItem] = useState({
         nome:"",        
-        valor: "",
+        preco: "",
+        descricao: "",
         restaurante: "619d6649450c1c091db6a597"
     });
 
@@ -51,16 +52,16 @@ export default function AddItem() {
                     
                     <View style={styles.viewPicker}> 
                         <Picker
-                                style={styles.categoryPicker}
-                                selectedValue={selectedCategory}
-                                onValueChange={(itemValue) =>
-                                    setSelectedCategory(itemValue)
-                                }>
-                                {
-                                    category.map(cr => {
-                                        return <Picker.Item label={cr} value={cr}/>
-                                    })
-                                }
+                            style={styles.categoryPicker}
+                            selectedValue={selectedCategory}
+                            onValueChange={(itemValue) =>
+                                setSelectedCategory(itemValue)
+                            }>
+                            {
+                                category.map(cr => {
+                                    return <Picker.Item label={cr} value={cr}/>
+                                })
+                            }
                             </Picker>
                     </View>
                     
@@ -68,16 +69,21 @@ export default function AddItem() {
                         <TextInput 
                             style={styles.txtItem} 
                             placeholder="Nome"
-                            
+                            onChangeText={(text) => setValueItem({...valueItem, nome: text})}
+                            value={valueItem.nome}
                         />
                         <TextInput style={styles.txtItem} 
                             placeholder="Descrição"
+                            onChangeText={(text) => setValueItem({...valueItem, descricao: text})}
+                            value={valueItem.descricao}
                             />                
 
                         <Text style={styles.lblPrice}>Valor</Text> 
                         <TextInput style={styles.txtPrice} 
                         placeholder="0.00" 
                         keyboardType="numeric"
+                        onChangeText={(text) => setValueItem({...valueItem, preco: text})}
+                        value={valueItem.preco}
                         />
 
                 </View>

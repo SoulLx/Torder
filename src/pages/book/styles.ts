@@ -52,8 +52,25 @@ const styles = StyleSheet.create({
     viewButtonAddTable: {
         width: '100%',
         alignItems: 'center',
-    }
+    },
 
+    viewModalCategory: {
+        backgroundColor: 'white',
+        padding: 20,
+        borderRadius: 20,
+        height: 260,
+        justifyContent: 'space-between',
+    },
+
+    buttonCategory: {
+        backgroundColor: 'red',
+        width: 80,
+        padding: 10,
+        alignItems: 'center',
+        borderRadius: 10,
+    },
+
+    
 });
 
 export default styles;
