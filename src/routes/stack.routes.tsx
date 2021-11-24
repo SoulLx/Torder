@@ -3,7 +3,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { LaddingPageClient } from '../pages/laddingPage Client';
 import { UserProfile } from '../pages/userProfile';
 import { SearchRestaurant } from '../pages/searchRestaurant';
-import { RestaurantClient } from '../pages/restaurantClient';
+import { Restaurant } from '../pages/restaurant';
 import { Booking } from '../pages/booking';
 import { UserSettings } from '../pages/userProfile/userSettings';
 import { RestaurantLadding } from '../pages/restaurantLadding';
@@ -54,8 +54,8 @@ const AppRoutes: React.FC= ()=> (
             component={SearchRestaurant}
         />
         <stackRoutes.Screen
-            name="RestaurantClient"
-            component={RestaurantClient}
+            name="Restaurant"
+            component={Restaurant}
         />
         <stackRoutes.Screen
             name="Booking"
