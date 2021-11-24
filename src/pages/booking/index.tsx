@@ -3,16 +3,17 @@ import {SafeAreaView, Text,View,TouchableOpacity, ActivityIndicator,FlatList} fr
 import styles from './styles'
 import BottomBar from '../../components/BottomBar/BottomBar';
 import Modal from "react-native-modal";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export function Booking({navigation}:{navigation:any}) {
   const[confirm,setconfirm]=useState(false)
   const[details,setdetails]=useState(false)
   const[cancel,setcancel]=useState(false)
-  const userId = ''
+  const userId = AsyncStorage.getItem("clienteId");
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
 
-  const getMovies = async () => {
+  const getBookings = async () => {
      try {
       const response = await fetch('http://192.168.0.39:3000/api/reserva/'+{userId}+'',);
       const json = await response.json();
@@ -25,7 +26,7 @@ export function Booking({navigation}:{navigation:any}) {
   }
 
   useEffect(() => {
-    getMovies();
+    getBookings();
   }, []);
 
 
