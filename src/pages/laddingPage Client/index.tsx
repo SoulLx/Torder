@@ -1,91 +1,71 @@
-import React, {useState,useEffect} from 'react';
+import React, {useState,useEffect,useContext} from 'react';
 import { Text, View, Image, TouchableOpacity,TextInput,ActivityIndicator, FlatList} from 'react-native';
 import { ArrowLeft} from "react-native-feather";
 import styles from './styles'
 import Modal from "react-native-modal";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import jwt_decode from "jwt-decode";
 
 
 export function LaddingPageClient({navigation}:{navigation:any}) {
+
     const[visibleRegister,setVisibleRegister]=useState(false)
     const[visibleLogin,setVisibleLogin]=useState(false)
     
-      const [value,setValue] = useState({
-        nome: '',
-        cpf:'',
-        email:'', 
-        telefone:'',
-        senha: '',
-      });
+    const [value,setValue] = useState({
+      nome: '',
+      cpf:'',
+      email:'', 
+      telefone:'',
+      senha: '',
+      ehAdminRestaurante: false
+    });
 
-      const[loginValue, setLoginValue] = useState({
-        email: "",
-        senha: ""
-      });
+    const[loginValue, setLoginValue] = useState({
+      email: "",
+      senha: ""
+    });
 
-      let token = 'Bearer ';
-
+    let token = '';
     const postRegister = async ( ) =>{
-      await fetch('https://torder-api.vercel.app/api/usuario', {
+      console.log(value);
+      await fetch('https://torder-api.vercel.app/api/cadastrar', {
           method: 'POST', 
           headers: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify(value)
       }).then(response => response.json())
-        .then((data) => {
-          token += data.token;
-
-          const client = fetch('https://torder-api.vercel.app/api/cliente', {
-            method: 'POST', 
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': token
-            },
-            body: JSON.stringify(value)
-          });
-          
-          let usuario = {
-            _id: data.usuario._id,
-            email: data.usuario.email,
-            senha: value.senha,
-            ehAdminRestuarante: data.usuario.ehAdminRestuarante,
-            cliente: null,
-          };
-          
-          client.then(response => response.json()).then((data) => { 
-            usuario.cliente = data.cliente._id ;
-
-            fetch('https://torder-api.vercel.app/api/usuario/'+ usuario._id, {
-            method: 'PUT', 
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': token
-            },
-            body: JSON.stringify(usuario)
-            }).then(response => {
-              return response.json( )
-              })
-              .then(data => console.log(data));
-
-          });
-          
-      });
+        .then((data) => { token = data.token; console.log(data)});
+      
+      if(token != null && token != undefined){
+        AsyncStorage.setItem("token", token);
+        const decoded = jwt_decode(token);
+        console.log(decoded);
+        //navigation.push('UserProfile')
+      }
     };
      
     const postLogin = async () => {
       await fetch('https://torder-api.vercel.app/api/login', {
-          method: 'POST', 
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(loginValue)
+        method: 'POST', 
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(loginValue)
       }).then(response => response.json()).then(data => {
+        try{
+          if(data.token != null && data.token != undefined){
 
-      if(data.token != undefined && data.token != null ){
-        navigation.push('UserProfile')
-      }
+            const decoded = jwt_decode(data.token);
 
-    })
+            AsyncStorage.setItem("token", data.token);
+            AsyncStorage.setItem("clienteId", decoded.idCliente);
+            AsyncStorage.setItem("restauranteId", decoded.idRestaurante);
+            //navigation.push('UserProfile')
+          }
+        }catch(err){
+          console.log(err)}})
     }
     
     return (
@@ -219,7 +199,7 @@ export function LaddingPageClient({navigation}:{navigation:any}) {
           
           <TouchableOpacity 
           style={styles.registrar} 
-          onPress={() => {setVisibleLogin(false);;{postLogin()}}}
+          onPress={() => {setVisibleLogin(false);{postLogin()}}}
           >
               
               <Text 

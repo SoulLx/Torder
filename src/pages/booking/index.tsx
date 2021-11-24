@@ -1,13 +1,35 @@
-import React, {useState} from 'react';
-import {SafeAreaView, Text,View,TouchableOpacity} from 'react-native';
+import React, {useState,useEffect} from 'react';
+import {SafeAreaView, Text,View,TouchableOpacity, ActivityIndicator,FlatList} from 'react-native';
 import styles from './styles'
 import BottomBar from '../../components/BottomBar/BottomBar';
 import Modal from "react-native-modal";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export function Booking({navigation}:{navigation:any}) {
   const[confirm,setconfirm]=useState(false)
   const[details,setdetails]=useState(false)
   const[cancel,setcancel]=useState(false)
+  const userId = AsyncStorage.getItem("clienteId");
+  const [isLoading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
+
+  const getBookings = async () => {
+     try {
+      const response = await fetch('http://192.168.0.39:3000/api/reserva/'+{userId}+'',);
+      const json = await response.json();
+      setData(json.data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    getBookings();
+  }, []);
+
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -99,21 +121,46 @@ export function Booking({navigation}:{navigation:any}) {
       </View>
       <View style={styles.body}>
       
+      {isLoading ? <ActivityIndicator/> : (
+          <FlatList
+          data={data}
+          keyExtractor={({_id }, index) => _id}
+          renderItem={({ item }) => (
+            <View>
+            <View style={styles.nameBooking}>
+            <Text>{item.nome}</Text>
+            </View>
+            <View style={styles.midBooking}>
+            <Text>
+            {item.status}
+            </Text>
+            <Text>
+            {item.horario}
+            </Text>
+            <Text>
+            {item.resumo}
+            </Text>
+            </View>
+            </View>
+          )}
+          />
+          )}
+
           <View style={styles.nameBooking}>
-          <Text>
-          Nome do Restaurante
-          </Text>
+            <Text>
+              Nome do Restaurante
+            </Text>
           </View>
           <View style={styles.midBooking}>
-          <Text>
-          Status da Reserva
-          </Text>
-          <Text>
-          Horário
-          </Text>
-          <Text>
-          Resumo da Reserva
-          </Text>
+            <Text>
+              Status da Reserva
+            </Text>
+            <Text>
+              Horário
+            </Text>
+            <Text>
+              Resumo da Reserva
+            </Text>
           </View>
           <View style={styles.bookingAction}>
           <TouchableOpacity 
