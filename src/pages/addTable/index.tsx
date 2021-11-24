@@ -5,25 +5,39 @@ import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import {Picker} from '@react-native-picker/picker';
 import styles from './styles';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+
+
+
+
 
 export default function AddTable() {
     const navigation = useNavigation();    
-
     const [isLoading, setLoading] = useState(true);
+
     const [value, setValue] = useState({
         nome: "",
         quantidadeCadeiras: "",
-        restaurante:"619d6649450c1c091db6a597"        
+        restaurante: ""        
     });
 
-    const postTable = async () => {       
+    const postTable = async () => {      
+        const token = await AsyncStorage.getItem('token');
+        const idRestaurante = await AsyncStorage.getItem('restauranteId');
+
+        const mesa = {
+            nome: value.nome,
+            quantidadeCadeiras: value.quantidadeCadeiras,
+            restaurante: idRestaurante
+        }
          const response = await fetch('https://torder-api.vercel.app/api/mesa', {
            method: 'POST', 
            headers: {
              'Content-Type': 'application/json',
-             'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOWNmOThhNzcyOWQ1NDFmNmNlM2I4MSIsImlhdCI6MTYzNzcwNTE4MCwiZXhwIjoxNjM3NzkxNTgwfQ.fmXV1A0D71O-SrSjFYDde9rGgkB70JZm0ZGxR_X0P3A'
+             'Authorization': 'Bearer '+ token
            },
-            body:JSON.stringify(value)
+            body:JSON.stringify(mesa)
        });
             const json = await response.json();
             console.log(json)

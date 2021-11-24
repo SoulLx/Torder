@@ -5,6 +5,7 @@ import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import {Picker} from '@react-native-picker/picker';
 import styles from './styles';
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
@@ -16,23 +17,34 @@ export default function AddItem() {
     const [valueItem,setValueItem] = useState({
         nome:"",        
         preco: "",
-        descricao: "",
-        restaurante: "619d6649450c1c091db6a597"
+        descricao: ""
     });
 
     const postItem = async () => {
-        const response = await fetch("https://torder-api.vercel.app/api/produto", {
-            method: 'POST',
-            headers: {
-                'Content-Type':'application/json',
-                'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOWNmOThhNzcyOWQ1NDFmNmNlM2I4MSIsImlhdCI6MTYzNzcwNTE4MCwiZXhwIjoxNjM3NzkxNTgwfQ.fmXV1A0D71O-SrSjFYDde9rGgkB70JZm0ZGxR_X0P3A'
-            },
-            body: JSON.stringify(valueItem)
-        });
+        try {
+            const token = await AsyncStorage.getItem('token');
+            const idRestaurante = await AsyncStorage.getItem('restauranteId');
 
-        const json = await response.json();
-        console.log(json);
+            const item = {
+                nome: valueItem.nome,
+                preco: valueItem.preco,
+                descricao: valueItem.descricao,
+                restaurante: idRestaurante
+            }
 
+            const response = await fetch("https://torder-api.vercel.app/api/produto", {
+                method: 'POST',
+                headers: {
+                    'Content-Type':'application/json',
+                    'Authorization': 'Bearer '+ token
+                },
+                body: JSON.stringify(item)
+            });
+            const json = await response.json();
+        } catch (error) {
+            console.log("error "+ error)
+        }
+        
     };
 
         return (

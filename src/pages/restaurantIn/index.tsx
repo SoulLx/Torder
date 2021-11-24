@@ -8,40 +8,25 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export function RestaurantIn({navigation}:{navigation:any}) {
     const[openClosed,setOpenClosed]=useState(false)
-    const [restaurantId, setRestaurantId] = useState(null);
-    const [restaurantToken, setRestaurantToken] = useState(null);
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
- 
-    
-    const getItem = async () => {
-      try {
-        const token = await AsyncStorage.getItem('token');
-        setRestaurantToken(token)
-        const id = await AsyncStorage.getItem('restauranteId');
-        setRestaurantId(id)
-        return(
-          console.log("Done")
-        )
-      } catch(e) {
-        console.log("eror")
-      }
-}
-  getItem();
   
   const getMovies = async () => {
      try {
-      const response = await fetch('https://torder-api.vercel.app/api/restaurante/'+ restaurantId,{
+      const token = await AsyncStorage.getItem('token');
+      const idRestaurante = await AsyncStorage.getItem('restauranteId');
+
+      const response = await fetch('https://torder-api.vercel.app/api/restaurante/'+ idRestaurante,{
         method: 'GET', 
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer '+ restaurantToken
+          'Authorization': 'Bearer '+ token
         },
     })    
     const json = await response.json();
      
     setData(json);
-      
+
     } catch (error) {
       console.error(error);
     } finally {
