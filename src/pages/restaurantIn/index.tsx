@@ -1,5 +1,5 @@
 import React, {useState,useEffect} from 'react';
-import {SafeAreaView, Text,TouchableOpacity, Image,View,ActivityIndicator,FlatList} from 'react-native';
+import {SafeAreaView, Text,TouchableOpacity, Image,View,ActivityIndicator,FlatList,VirtualizedList} from 'react-native';
 import styles from './styles'
 import BottomBarRestaurant from '../../components/BottomBarRestaurant/BottomBarRestaurant';
 import { useNavigation } from '@react-navigation/core';
@@ -8,26 +8,51 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export function RestaurantIn({navigation}:{navigation:any}) {
     const[openClosed,setOpenClosed]=useState(false)
-    const restaurantId = AsyncStorage.getItem("restaurantId");
+    const [restaurantId, setRestaurantId] = useState(null);
+    const [restaurantToken, setRestaurantToken] = useState(null);
     const [isLoading, setLoading] = useState(true);
-  const [data, setData] = useState([]);
-
+    const [data, setData] = useState([]);
+ 
+    
+    const getItem = async () => {
+      try {
+        const token = await AsyncStorage.getItem('token');
+        setRestaurantToken(token)
+        const id = await AsyncStorage.getItem('restauranteId');
+        setRestaurantId(id)
+        return(
+          console.log("Done")
+        )
+      } catch(e) {
+        console.log("eror")
+      }
+}
+  getItem();
+  
   const getMovies = async () => {
      try {
-      const response = await fetch('https://torder-api.vercel.app/api/restaurante/'+{restaurantId}+'',);
-      const json = await response.json();
-      setData(json.restaurante);
+      const response = await fetch('https://torder-api.vercel.app/api/restaurante/'+ restaurantId,{
+        method: 'GET', 
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer '+ restaurantToken
+        },
+    })    
+    const json = await response.json();
+     
+    setData(json);
+      
     } catch (error) {
       console.error(error);
     } finally {
       setLoading(false);
     }
   }
-
+  
   useEffect(() => {
     getMovies();
   }, []);
-  
+
     
     let state = ''
 
@@ -51,24 +76,26 @@ export function RestaurantIn({navigation}:{navigation:any}) {
     return (
     <SafeAreaView style={styles.container}>
     <View style={styles.foto}>
-        {isLoading ? <ActivityIndicator/> : (
-          <FlatList
-          data={data}
-          keyExtractor={({_id }, index) => _id}
-          renderItem={({ item }) => (
-            <Text style={styles.name}>{item.nomeFantasia}</Text>
-            
-          )}
-          />
-          )}
-    <TouchableOpacity 
-    style={styles.profileRestaurant}
-    onPress={()=>navigation.push('RestaurantProfileSettings')}
-    >
-    <Text style={styles.profileButtom}>Alterar</Text>
-    </TouchableOpacity>
-    </View>
     
+      <View style={styles.container}>
+        <FlatList
+          data={Object.keys(data)}
+          renderItem={({ item }) => 
+          <View>
+            <Text>{data[item].nomeFantasia}</Text>
+          </View>}
+        />
+      </View>
+
+      <TouchableOpacity 
+      style={styles.profileRestaurant}
+      onPress={()=>navigation.push('RestaurantProfileSettings')}
+      >
+      <Text style={styles.profileButtom}>Alterar</Text>
+      </TouchableOpacity>
+
+    </View>
+
     <View style={styles.openClosed}>
         <Text {...restaurantStatus}>
             {state}
@@ -79,7 +106,7 @@ export function RestaurantIn({navigation}:{navigation:any}) {
             setOpenClosed(true)}
             else
             setOpenClosed(false)
-            
+
         }}
         >
         <Text {...restaurantClosedOpen} >
@@ -87,13 +114,13 @@ export function RestaurantIn({navigation}:{navigation:any}) {
         </Text>
         </TouchableOpacity>
     </View>
-    <View {...restaurantBarClosedOpen} >      
+    <View {...restaurantBarClosedOpen} >
     </View>
-    
+
     <Text style={{fontWeight:'bold',fontSize:18,marginTop:'-70%'}}>
         Gestão
     </Text>
-    <View style={{marginTop:'-70%',paddingHorizontal:'60%', backgroundColor:'grey', paddingTop:'1%'}}>      
+    <View style={{marginTop:'-70%',paddingHorizontal:'60%', backgroundColor:'grey', paddingTop:'1%'}}>
     </View>
     <View style={styles.manager}>
     <TouchableOpacity 
@@ -112,9 +139,10 @@ export function RestaurantIn({navigation}:{navigation:any}) {
             Mesas
         </Text>
         </TouchableOpacity>
-       
+
     </View>
-    <View style={{marginTop:'-65%',paddingHorizontal:'50%', backgroundColor:'grey', paddingTop:'1%'}}>      
+
+    <View style={{marginTop:'-65%',paddingHorizontal:'50%', backgroundColor:'grey', paddingTop:'1%'}}>
     </View>
     <BottomBarRestaurant/>
     </SafeAreaView>
