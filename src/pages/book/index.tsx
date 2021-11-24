@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, FlatList, SafeAreaView, Text, View, Image } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { ActivityIndicator, FlatList, SafeAreaView, Text, View, Image, TouchableOpacity } from 'react-native';
+import { TextInput } from 'react-native-gesture-handler';
 import { ArrowLeft } from 'react-native-feather';
+import Modal from "react-native-modal";
 import styles from './styles';
 
 export function Book ({navigation}:{navigation:any}) {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
+  const [visibleCategory, setVisibleCategory] = useState(false);
 
   const getItem = async () => {
      try {
@@ -32,6 +34,35 @@ export function Book ({navigation}:{navigation:any}) {
 
   return (
     <SafeAreaView style={styles.container}>
+
+      <Modal           
+        animationIn="slideInUp"
+        animationOutTiming={1000}
+        animationInTiming={600}
+        backdropTransitionOutTiming={800}
+        animationOut="slideOutDown"
+        isVisible={visibleCategory}
+      >
+        <View style={styles.viewModalCategory}>
+          <TouchableOpacity onPress={() => {setVisibleCategory(false)}}>
+            <ArrowLeft              
+                stroke="black" 
+                width="30"
+                height="30"
+            />
+          </TouchableOpacity> 
+          <Text style={{fontWeight: 'bold', fontSize: 21}}>Criar Categoria</Text>          
+          <TextInput 
+            style={{padding: 7, borderWidth: 1, borderRadius: 10, borderColor: "#bdbdbd"}}
+            placeholder="Nome da categoria"
+            
+          />
+          <TouchableOpacity style={styles.buttonCategory}>
+            <Text style={{color: 'white'}}>Criar</Text>
+          </TouchableOpacity>
+        </View>
+      </Modal>
+
       <View style={{width: "100%", padding: 5}}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <ArrowLeft 
@@ -70,7 +101,7 @@ export function Book ({navigation}:{navigation:any}) {
 
 
       <View style={styles.viewButtonAddTable}>
-        <TouchableOpacity style={styles.buttonAddTable} onPress={() => navigation.navigate('AddItem')}>
+        <TouchableOpacity style={styles.buttonAddTable} onPress={() => setVisibleCategory(true)}>
           <Text style={{fontWeight:'bold',fontSize: 18, color: 'black'}}>Criar Categoria</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.buttonAddTable} onPress={() => navigation.navigate('AddItem')}>
