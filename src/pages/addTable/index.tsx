@@ -7,9 +7,28 @@ import styles from './styles';
 import { useNavigation } from '@react-navigation/native';
 
 export default function AddTable() {
-    const navigation = useNavigation();
-    const [chair, setChair] = useState(['1','2','3','4','5','6','7','8','9','10']);
-    const [selectedChair, setSelectedChair] = useState([]);
+    const navigation = useNavigation();    
+
+    const [isLoading, setLoading] = useState(true);
+    const [value, setValue] = useState({
+        nome: "",
+        quantidadeCadeiras: "",
+        restaurante:"619d6649450c1c091db6a597"        
+    });
+
+    const postTable = async () => {       
+         const response = await fetch('https://torder-api.vercel.app/api/mesa', {
+           method: 'POST', 
+           headers: {
+             'Content-Type': 'application/json',
+             'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOWNmOThhNzcyOWQ1NDFmNmNlM2I4MSIsImlhdCI6MTYzNzcwNTE4MCwiZXhwIjoxNjM3NzkxNTgwfQ.fmXV1A0D71O-SrSjFYDde9rGgkB70JZm0ZGxR_X0P3A'
+           },
+            body:JSON.stringify(value)
+       })
+            const json = await response.json();
+            console.log(json)
+    }
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.topView}>
@@ -24,27 +43,22 @@ export default function AddTable() {
                 <Text style={styles.labelName}>Nome da Mesa</Text>
                 <TextInput 
                     style={styles.nameTable}
-                    placeholder={"Digite aqui"}
+                    
+                    onChangeText={(text) => setValue({...value, nome: text})}
+                    value={value.nome}
                     ></TextInput>
                 <Text style={styles.labelChair}>Quantidade de Cadeiras</Text>
 
-                <Picker
-                    style={styles.pickerTable}
-                    selectedValue={selectedChair}
-                    onValueChange={(itemValue) =>
-                        setSelectedChair(itemValue)
-                    }                    
-                    >
-                    {
-                        chair.map(cr => {
-                            return <Picker.Item label={cr} value={cr}/>
-                        })
-                    }
-                </Picker>
+                <TextInput 
+                    style={styles.nameTable}
+                    keyboardType="numeric"
+                    onChangeText={(text) => setValue({...value, quantidadeCadeiras: text})}
+                    value={value.quantidadeCadeiras}
+                    ></TextInput>
             </View>
             
             <View style={styles.addButtonView}>
-                <TouchableOpacity style={styles.addButton}>
+                <TouchableOpacity style={styles.addButton} onPress={() => postTable()}>
                     <Text style={{fontWeight: 'bold', padding: 10, fontSize: 18}}>Adicionar</Text>
                 </TouchableOpacity>
             </View>      

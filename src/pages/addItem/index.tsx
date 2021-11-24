@@ -14,24 +14,25 @@ export default function AddItem() {
     const [selectedCategory, setSelectedCategory] = useState([]);
 
     const [valueItem,setValueItem] = useState({
-        nome:"",
-        descricao: "",
+        nome:"",        
         valor: "",
+        restaurante: "619d6649450c1c091db6a597"
     });
 
     const postItem = async () => {
-        const response = await fetch("https://torder-api.vercel.app/api/restaurante", {
+        const response = await fetch("https://torder-api.vercel.app/api/produto", {
             method: 'POST',
             headers: {
-                'Content-Type':'application/json'
+                'Content-Type':'application/json',
+                'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOWNmOThhNzcyOWQ1NDFmNmNlM2I4MSIsImlhdCI6MTYzNzcwNTE4MCwiZXhwIjoxNjM3NzkxNTgwfQ.fmXV1A0D71O-SrSjFYDde9rGgkB70JZm0ZGxR_X0P3A'
             },
             body: JSON.stringify(valueItem)
         });
 
-        const data = await response.json();
-        console.log(data);
+        const json = await response.json();
+        console.log(json);
 
-    }
+    };
 
         return (
             <SafeAreaView style={styles.container}>
@@ -67,18 +68,22 @@ export default function AddItem() {
                         <TextInput 
                             style={styles.txtItem} 
                             placeholder="Nome"
-                            onChangeText={(text) => setValueItem({...valueItem, nome: text})}
-                            value={valueItem.nome}
+                            
                         />
-                        <TextInput style={styles.txtItem} placeholder="Descrição"/>                
+                        <TextInput style={styles.txtItem} 
+                            placeholder="Descrição"
+                            />                
 
                         <Text style={styles.lblPrice}>Valor</Text> 
-                        <TextInput style={styles.txtPrice} placeholder="0.00" keyboardType="numeric"/>
+                        <TextInput style={styles.txtPrice} 
+                        placeholder="0.00" 
+                        keyboardType="numeric"
+                        />
 
                 </View>
                 <View style={styles.view4}>
                     <TouchableOpacity style={styles.addButton}>
-                        <Text style={styles.lblAddButton}>Adicionar Item</Text>
+                        <Text style={styles.lblAddButton} onPress={() => postItem()}>Adicionar Item</Text>
                     </TouchableOpacity>
                 </View>      
             </SafeAreaView>
