@@ -15,7 +15,7 @@ export function Booking({navigation}:{navigation:any}) {
 
   const getBookings = async () => {
      try {
-      const response = await fetch('http://192.168.0.39:3000/api/reserva/'+{userId}+'',);
+      const response = await fetch('https://torder-api.vercel.app/api/reserva/'+{userId}+'',);
       const json = await response.json();
       setData(json.data);
     } catch (error) {

@@ -6,6 +6,7 @@ import Modal from "react-native-modal";
 
 import {Picker} from '@react-native-picker/picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import jwt_decode from "jwt-decode";
 
 
 export function LaddingPageRestaurant({navigation}:{navigation:any}) {
@@ -28,15 +29,17 @@ export function LaddingPageRestaurant({navigation}:{navigation:any}) {
         telefone1: "",
     },
     senha: "",
-    ehAdminRestuarante: true
+    ehAdminRestaurante: true
     }) 
 
     const[loginValue, setLoginValue] = useState({
         email: "",
         senha: ""
       });
+
     let token = '';
     const postRegister = async ( ) =>{
+
       await fetch('https://torder-api.vercel.app/api/cadastrar', {
           method: 'POST', 
           headers: {
@@ -44,11 +47,14 @@ export function LaddingPageRestaurant({navigation}:{navigation:any}) {
           },
           body: JSON.stringify(value)
       }).then(response => response.json())
-        .then((data) => { token = data.token; });
+        .then((data) => { token = data.token; console.log(data)});
         
       if(token != null && token != undefined){
+        const decoded = jwt_decode(token);
+
         AsyncStorage.setItem("token", token);
-        navigation.push('UserProfile')
+        AsyncStorage.setItem("restauranteId", decoded.idRestaurante);
+        navigation.push('RestaurantIn');
       }
     };
      
@@ -62,8 +68,12 @@ export function LaddingPageRestaurant({navigation}:{navigation:any}) {
       }).then(response => response.json()).then(data => {
         try{
           if(data.token != null && data.token != undefined){
-            AsyncStorage.setItem("token", data.token);
-            navigation.push('UserProfile')
+            const decoded = jwt_decode(data.token);
+            if(decoded.idRestaurante != null && decoded.idRestaurante != undefined){
+              AsyncStorage.setItem("token", data.token);
+              AsyncStorage.setItem("restauranteId", decoded.idRestaurante);
+              navigation.push('RestaurantIn');
+            }
           }
         }catch(err){
           console.log(err)}})
@@ -243,16 +253,20 @@ export function LaddingPageRestaurant({navigation}:{navigation:any}) {
               <TextInput 
               style={styles.box}
               placeholder="Email"
+              onChangeText={(text) => setLoginValue({ ...loginValue, email: text })}
+              value={loginValue.email}
               ></TextInput>
               <TextInput 
               style={styles.box}
               placeholder="Senha"
+              onChangeText={(text) => setLoginValue({ ...loginValue, senha: text })}
+              value={loginValue.senha}
               ></TextInput>
            </View>
           
           <TouchableOpacity 
           style={styles.registrar} 
-          onPress={() => {navigation.push('RestaurantIn');setVisibleLogin(false)}}
+          onPress={() => {setVisibleLogin(false);postLogin()}}
           >
               
               <Text 

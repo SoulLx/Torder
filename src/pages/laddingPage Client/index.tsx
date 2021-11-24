@@ -39,10 +39,11 @@ export function LaddingPageClient({navigation}:{navigation:any}) {
         .then((data) => { token = data.token; console.log(data)});
       
       if(token != null && token != undefined){
-        AsyncStorage.setItem("token", token);
         const decoded = jwt_decode(token);
-        console.log(decoded);
-        //navigation.push('UserProfile')
+        AsyncStorage.setItem("token", token);
+        AsyncStorage.setItem("clienteId", decoded.idCliente);
+        navigation.push('UserProfile')
+
       }
     };
      
@@ -58,11 +59,11 @@ export function LaddingPageClient({navigation}:{navigation:any}) {
           if(data.token != null && data.token != undefined){
 
             const decoded = jwt_decode(data.token);
-
-            AsyncStorage.setItem("token", data.token);
-            AsyncStorage.setItem("clienteId", decoded.idCliente);
-            AsyncStorage.setItem("restauranteId", decoded.idRestaurante);
-            //navigation.push('UserProfile')
+            if(decoded.idCliente != null && decoded.idCliente != undefined){
+              AsyncStorage.setItem("token", data.token);
+              AsyncStorage.setItem("clienteId", decoded.idCliente);
+              navigation.push('UserProfile');
+            }
           }
         }catch(err){
           console.log(err)}})
