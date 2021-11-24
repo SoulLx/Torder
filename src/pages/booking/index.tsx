@@ -100,20 +100,20 @@ export function Booking({navigation}:{navigation:any}) {
       <View style={styles.body}>
       
           <View style={styles.nameBooking}>
-          <Text>
-          Nome do Restaurante
-          </Text>
+            <Text>
+              Nome do Restaurante
+            </Text>
           </View>
           <View style={styles.midBooking}>
-          <Text>
-          Status da Reserva
-          </Text>
-          <Text>
-          Horário
-          </Text>
-          <Text>
-          Resumo da Reserva
-          </Text>
+            <Text>
+              Status da Reserva
+            </Text>
+            <Text>
+              Horário
+            </Text>
+            <Text>
+              Resumo da Reserva
+            </Text>
           </View>
           <View style={styles.bookingAction}>
           <TouchableOpacity 
