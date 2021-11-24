@@ -5,6 +5,7 @@ import styles from './styles'
 import Modal from "react-native-modal";
 
 import {Picker} from '@react-native-picker/picker';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 export function LaddingPageRestaurant({navigation}:{navigation:any}) {
@@ -34,72 +35,73 @@ export function LaddingPageRestaurant({navigation}:{navigation:any}) {
         email: "",
         senha: ""
       });
-
-    let token = 'Bearer ';
-
-    const postData = async ( ) =>{
-        await fetch('https://torder-api.vercel.app/api/usuario', {
-        method: 'POST', 
-        headers: {
+    let token = '';
+    const postRegister = async ( ) =>{
+      await fetch('https://torder-api.vercel.app/api/usuario', {
+          method: 'POST', 
+          headers: {
             'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(value)
-        }).then(response => response.json())
-            .then((data) => {
-            token += data.token;
+          },
+          body: JSON.stringify(value)
+      }).then(response => response.json())
+        .then((data) => {
+          token = data.token;
 
-            const restaurant = fetch('https://torder-api.vercel.app/api/restaurante', {
-                method: 'POST', 
-                headers: {
-                'Content-Type': 'application/json',
-                'Authorization': token
-                },
-                body: JSON.stringify(value)
-            });
-        
-            let usuario = {
-                _id: data.usuario._id,
-                email: data.usuario.email,
-                senha: value.senha,
-                ehAdminRestuarante: data.usuario.ehAdminRestuarante,
-                restaurante: null,
-            };
-            
-            restaurant.then(response => response.json()).then((data) => { 
-                usuario.restaurante = data.restaurante._id ;
-
-                fetch('https://torder-api.vercel.app/api/usuario/'+ usuario._id, {
-                method: 'PUT', 
-                headers: {
-                'Content-Type': 'application/json',
-                'Authorization': token
-                },
-                body: JSON.stringify(usuario)
-                }).then(response => {
-                return response.json( )
-                })
-                .then(data => console.log(data));
-
-            });
-        
-        });
-    };  
-
-    const postLogin = async () => {
-        await fetch('https://torder-api.vercel.app/api/login', {
+          const client = fetch('https://torder-api.vercel.app/api/restaurante', {
             method: 'POST', 
             headers: {
-              'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer '+ token
             },
-            body: JSON.stringify(loginValue)
-        }).then(response => response.json()).then(data => {
-  
-        if(data.token != undefined && data.token != null ){
-          navigation.push('UserProfile')
-        }
-  
-      })
+            body: JSON.stringify(value)
+          });
+          
+          let usuario = {
+            _id: data.usuario._id,
+            email: data.usuario.email,
+            senha: value.senha,
+            ehAdminRestuarante: data.usuario.ehAdminRestuarante,
+            restaurante: null,
+          };
+          
+          client.then(response => response.json()).then((data) => { 
+            usuario.restaurante = data.restaurante._id ;
+
+            fetch('https://torder-api.vercel.app/api/usuario/'+ usuario._id, {
+            method: 'PUT', 
+            headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer '+ token
+            },
+            body: JSON.stringify(usuario)
+            }).then(response => {
+              return response.json( )
+              })
+              .then(data => console.log(data));
+          });
+      });
+      if(token != null && token != undefined){
+        AsyncStorage.setItem("token", token);
+        navigation.push('UserProfile')
       }
+    };
+     
+    const postLogin = async () => {
+      const data = await fetch('https://torder-api.vercel.app/api/login', {
+        method: 'POST', 
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(loginValue)
+      }).then(response => response.json()).then(data => {
+        try{
+          if(data.token != null && data.token != undefined){
+            AsyncStorage.setItem("token", data.token);
+            navigation.push('UserProfile')
+          }
+        }catch(err){
+          console.log(err)}})
+    }
     return (
       
     <View style={styles.container}>
@@ -240,7 +242,7 @@ export function LaddingPageRestaurant({navigation}:{navigation:any}) {
           
           <TouchableOpacity 
           style={styles.registrar} 
-          onPress={()=>{setVisibleRegister(false);{postData()}}}>
+          onPress={()=>{setVisibleRegister(false);{postRegister()}}}>
           
               <Text style={styles.registrarText}>
                   Registrar
