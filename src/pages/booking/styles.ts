@@ -18,27 +18,27 @@ const styles=StyleSheet.create({
     },
     body:{
         
-        marginTop:"-10%",
+        marginTop:"5%",
         borderWidth: 1,
         
-        paddingHorizontal:"25%",
-        paddingBottom:"10%",
+        paddingHorizontal:"40%",
+        paddingBottom:"5%",
         
     },
     bodyBottom:{
         
-        marginTop:"-10%",
+        marginTop:"5%",
         borderWidth: 1,
         
         paddingHorizontal:"25%",
-        paddingBottom:"5%",
-        
+        paddingBottom:"10%",
+        marginBottom:"20%",
     },
     midBooking:{
         alignItems:'center',
     },
     nameBooking:{
-        marginVertical:"10%",
+        marginVertical:"15%",
         
     },
     bookingAction:{

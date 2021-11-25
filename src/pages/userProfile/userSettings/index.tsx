@@ -9,14 +9,7 @@ export function UserSettings() {
     const navigation = useNavigation();
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
-    const [value,setValue] = useState({
-      nome: '',
-      cpf:'',
-      telefone:'',
-      email:'',
-      senha: undefined,
-    }) 
- 
+    
     const putUser = async () => {      
       const token = await AsyncStorage.getItem('token');
       const idCliente = await AsyncStorage.getItem('clienteId');
@@ -28,7 +21,7 @@ export function UserSettings() {
            'Content-Type': 'application/json',
            'Authorization': 'Bearer '+ token
          },
-          body:JSON.stringify(value)
+          body:JSON.stringify(item)
       });
       const responseUser = await fetch('https://torder-api.vercel.app/api/usuario/'+ idUsuario, {
          method: 'PUT', 
@@ -48,15 +41,20 @@ export function UserSettings() {
     nome: '',
     cpf: '',
     telefone: '',
-    email: '',
-  })
-  console.log(item)
+    email:'',
+  });
+
+  const [value,setValue] = useState({
+    email:'',
+    senha: undefined,
+  });
+
   const getCliente = async () => {
     try {
-      
       const token = await AsyncStorage.getItem('token');
-      const idUser = await AsyncStorage.getItem('clienteId');
-      const response = await fetch('https://torder-api.vercel.app/api/cliente/'+ idUser,{
+      const idCliente = await AsyncStorage.getItem('clienteId');
+      const idUsuario = await AsyncStorage.getItem('usuarioId');
+      const response = await fetch('https://torder-api.vercel.app/api/cliente/'+ idCliente,{
         method: 'GET', 
         headers: {
           'Content-Type': 'application/json',
@@ -69,16 +67,21 @@ export function UserSettings() {
         nome:json.cliente.nome,
         cpf:json.cliente.cpf,
         telefone:json.cliente.telefone,
-        email:json.cliente.email,
-        
-      }
-      )
+        email:json.cliente.email
+      });
+
+      setValue({
+        email: json.cliente.email,
+        senha: undefined
+      })
+
     } catch (error) {
       console.error(error);
     } finally {
       setLoading(false);
     }
   }
+  
 
   useEffect(() => {
     getCliente();
@@ -107,9 +110,10 @@ export function UserSettings() {
             
             <TextInput 
             style={styles.textInput}
-            onChangeText={(text) => setValue({ ...value, nome: text })}
-            value={value.nome}
-            placeholder={item.nome}
+            onChangeText={(text) => setItem({ ...item, nome: text })}
+            
+            value={item.nome}
+            
             ></TextInput >
            
             
@@ -119,9 +123,9 @@ export function UserSettings() {
             
             <TextInput 
                style={styles.textInput}
-               onChangeText={(text) => setValue({ ...value, telefone: text })}
-            value={value.telefone}
-            placeholder={item.telefone}
+               onChangeText={(text) => setItem({ ...item, telefone: text })}
+            value={item.telefone}
+            
             ></TextInput >
             
             
@@ -131,9 +135,9 @@ export function UserSettings() {
             
             <TextInput 
              style={styles.textInput}
-             onChangeText={(text) => setValue({ ...value, cpf: text })}
-            value={value.cpf}
-            placeholder={item.cpf}
+             onChangeText={(text) => setItem({ ...item, cpf: text })}
+            value={item.cpf}
+            
             >
             </TextInput >
 
@@ -143,9 +147,10 @@ export function UserSettings() {
             
             <TextInput 
              style={styles.textInput}
-             onChangeText={(text) => setValue({ ...value, email: text })}
+             onChangeText={(text) => {setValue({ ...value, email: text });
+                                      setItem({ ...item, email: text })}}
             value={value.email}
-            placeholder={item.email}
+            
             >
             </TextInput >
 

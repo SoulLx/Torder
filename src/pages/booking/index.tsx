@@ -1,9 +1,10 @@
 import React, {useState,useEffect} from 'react';
-import {SafeAreaView, Text,View,TouchableOpacity, ActivityIndicator,FlatList} from 'react-native';
+import {SafeAreaView, ScrollView, Text,View,TouchableOpacity, ActivityIndicator,FlatList} from 'react-native';
 import styles from './styles'
 import BottomBar from '../../components/BottomBar/BottomBar';
 import Modal from "react-native-modal";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 export function Booking({navigation}:{navigation:any}) {
   const[confirm,setconfirm]=useState(false)
@@ -119,33 +120,12 @@ export function Booking({navigation}:{navigation:any}) {
           Minhas Reservas 
           </Text>
       </View>
-      <View style={styles.body}>
-      
-      {isLoading ? <ActivityIndicator/> : (
-          <FlatList
+      <FlatList
+      style={styles.body}
           data={data}
           keyExtractor={({_id }, index) => _id}
           renderItem={({ item }) => (
-            <View>
-            <View style={styles.nameBooking}>
-            <Text>{item.nome}</Text>
-            </View>
-            <View style={styles.midBooking}>
-            <Text>
-            {item.status}
-            </Text>
-            <Text>
-            {item.horario}
-            </Text>
-            <Text>
-            {item.resumo}
-            </Text>
-            </View>
-            </View>
-          )}
-          />
-          )}
-
+          <View >
           <View style={styles.nameBooking}>
             <Text>
               Nome do Restaurante
@@ -176,7 +156,10 @@ export function Booking({navigation}:{navigation:any}) {
           <Text>confirmar</Text>
           </TouchableOpacity>
           </View>
-      </View>
+        </View>
+         )}
+          /> 
+      
       <View style={styles.bottom}> 
           <Text> 
           Histórico de reservas
