@@ -33,9 +33,9 @@ const styles=StyleSheet.create({
        alignSelf:"center"
     },
     name:{
-    marginTop:35,
-    marginLeft:20,
-    fontSize:20,
+    marginTop:"1%",
+    marginLeft:"0%",
+    fontSize:16,
     fontWeight:'bold',
     },
     config:{
@@ -48,9 +48,9 @@ const styles=StyleSheet.create({
     fontWeight:'bold',
     },
     foto:{
-    marginLeft:20,
+    marginLeft:"5%",
     alignSelf: "flex-start",
-    marginTop:60,
+    marginTop:"20%",
     justifyContent:'space-between',
     flexWrap: "wrap",
     flexDirection: "row",
