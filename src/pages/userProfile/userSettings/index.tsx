@@ -4,6 +4,7 @@ import { ArrowLeft} from "react-native-feather";
 import styles from './styles'
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ItemClick } from 'native-base/lib/typescript/components/composites/Typeahead/useTypeahead/types';
 
 export function UserSettings() {
     const navigation = useNavigation();
@@ -13,7 +14,7 @@ export function UserSettings() {
       nome: '',
       cpf:'',
       telefone:'',
-      email:''
+      email:'',
     }) 
  
     const getUser = async () => {      
@@ -31,6 +32,46 @@ export function UserSettings() {
           const json = await response.json();
           console.log(json)
   };
+  
+  const [item,setItem] = useState({
+    nome: '',
+    cpf: '',
+    telefone: '',
+    email: '',
+  })
+  console.log(item)
+  const getCliente = async () => {
+    try {
+      
+      const token = await AsyncStorage.getItem('token');
+      const idUser = await AsyncStorage.getItem('clienteId');
+      const response = await fetch('https://torder-api.vercel.app/api/cliente/'+ idUser,{
+        method: 'GET', 
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer '+ token
+        },
+      });
+      const json = await response.json();
+      setData(json);
+      setItem({
+        nome:json.cliente.nome,
+        cpf:json.cliente.cpf,
+        telefone:json.cliente.telefone,
+        email:json.cliente.email,
+        
+      }
+      )
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    getCliente();
+  }, []);
 
   
     return (
@@ -57,6 +98,7 @@ export function UserSettings() {
             style={styles.textInput}
             onChangeText={(text) => setValue({ ...value, nome: text })}
             value={value.nome}
+            placeholder={item.nome}
             ></TextInput >
            
             
@@ -68,6 +110,7 @@ export function UserSettings() {
                style={styles.textInput}
                onChangeText={(text) => setValue({ ...value, telefone: text })}
             value={value.telefone}
+            placeholder={item.telefone}
             ></TextInput >
             
             
@@ -79,6 +122,7 @@ export function UserSettings() {
              style={styles.textInput}
              onChangeText={(text) => setValue({ ...value, cpf: text })}
             value={value.cpf}
+            placeholder={item.cpf}
             >
             </TextInput >
 
@@ -90,6 +134,7 @@ export function UserSettings() {
              style={styles.textInput}
              onChangeText={(text) => setValue({ ...value, email: text })}
             value={value.email}
+            placeholder={item.email}
             >
             </TextInput >
 
@@ -99,8 +144,8 @@ export function UserSettings() {
             
             <TextInput 
              style={styles.textInput}
-             onChangeText={(text) => setValue({ ...value, email: text })}
-            value={value.email}
+             onChangeText={(text) => setValue({ ...value, senha: text })}
+            value={value.senha}
             >
             </TextInput >
             
