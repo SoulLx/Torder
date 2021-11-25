@@ -6,7 +6,6 @@ import Modal from "react-native-modal";
 import styles from './styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-
 export function Book ({navigation}:{navigation:any}) {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
@@ -18,13 +17,13 @@ export function Book ({navigation}:{navigation:any}) {
 
   const getItem = async () => {
      try {
-       const token = AsyncStorage.getItem('token')
-        const response = await fetch('https://torder-api.vercel.app/api/produto', {
-          method: 'GET', 
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + token
-          },
+      const token = AsyncStorage.getItem('token');
+      const response = await fetch('https://torder-api.vercel.app/api/produto', {
+        method: 'GET', 
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+        },
     })
       const json = await response.json();
       setData(json.produtos);

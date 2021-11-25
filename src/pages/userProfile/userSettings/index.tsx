@@ -1,29 +1,49 @@
-import React, {useState} from 'react';
-import { Text,TextInput, View, Image, SafeAreaView,TouchableOpacity} from 'react-native';
+import React, {useState,useEffect} from 'react';
+import { Text,TextInput, View, Image,ScrollView, SafeAreaView,TouchableOpacity} from 'react-native';
 import { ArrowLeft} from "react-native-feather";
 import styles from './styles'
 import { useNavigation } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export function UserSettings() {
     const navigation = useNavigation();
-    const userId = ''
-
+    const [isLoading, setLoading] = useState(true);
+    const [data, setData] = useState([]);
     const [value,setValue] = useState({
       nome: '',
       cpf:'',
-      telefone:''
+      telefone:'',
+      email:'',
+      senha:''
     }) 
-  const postData = async ( ) =>{
-    const response = await fetch('http://192.168.0.39:3000/api/'+{userId}+'', {
-        method: 'PUT', 
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(value)
-    });
-    const data = await response.json( );
-    console.log(data)
+ 
+    const putUser = async () => {      
+      const token = await AsyncStorage.getItem('token');
+      const idCliente = await AsyncStorage.getItem('clienteId');
+      const idUsuario = await AsyncStorage.getItem('usuarioId');
+
+       const responseClient = await fetch('https://torder-api.vercel.app/api/cliente/'+ idCliente, {
+         method: 'PUT', 
+         headers: {
+           'Content-Type': 'application/json',
+           'Authorization': 'Bearer '+ token
+         },
+          body:JSON.stringify(value)
+      });
+      const responseUser = await fetch('https://torder-api.vercel.app/api/usuario/'+ idUsuario, {
+         method: 'PUT', 
+         headers: {
+           'Content-Type': 'application/json',
+           'Authorization': 'Bearer '+ token
+         },
+          body:JSON.stringify(value)
+      })
+          const jsonClient = await responseClient.json();
+          console.log(jsonClient)
+          const jsonUser = await responseUser.json();
+          console.log(jsonUser)
   };
+
   
     return (
     <SafeAreaView style={styles.container}>
@@ -38,6 +58,7 @@ export function UserSettings() {
         />
         </TouchableOpacity>
         </View>
+        <ScrollView >
         <View style={styles.fields}>
             
             <Text style={styles.fieldName}>
@@ -72,11 +93,34 @@ export function UserSettings() {
             value={value.cpf}
             >
             </TextInput >
+
+            <Text style={styles.fieldName}>
+                Email
+            </Text>
+            
+            <TextInput 
+             style={styles.textInput}
+             onChangeText={(text) => setValue({ ...value, email: text })}
+            value={value.email}
+            >
+            </TextInput >
+
+            <Text style={styles.fieldName}>
+                Senha
+            </Text>
+            
+            <TextInput 
+             style={styles.textInput}
+             onChangeText={(text) => setValue({ ...value, senha: text })}
+            value={value.senha}
+            >
+            </TextInput >
             
         </View>
+        </ScrollView>
         <TouchableOpacity 
             style={styles.button}
-            onPress={() => navigation.goBack()}
+            onPress={() => {navigation.goBack();putUser()}}
             >
               <Text style={styles.confirm}>
                 Confirmar
