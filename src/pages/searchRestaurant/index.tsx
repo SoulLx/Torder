@@ -46,6 +46,15 @@ export function SearchRestaurant() {
   useEffect(() => {
     getRestaurantes();
   }, []);
+
+  const renderSeparator = () => (
+    <View
+      style={{
+        backgroundColor: '#bdbdbd',
+        height: 1,
+      }}
+    />
+  );
   
   return (
     <SafeAreaView style={styles.container}>
@@ -60,24 +69,30 @@ export function SearchRestaurant() {
       />
 
       <FlatList
+          ItemSeparatorComponent={renderSeparator}
+          
+          style={{width: '100%'}}
           data={data}
           keyExtractor={({_id }, index) => _id}
           renderItem={({ item }) => (
-            <View>
-            <TouchableOpacity onPress={() => {navigation.navigate('Restaurant');setSelectedRestaurant(item._id)}}>
-              <Text>{item.nomeFantasia}</Text>
-              <Text>
-                {item.especialidade}
-              </Text>
+            <View style={styles.viewList}>
+              <TouchableOpacity 
+                onPress={() => {navigation.navigate('Restaurant');setSelectedRestaurant(item._id)}}
+                style={{marginLeft: 50}}  
+              >
+                <Text style={{fontSize: 18, fontWeight:'bold'}}>{item.nomeFantasia}</Text>
+                <Text
+                  style={{fontSize:16}}
+                >
+                  {item.especialidade}
+                </Text>
 
-              <Text>
-                {item.endereco.endereco}, 
-                {item.endereco.complemento},
-                {item.endereco.numero} 
-              </Text>
-            </TouchableOpacity>
-              <Text>
-              </Text>
+                <Text>
+                  {item.endereco.endereco}, {item.endereco.complemento}, {item.endereco.numero} 
+                </Text>
+              </TouchableOpacity>
+                <Text>
+                </Text>
               
             </View>
             
