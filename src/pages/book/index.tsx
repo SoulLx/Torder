@@ -4,6 +4,7 @@ import { TextInput } from 'react-native-gesture-handler';
 import { ArrowLeft } from 'react-native-feather';
 import Modal from "react-native-modal";
 import styles from './styles';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export function Book ({navigation}:{navigation:any}) {
   const [isLoading, setLoading] = useState(true);
@@ -12,11 +13,12 @@ export function Book ({navigation}:{navigation:any}) {
 
   const getItem = async () => {
      try {
+      const token = AsyncStorage.getItem('token');
       const response = await fetch('https://torder-api.vercel.app/api/produto', {
         method: 'GET', 
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOWNmOThhNzcyOWQ1NDFmNmNlM2I4MSIsImlhdCI6MTYzNzcwNTE4MCwiZXhwIjoxNjM3NzkxNTgwfQ.fmXV1A0D71O-SrSjFYDde9rGgkB70JZm0ZGxR_X0P3A'
+          'Authorization': 'Bearer ' + token
         },
     })
       const json = await response.json();
