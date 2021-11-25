@@ -61,6 +61,7 @@ export function LaddingPageClient({navigation}:{navigation:any}) {
             const decoded = jwt_decode(data.token);
             if(decoded.idCliente != null && decoded.idCliente != undefined){
               AsyncStorage.setItem("token", data.token);
+              AsyncStorage.setItem("usuarioId", decoded.idUsuario);
               AsyncStorage.setItem("clienteId", decoded.idCliente);
               navigation.push('UserProfile');
             }

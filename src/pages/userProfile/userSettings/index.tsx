@@ -13,23 +13,35 @@ export function UserSettings() {
       nome: '',
       cpf:'',
       telefone:'',
-      email:''
+      email:'',
+      senha:''
     }) 
  
-    const getUser = async () => {      
+    const putUser = async () => {      
       const token = await AsyncStorage.getItem('token');
-      const idUser = await AsyncStorage.getItem('clienteId');
+      const idCliente = await AsyncStorage.getItem('clienteId');
+      const idUsuario = await AsyncStorage.getItem('usuarioId');
 
-       const response = await fetch('https://torder-api.vercel.app/api/cliente/'+idUser, {
+       const responseClient = await fetch('https://torder-api.vercel.app/api/cliente/'+ idCliente, {
          method: 'PUT', 
          headers: {
            'Content-Type': 'application/json',
            'Authorization': 'Bearer '+ token
          },
           body:JSON.stringify(value)
-     });
-          const json = await response.json();
-          console.log(json)
+      });
+      const responseUser = await fetch('https://torder-api.vercel.app/api/usuario/'+ idUsuario, {
+         method: 'PUT', 
+         headers: {
+           'Content-Type': 'application/json',
+           'Authorization': 'Bearer '+ token
+         },
+          body:JSON.stringify(value)
+      })
+          const jsonClient = await responseClient.json();
+          console.log(jsonClient)
+          const jsonUser = await responseUser.json();
+          console.log(jsonUser)
   };
 
   
@@ -99,8 +111,8 @@ export function UserSettings() {
             
             <TextInput 
              style={styles.textInput}
-             onChangeText={(text) => setValue({ ...value, email: text })}
-            value={value.email}
+             onChangeText={(text) => setValue({ ...value, senha: text })}
+            value={value.senha}
             >
             </TextInput >
             
@@ -108,7 +120,7 @@ export function UserSettings() {
         </ScrollView>
         <TouchableOpacity 
             style={styles.button}
-            onPress={() => {navigation.goBack();getUser()}}
+            onPress={() => {navigation.goBack();putUser()}}
             >
               <Text style={styles.confirm}>
                 Confirmar
