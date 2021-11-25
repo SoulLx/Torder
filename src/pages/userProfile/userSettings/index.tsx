@@ -14,7 +14,7 @@ export function UserSettings() {
       cpf:'',
       telefone:'',
       email:'',
-      senha:''
+      senha: undefined,
     }) 
  
     const putUser = async () => {      
@@ -156,7 +156,7 @@ export function UserSettings() {
             <TextInput 
              style={styles.textInput}
              onChangeText={(text) => setValue({ ...value, senha: text })}
-            value={value.senha}
+             value={value.senha}
             >
             </TextInput >
             
