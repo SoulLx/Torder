@@ -26,7 +26,7 @@ const styles=StyleSheet.create({
         marginHorizontal:'-30%',
         marginBottom:"30%",
         maxWidth:'200%',
-        paddingLeft:'2%',    
+        paddingLeft:'5%',    
     },
     fields:{
         paddingLeft:'20%',
