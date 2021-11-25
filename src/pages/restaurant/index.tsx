@@ -18,7 +18,8 @@ export function Restaurant({navigation}:{navigation:any}) {
   const [isLoading, setLoading] = useState(true);
   const [valueBook, setValueBook] = useState([]);
   const [dataRestaurant,setDataRestaurant] = useState([]);
- 
+
+  
   const postBook = async () => {
     const token = await AsyncStorage.getItem('token');
     const clitentId = await AsyncStorage.getItem('clienteId');
@@ -37,6 +38,7 @@ export function Restaurant({navigation}:{navigation:any}) {
 };
 
 
+
 const getRestaurant = async () => {
   try {
     const restaurantId = await AsyncStorage.getItem('selectedRestaurantId');
@@ -52,8 +54,8 @@ const getRestaurant = async () => {
 
  const json = await response.json();
   
+console.log(json);
  setDataRestaurant(json);
- 
  } catch (error) {
    console.error(error);
  } finally {
@@ -64,6 +66,15 @@ const getRestaurant = async () => {
 useEffect(() => {
   getRestaurant();
 }, []);
+
+const openClosed = (bool) => {
+  if(bool)
+    return <Text style={styles.lblStatus}>Aberto</Text>
+  else
+    return <Text style={styles.lblStatus}>Fechado</Text>
+}
+
+    
 
   return (
     <SafeAreaView style={styles.container}>
@@ -167,26 +178,28 @@ useEffect(() => {
         </TouchableOpacity>
 
         
-        
-          <View style={styles.view2}>
-            <View style={styles.view3}>
-            <FlatList
+        <FlatList
               data={Object.keys(dataRestaurant)}
               renderItem={({ item }) => 
               <View>
                 <Text>{dataRestaurant[item].nomeFantasia}</Text>
-              </View>}
+                <Text style={styles.lblCategory}>{dataRestaurant[item].especialidade}</Text>
+                {openClosed(dataRestaurant[item].estaAberto)}
+                <View style={styles.viewStatus}>
+                </View>
+              </View>
+              
+              }
             />
-              <Text style={styles.lblCategory}>Lanches</Text>
+          <View style={styles.view2}>
+            <View style={styles.view3}>
             </View>                              
           </View>          
           <View style={styles.lblAdress}>            
             <Text>{}</Text>         
           </View>
 
-          <View style={styles.viewStatus}>
-            <Text style={styles.lblStatus}>Aberto</Text>
-          </View>                               
+                                         
       </View>          
 
       <View style={styles.viewContent}>

@@ -27,9 +27,8 @@ export function SearchRestaurant() {
           'Authorization': 'Bearer '+ token
         },
     })    
-    console.log(state.search)
+    
     const json = await response.json();
-     
     setData(json.restaurante);
 
     } catch (error) {
@@ -41,6 +40,13 @@ export function SearchRestaurant() {
 
   const setSelectedRestaurant = async (idRestaurant) => {
     AsyncStorage.setItem("selectedRestaurantId", idRestaurant);
+  }
+
+  const openClosed = (bool) => {
+    if(bool)
+      return <Text>Aberto</Text>
+    else
+      return <Text>Fechado</Text>
   }
   
   useEffect(() => {
@@ -67,13 +73,16 @@ export function SearchRestaurant() {
             <TouchableOpacity onPress={() => {navigation.navigate('Restaurant');setSelectedRestaurant(item._id)}}>
               <Text>{item.nomeFantasia}</Text>
               <Text>
+                {openClosed(item.estaAberto)}
+              </Text>
+              <Text>
                 {item.especialidade}
               </Text>
 
               <Text>
                 {item.endereco.endereco}, 
                 {item.endereco.complemento},
-                {item.endereco.numero} 
+                {item.endereco.numero},
               </Text>
             </TouchableOpacity>
               <Text>
