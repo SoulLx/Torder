@@ -24,6 +24,7 @@ export function UserProfile() {
       });
       const json = await response.json();
       setData(json);
+      console.log(json)
     } catch (error) {
       console.error(error);
     } finally {
@@ -37,15 +38,18 @@ export function UserProfile() {
   
   return (
     <SafeAreaView style={styles.container}>
-
-{isLoading ? <ActivityIndicator/> : (
+         <View style={styles.foto}>
+         <Text >Seja Bem Vindo: </Text>
           <FlatList
+          style={{marginTop:'-7%',marginLeft:'5%'}}
           data={Object.keys(data)}
           renderItem={({ item }) => 
-            <Text>{data[item].nome}</Text>
+            <Text style={styles.name}>{data[item].nome}</Text>
+            
         }
         />
-          )}
+        </View>
+        
     <TouchableOpacity 
     style={styles.config}
     onPress={() => navigation.navigate('UserSettings')}

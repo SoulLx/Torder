@@ -10,37 +10,43 @@ const styles=StyleSheet.create({
     },
     button:{
         backgroundColor:'black',
-        paddingHorizontal:'42%',
+        paddingHorizontal:'42.4%',
         paddingVertical:'5%',
+        marginBottom:'0%',
     },
     confirm:{
         color:'white',
     },
     textInput:{
           
-        
         borderWidth: 1,
         borderRadius:3,
         paddingTop:"2%",
         paddingBottom:'2%',
         marginHorizontal:'-30%',
-        marginBottom:"10%",
-        maxWidth:'70%',
-            
+        marginBottom:"30%",
+        maxWidth:'200%',
+        paddingLeft:'2%',    
     },
     fields:{
-        
-        paddingTop:'20%',
-        marginTop:'-70%',
-        marginLeft:'-2%',
+        paddingLeft:'20%',
+        paddingRight:'20%',
+        paddingTop:'10%',
+        marginTop:'0%',
+        marginRight:'30%',
+        marginLeft:'0%',
     },
+    scrollView:{
+        paddingHorizontal:'0%',
+        
+        },
     fieldName:{
         marginLeft:'-30%',
         fontWeight:'bold',
         fontSize:16,
     },
     back:{
-      marginLeft:'-80%',
+      marginLeft:'-86%',
       marginTop:'10%',
     },
 
