@@ -83,7 +83,7 @@ export function SearchRestaurant() {
           renderItem={({ item }) => (
             <View style={styles.viewList}>
             <TouchableOpacity onPress={() => {navigation.navigate('Restaurant');setSelectedRestaurant(item._id)}}>
-              <Text>{item.nomeFantasia}</Text>
+              <Text style={{fontSize:18, fontWeight: 'bold'}}>{item.nomeFantasia}</Text>
               <Text>
                 {openClosed(item.estaAberto)}
               </Text>

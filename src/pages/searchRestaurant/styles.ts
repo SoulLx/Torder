@@ -12,6 +12,7 @@ const styles=StyleSheet.create({
     viewList: {       
         backgroundColor: 'white',
         marginTop: 10,
+        marginLeft: 50,
     },
 });
 
