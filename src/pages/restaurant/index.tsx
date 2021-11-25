@@ -4,7 +4,7 @@ import { ArrowLeft } from 'react-native-feather';
 import Modal from "react-native-modal";
 import styles from './styles'
 import {Picker} from '@react-native-picker/picker';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export function Restaurant({navigation}:{navigation:any}) {
 
@@ -17,7 +17,8 @@ export function Restaurant({navigation}:{navigation:any}) {
   const [restaurant, setRestaurant] = useState([])
   const [isLoading, setLoading] = useState(true);
   const [valueBook, setValueBook] = useState([]);
-
+  const [dataRestaurant,setDataRestaurant] = useState([]);
+ 
   const postBook = async () => {
     const response = await fetch("https://torder-api.vercel.app/api/reserva", {
         method: 'POST',
@@ -33,7 +34,34 @@ export function Restaurant({navigation}:{navigation:any}) {
 
 };
 
+
+const getRestaurant = async () => {
+  try {
+    const restaurantId = await AsyncStorage.getItem('selectedRestaurantId');
+    const token = await AsyncStorage.getItem('token');
+
+   const response = await fetch('https://torder-api.vercel.app/api/restaurante/'+ restaurantId, {
+     method: 'GET', 
+     headers: {
+       'Content-Type': 'application/json',
+       'Authorization': 'Bearer '+ token
+     },
+ })    
+
+ const json = await response.json();
   
+ setDataRestaurant(json);
+ 
+ } catch (error) {
+   console.error(error);
+ } finally {
+   setLoading(false);
+ }
+}
+
+useEffect(() => {
+  getRestaurant();
+}, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -128,7 +156,7 @@ export function Restaurant({navigation}:{navigation:any}) {
       
 
       <View style={styles.view1}>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={()=> navigation.goBack()}>
           <ArrowLeft
               stroke="black" 
               width="30"
@@ -140,20 +168,13 @@ export function Restaurant({navigation}:{navigation:any}) {
         
           <View style={styles.view2}>
             <View style={styles.view3}>
-              <Text style={styles.lblNameRestaurant}>McDonald's</Text>
-              {isLoading ? <ActivityIndicator/> : (
-              <FlatList
-                data={restaurant}
-                
-                renderItem={({ item }) => (
-                  <View style={{backgroundColor:'black'}}>
-                    <Text>{item.nomeFantasia}</Text>
-                  </View>
-                  
-                )}
-                keyExtractor={item => item.id}
-              />
-              )}
+            <FlatList
+              data={Object.keys(dataRestaurant)}
+              renderItem={({ item }) => 
+              <View>
+                <Text>{dataRestaurant[item].nomeFantasia}</Text>
+              </View>}
+            />
               <Text style={styles.lblCategory}>Lanches</Text>
             </View>                              
           </View>          

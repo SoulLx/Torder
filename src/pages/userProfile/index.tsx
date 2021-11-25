@@ -3,19 +3,27 @@ import { Text, View, Image, SafeAreaView,TouchableOpacity, ActivityIndicator,Fla
 import { BottomBar } from '../../components/BottomBar/BottomBar';
 import styles from './styles'
 import { useNavigation } from '@react-navigation/native';
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export function UserProfile() {
   const navigation = useNavigation();
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  const userId = ''
+  
 
-  const getMovies = async () => {
-     try {
-      const response = await fetch('http://192.168.0.39:3000/api/reserva/'+{userId}+'',);
+  const getCliente = async () => {
+    try {
+      const token = await AsyncStorage.getItem('token');
+      const idUser = await AsyncStorage.getItem('clienteId');
+      const response = await fetch('https://torder-api.vercel.app/api/cliente/'+ idUser,{
+        method: 'GET', 
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer '+ token
+        },
+      });
       const json = await response.json();
-      setData(json.data);
+      setData(json);
     } catch (error) {
       console.error(error);
     } finally {
@@ -24,7 +32,7 @@ export function UserProfile() {
   }
 
   useEffect(() => {
-    getMovies();
+    getCliente();
   }, []);
   
   return (
@@ -32,14 +40,11 @@ export function UserProfile() {
 
 {isLoading ? <ActivityIndicator/> : (
           <FlatList
-          data={data}
-          keyExtractor={({_id }, index) => _id}
-          renderItem={({ item }) => (
-            <View style={styles.foto}>
-            <Text style={styles.name}>{item.nome}</Text>
-            </View>
-          )}
-          />
+          data={Object.keys(data)}
+          renderItem={({ item }) => 
+            <Text>{data[item].nome}</Text>
+        }
+        />
           )}
     <TouchableOpacity 
     style={styles.config}
