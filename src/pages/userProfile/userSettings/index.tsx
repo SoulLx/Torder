@@ -4,7 +4,6 @@ import { ArrowLeft} from "react-native-feather";
 import styles from './styles'
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { ItemClick } from 'native-base/lib/typescript/components/composites/Typeahead/useTypeahead/types';
 
 export function UserSettings() {
     const navigation = useNavigation();
@@ -15,22 +14,34 @@ export function UserSettings() {
       cpf:'',
       telefone:'',
       email:'',
+      senha:''
     }) 
  
-    const getUser = async () => {      
+    const putUser = async () => {      
       const token = await AsyncStorage.getItem('token');
-      const idUser = await AsyncStorage.getItem('clienteId');
+      const idCliente = await AsyncStorage.getItem('clienteId');
+      const idUsuario = await AsyncStorage.getItem('usuarioId');
 
-       const response = await fetch('https://torder-api.vercel.app/api/cliente/'+idUser, {
+       const responseClient = await fetch('https://torder-api.vercel.app/api/cliente/'+ idCliente, {
          method: 'PUT', 
          headers: {
            'Content-Type': 'application/json',
            'Authorization': 'Bearer '+ token
          },
           body:JSON.stringify(value)
-     });
-          const json = await response.json();
-          console.log(json)
+      });
+      const responseUser = await fetch('https://torder-api.vercel.app/api/usuario/'+ idUsuario, {
+         method: 'PUT', 
+         headers: {
+           'Content-Type': 'application/json',
+           'Authorization': 'Bearer '+ token
+         },
+          body:JSON.stringify(value)
+      })
+          const jsonClient = await responseClient.json();
+          console.log(jsonClient)
+          const jsonUser = await responseUser.json();
+          console.log(jsonUser)
   };
   
   const [item,setItem] = useState({
@@ -153,7 +164,7 @@ export function UserSettings() {
         </ScrollView>
         <TouchableOpacity 
             style={styles.button}
-            onPress={() => {navigation.goBack();getUser()}}
+            onPress={() => {navigation.goBack();putUser()}}
             >
               <Text style={styles.confirm}>
                 Confirmar

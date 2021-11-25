@@ -20,11 +20,13 @@ export function Restaurant({navigation}:{navigation:any}) {
   const [dataRestaurant,setDataRestaurant] = useState([]);
  
   const postBook = async () => {
+    const token = await AsyncStorage.getItem('token');
+    const clitentId = await AsyncStorage.getItem('clienteId');
     const response = await fetch("https://torder-api.vercel.app/api/reserva", {
         method: 'POST',
         headers: {
             'Content-Type':'application/json',
-            'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYxOWNmOThhNzcyOWQ1NDFmNmNlM2I4MSIsImlhdCI6MTYzNzcwNTE4MCwiZXhwIjoxNjM3NzkxNTgwfQ.fmXV1A0D71O-SrSjFYDde9rGgkB70JZm0ZGxR_X0P3A'
+            'Authorization': 'Bearer ' + token
         },
         body: JSON.stringify(valueBook)
     });
