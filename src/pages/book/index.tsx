@@ -195,7 +195,7 @@ export function Book ({navigation}:{navigation:any}) {
               <View style={styles.viewInfoTable}>
                 <Text style={{fontSize: 26, fontWeight:'bold'}}>{item.nome}</Text>                
                 <Text>Preço: R${item.preco.toFixed(2)}</Text>
-                <Text>Categoria: {item.categoria}</Text>
+                <Text>Categoria: {item.categoria.nome}</Text>
               </View>            
               <TouchableOpacity style={styles.buttonDelete} onPress={() => {setSelectedItem(item._id);setVisibleConfirmDelete(true)}}><Image style={{height: '100%' , width: '100%'}} source={require('../../assets/delete-icon.png')}/></TouchableOpacity>
             </View>
