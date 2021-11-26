@@ -18,8 +18,7 @@ export function Restaurant({navigation}:{navigation:any}) {
   const [isLoading, setLoading] = useState(true);
   const [valueBook, setValueBook] = useState([]);
   const [dataRestaurant,setDataRestaurant] = useState([]);
-
-  
+ 
   const postBook = async () => {
     const token = await AsyncStorage.getItem('token');
     const clitentId = await AsyncStorage.getItem('clienteId');
@@ -36,7 +35,6 @@ export function Restaurant({navigation}:{navigation:any}) {
     console.log(json);
 
 };
-
 
 
 const getRestaurant = async () => {
@@ -64,15 +62,6 @@ const getRestaurant = async () => {
 useEffect(() => {
   getRestaurant();
 }, []);
-
-const openClosed = (bool) => {
-  if(bool)
-    return <Text style={styles.lblStatus}>Aberto</Text>
-  else
-    return <Text style={styles.lblStatus}>Fechado</Text>
-}
-
-    
 
   return (
     <SafeAreaView style={styles.container}>
@@ -205,7 +194,9 @@ const openClosed = (bool) => {
             <Text>{}</Text>         
           </View>
 
-                                         
+          <View style={styles.viewStatus}>
+            <Text style={styles.lblStatus}>Aberto</Text>
+          </View>                               
       </View>          
 
       <View style={styles.viewContent}>

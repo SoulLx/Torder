@@ -8,6 +8,12 @@ const styles=StyleSheet.create({
         alignItems:'center',
         justifyContent:'space-between'
     },
+
+    viewList: {       
+        backgroundColor: 'white',
+        marginTop: 10,
+        marginLeft: 50,
+    },
 });
 
 export default styles;

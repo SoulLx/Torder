@@ -1,4 +1,4 @@
-import React , { useState }from 'react';
+import React , { useState, useEffect }from 'react';
 import { View, Text, SafeAreaView, Image } from 'react-native';
 import { ArrowLeft } from 'react-native-feather';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
@@ -11,24 +11,27 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function AddItem() {
     const navigation = useNavigation();
-    const [category, setCategory] = useState(['Entrada','Lanches','Sobremesas','Especiais']);
+    const [isLoading, setLoading] = useState(true);
+    const [category, setCategory] = useState([]);
     const [selectedCategory, setSelectedCategory] = useState([]);
 
     const [valueItem,setValueItem] = useState({
         nome:"",        
         preco: "",
-        descricao: ""
+        descricao: "",     
     });
 
     const postItem = async () => {
         try {
             const token = await AsyncStorage.getItem('token');
             const idRestaurante = await AsyncStorage.getItem('restauranteId');
+            const idCategoria = await AsyncStorage.getItem('categoriaId');
 
             const item = {
                 nome: valueItem.nome,
                 preco: valueItem.preco,
                 descricao: valueItem.descricao,
+                categoria: selectedCategory,
                 restaurante: idRestaurante
             }
 
@@ -41,11 +44,40 @@ export default function AddItem() {
                 body: JSON.stringify(item)
             });
             const json = await response.json();
+            console.log(item);
         } catch (error) {
             console.log("error "+ error)
         }
         
     };
+
+    const getCategory = async () => {
+        try {
+         const token = AsyncStorage.getItem('token');
+         const idRestaurante = await AsyncStorage.getItem('restauranteId');
+         const idCategoria = await AsyncStorage.getItem('categoriaId');
+         
+
+         const response = await fetch('https://torder-api.vercel.app/api/categoria'+idRestaurante, {
+           method: 'GET', 
+           headers: {
+             'Content-Type': 'application/json',
+             'Authorization': 'Bearer ' + token
+           },
+       })
+         const json = await response.json();
+         setCategory(json.categorias);         
+       } catch (error) {
+         console.error(error);
+       } finally {
+         setLoading(false);
+       }
+     };
+
+     useEffect(() => {
+        getCategory();
+      }, []);
+           
 
         return (
             <SafeAreaView style={styles.container}>
