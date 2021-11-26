@@ -152,7 +152,8 @@ export function LaddingPageClient({navigation}:{navigation:any}) {
               style={styles.box} 
               placeholder="Senha"
               onChangeText={(text) => setValue({ ...value, senha: text })}
-            value={value.senha}
+              secureTextEntry={true}
+              value={value.senha}
               ></TextInput>
               
            </View>
@@ -203,6 +204,7 @@ export function LaddingPageClient({navigation}:{navigation:any}) {
               style={styles.box}
               onChangeText = {(text) => setLoginValue({...loginValue, senha: text})}
               placeholder="Senha"
+              secureTextEntry={true}
               value={loginValue.senha}
               ></TextInput>
            </View>
