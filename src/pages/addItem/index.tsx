@@ -24,14 +24,12 @@ export default function AddItem() {
     const postItem = async () => {
         try {
             const token = await AsyncStorage.getItem('token');
-            const idRestaurante = await AsyncStorage.getItem('restauranteId');
-            const idCategoria = await AsyncStorage.getItem('categoriaId');
+            const idRestaurante = await AsyncStorage.getItem('restauranteId');       
 
             const item = {
                 nome: valueItem.nome,
                 preco: valueItem.preco,
-                descricao: valueItem.descricao,
-                categoria: selectedCategory,
+                descricao: valueItem.descricao,                
                 restaurante: idRestaurante
             }
 
@@ -44,7 +42,7 @@ export default function AddItem() {
                 body: JSON.stringify(item)
             });
             const json = await response.json();
-            console.log(item);
+            console.log(json);
         } catch (error) {
             console.log("error "+ error)
         }
@@ -58,7 +56,7 @@ export default function AddItem() {
          const idCategoria = await AsyncStorage.getItem('categoriaId');
          
 
-         const response = await fetch('https://torder-api.vercel.app/api/categoria'+idRestaurante, {
+         const response = await fetch('https://torder-api.vercel.app/api/categoria/ObterCategorias'+idRestaurante, {
            method: 'GET', 
            headers: {
              'Content-Type': 'application/json',
@@ -98,15 +96,14 @@ export default function AddItem() {
                         <Picker
                             style={styles.categoryPicker}
                             selectedValue={selectedCategory}
-                            onValueChange={(itemValue) =>
-                                setSelectedCategory(itemValue)
-                            }>
+                            onValueChange={(itemValue) => setSelectedCategory(itemValue)}
+                        >
                             {
                                 category.map(cr => {
                                     return <Picker.Item label={cr} value={cr}/>
                                 })
                             }
-                            </Picker>
+                        </Picker>
                     </View>
                     
 

@@ -12,9 +12,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
-export default function AddTable() {
-    const navigation = useNavigation();    
-    const [isLoading, setLoading] = useState(true);
+export default function AddTable({navigation}:{navigation:any}) {
 
     const [value, setValue] = useState({
         nome: "",
@@ -41,12 +39,22 @@ export default function AddTable() {
        });
             const json = await response.json();
             console.log(json)
+            replace()
     };
+
+    function replace() {
+        navigation.replace(
+          "Table",
+          null,
+          null,
+          Math.random().toString() 
+        )
+      }
 
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.topView}>
-                <TouchableOpacity style={styles.backtouch} onPress={() => navigation.goBack()}>
+                <TouchableOpacity style={styles.backtouch} onPress={() => navigation.replace("Table")}>
                     <ArrowLeft           
                         stroke="black" 
                         width="30"
