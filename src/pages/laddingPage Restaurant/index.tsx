@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
-import { Text, View, Image,ScrollView, TouchableOpacity,TextInput} from 'react-native';
+import { Text, View, Image,ScrollView, TouchableOpacity,TextInput,ImageBackground} from 'react-native';
 import { ArrowLeft} from "react-native-feather";
 import styles from './styles'
 import Modal from "react-native-modal";
-
+const image = '..'
 import {Picker} from '@react-native-picker/picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import jwt_decode from "jwt-decode";
@@ -87,7 +87,10 @@ export function LaddingPageRestaurant({navigation}:{navigation:any}) {
     return (
       
     <View style={styles.container}>
-     
+     <ImageBackground 
+     source={require('../../assets/restaurant.jpg')} 
+     resizeMode="cover" 
+     style={{width:'100%',height:'100%'}}>
    
       <Modal 
           animationIn="slideInUp"
@@ -286,16 +289,7 @@ export function LaddingPageRestaurant({navigation}:{navigation:any}) {
           </View>
           </View>
           </Modal>
-          
-      <View 
-      style={styles.logoView}
-      >
-      <Image 
-      style={styles.logo} 
-      source={require('../../assets/logo.png')}
-      >
-      </Image>
-      </View>
+       
 
       <View 
       style={styles.loginButton}>
@@ -317,14 +311,15 @@ export function LaddingPageRestaurant({navigation}:{navigation:any}) {
       </Text>
       </TouchableOpacity>
       <TouchableOpacity 
-      style={{backgroundColor:'#ededed', marginTop:"10%", alignItems:'center',marginHorizontal:'25%', paddingVertical:'1%',borderRadius:20}}
-      onPress={()=>{navigation.replace('LaddingPageClient')}}
+      style={styles.clienteTouch}
+      onPress={()=>{navigation.push('LaddingPageClient')}}
       >
       <Text style={{fontSize:16,color:'black'}}>
       Cliente?
       </Text>
       </TouchableOpacity>
       </View>
+      </ImageBackground>
       </View>
     
     )

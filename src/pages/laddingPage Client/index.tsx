@@ -1,5 +1,5 @@
 import React, {useState,useEffect,useContext} from 'react';
-import { Text, View, Image, TouchableOpacity,TextInput,ActivityIndicator, FlatList} from 'react-native';
+import { Text, View, Image, TouchableOpacity,TextInput,ImageBackground, FlatList} from 'react-native';
 import { ArrowLeft} from "react-native-feather";
 import styles from './styles'
 import Modal from "react-native-modal";
@@ -76,8 +76,12 @@ export function LaddingPageClient({navigation}:{navigation:any}) {
     return (
       
     <View style={styles.container}>
-     
-   
+     <ImageBackground 
+     source={require('../../assets/client.jpeg')} 
+     resizeMode="cover" 
+     style={{width:'100%',height:'100%'}}
+     >
+    
       <Modal 
           animationIn="slideInUp"
           animationOutTiming={1000}
@@ -218,15 +222,6 @@ export function LaddingPageClient({navigation}:{navigation:any}) {
           </View>
           </Modal>
           
-      <View 
-      style={styles.logoView}
-      >
-      <Image 
-      style={styles.logo} 
-      source={require('../../assets/logo.png')}
-      >
-      </Image>
-      </View>
 
       <View 
       style={styles.loginButton}>
@@ -249,14 +244,15 @@ export function LaddingPageClient({navigation}:{navigation:any}) {
       </TouchableOpacity>
 
       <TouchableOpacity 
-      style={{backgroundColor:'#ededed', marginTop:"10%", alignItems:'center',marginHorizontal:'25%', paddingVertical:'1%',borderRadius:20}}
-      onPress={()=>{navigation.replace('LaddingPageRestaurant')}}
+      style={styles.parceiroTouch}
+      onPress={()=>{navigation.push('LaddingPageRestaurant')}}
       >
       <Text style={{fontSize:16,color:'black'}}>
       Parceiro?
       </Text>
       </TouchableOpacity>
       </View>
+      </ImageBackground>
       </View>
     
     )

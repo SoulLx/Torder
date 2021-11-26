@@ -1,5 +1,5 @@
 import { StyleSheet,StatusBar,Platform } from 'react-native';
-import { AlignJustify } from 'react-native-feather';
+
 
 const styles=StyleSheet.create({
     container:{
@@ -13,6 +13,10 @@ const styles=StyleSheet.create({
         fontWeight:'bold',
         fontSize:16,
         textDecorationLine: 'underline',
+    },
+    image:{
+        flex: 1,
+        justifyContent: "center"
     },
     registerBox:{
         marginTop:'10%',
@@ -33,28 +37,47 @@ const styles=StyleSheet.create({
         height:200,
     },
     loginButton:{
+        marginTop:"80%",
         
-        marginBottom:100,
     },
     entrarButton:{
         borderWidth: 1,
         borderColor:'black',
-        paddingVertical:10,
-        paddingHorizontal:'30%',
+        paddingVertical:"3%",
+        paddingHorizontal:'26%',
         borderRadius:8,
-        marginBottom:30,
+        marginBottom:"10%",
+        backgroundColor:'white',
+        marginRight:'20%',
+        marginLeft:'15%',
     },
     registrarButtonLadding:{
         backgroundColor:'black',
-        paddingVertical:10,
-        paddingHorizontal:'30%',
+        paddingVertical:"3%",
+        paddingHorizontal:'25%',
         borderRadius:8,
+        marginRight:'20%',
+        marginLeft:'15%',
     },
     entrar:{
         color:'black',
+        fontSize:14,
+        fontWeight:'bold',
+    },
+    clienteTouch:{
+        backgroundColor:'#ededed', 
+        marginTop:"10%", 
+        alignItems:'center',
+        marginHorizontal:'25%', 
+        paddingVertical:'1%',
+        borderRadius:20,
+        marginRight:'30%',
+        marginLeft:'25%',
     },
     registrarLadding:{
         color:'white',
+        fontSize:14,
+        fontWeight:'bold',
     },
     modalView: {
         backgroundColor:"white",
