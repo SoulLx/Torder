@@ -60,15 +60,18 @@ export function Book ({navigation}:{navigation:any}) {
       });
       const json = await response.json();
       console.log(json);
+
+      ToastAndroid.show("Categoria criada", ToastAndroid.SHORT);
       
     } catch (error) {
       console.log("error" + error)
+
+      ToastAndroid.show("Categoria não criada", ToastAndroid.SHORT);
     }
   }
 
-  const showToast = () => {
-    ToastAndroid.show("Categoria criada", ToastAndroid.SHORT);
-  };
+
+  
 
   return (
     <SafeAreaView style={styles.container}>
@@ -113,7 +116,7 @@ export function Book ({navigation}:{navigation:any}) {
             value={valueCategory.nome}
             
           />
-          <TouchableOpacity style={styles.buttonCategory} onPress={() => {postCategory();showToast()}}>
+          <TouchableOpacity style={styles.buttonCategory} onPress={() => {postCategory();setVisibleCategory(false)}}>
             <Text style={{color: 'white'}}>Criar</Text>
           </TouchableOpacity>
         </View>
