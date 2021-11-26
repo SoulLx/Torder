@@ -120,51 +120,20 @@ export function Booking({navigation}:{navigation:any}) {
           </Text>
       </View>
       <View style={styles.body}>
-      
-      {isLoading ? <ActivityIndicator/> : (
-          <FlatList
-          data={data}
-          keyExtractor={({_id }, index) => _id}
-          renderItem={({ item }) => (
-            <View>
-            <View style={styles.nameBooking}>
-            <Text>{item.nome}</Text>
-            </View>
+          
             <View style={styles.midBooking}>
-            <Text>
-            {item.status}
-            </Text>
-            <Text>
-            {item.horario}
-            </Text>
-            <Text>
-            {item.resumo}
-            </Text>
+            <View style={styles.nameBooking}>
+            <Text>Nome do Restaurante</Text>
             </View>
+            <View >
+            <Text>Status da reserva</Text>
             </View>
-          )}
-          />
-          )}
-
-          <View style={styles.nameBooking}>
-            <Text>
-              Nome do Restaurante
-            </Text>
-          </View>
-          <View style={styles.midBooking}>
-            <Text>
-              Status da Reserva
-            </Text>
-            <Text>
-              Horário
-            </Text>
-            <Text>
-              Resumo da Reserva
-            </Text>
-          </View>
-          <View style={styles.bookingAction}>
+            <View >
+            <Text>Horário da Reserva</Text>
+            </View>
+            <View style={styles.bookingAction}>
           <TouchableOpacity 
-          style={styles.bookingButtonCancel} 
+           style={styles.bookingButtonCancel}
           onPress={()=>{setcancel(true)}}
           >
           <Text>Cancelar</Text>
@@ -176,6 +145,8 @@ export function Booking({navigation}:{navigation:any}) {
           <Text>confirmar</Text>
           </TouchableOpacity>
           </View>
+            </View>
+          
       </View>
       <View style={styles.bottom}> 
           <Text> 
