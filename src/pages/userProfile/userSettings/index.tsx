@@ -14,8 +14,8 @@ export function UserSettings() {
       const token = await AsyncStorage.getItem('token');
       const idCliente = await AsyncStorage.getItem('clienteId');
       const idUsuario = await AsyncStorage.getItem('usuarioId');
-
-       const responseClient = await fetch('https://torder-api.vercel.app/api/cliente/'+ idCliente, {
+      
+       await fetch('https://torder-api.vercel.app/api/cliente/'+ idCliente, {
          method: 'PUT', 
          headers: {
            'Content-Type': 'application/json',
@@ -23,7 +23,7 @@ export function UserSettings() {
          },
           body:JSON.stringify(item)
       });
-      const responseUser = await fetch('https://torder-api.vercel.app/api/usuario/'+ idUsuario, {
+       await fetch('https://torder-api.vercel.app/api/usuario/'+ idUsuario, {
          method: 'PUT', 
          headers: {
            'Content-Type': 'application/json',
@@ -31,10 +31,8 @@ export function UserSettings() {
          },
           body:JSON.stringify(value)
       })
-          const jsonClient = await responseClient.json();
-          console.log(jsonClient)
-          const jsonUser = await responseUser.json();
-          console.log(jsonUser)
+
+      navigation.replace('UserProfile')
   };
   
   const [item,setItem] = useState({
@@ -53,39 +51,36 @@ export function UserSettings() {
     try {
       const token = await AsyncStorage.getItem('token');
       const idCliente = await AsyncStorage.getItem('clienteId');
-      const idUsuario = await AsyncStorage.getItem('usuarioId');
       const response = await fetch('https://torder-api.vercel.app/api/cliente/'+ idCliente,{
         method: 'GET', 
         headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer '+ token
         },
-      });
+      });  
       const json = await response.json();
-      
-      setData(json.cliente);
-
-      data.map(cliente => {
+  
+      json.cliente.map(cliente => {
+        setData(cliente);
+        
         setItem({
           nome:cliente.nome,
           cpf:cliente.cpf,
           telefone:cliente.telefone,
           email:cliente.email
         });
-  
+    
         setValue({
           email: cliente.email,
           senha: undefined
         });
       });
-
     } catch (error) {
       console.error(error);
     } finally {
       setLoading(false);
     }
   }
-  
 
   useEffect(() => {
     getCliente();
@@ -173,7 +168,7 @@ export function UserSettings() {
         </ScrollView>
         <TouchableOpacity 
             style={styles.button}
-            onPress={() => {navigation.goBack();putUser()}}
+            onPress={() => {putUser()}}
             >
               <Text style={styles.confirm}>
                 Confirmar
@@ -182,4 +177,3 @@ export function UserSettings() {
     </SafeAreaView>
   )
 }
-
