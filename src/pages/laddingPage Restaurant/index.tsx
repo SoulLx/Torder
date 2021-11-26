@@ -29,7 +29,8 @@ export function LaddingPageRestaurant({navigation}:{navigation:any}) {
         telefone1: "",
     },
     senha: "",
-    ehAdminRestaurante: true
+    ehAdminRestaurante: true,
+    estaAberto: false
     }) 
 
     const[loginValue, setLoginValue] = useState({
@@ -67,6 +68,7 @@ export function LaddingPageRestaurant({navigation}:{navigation:any}) {
         body: JSON.stringify(loginValue)
       }).then(response => response.json()).then(data => {
         try{
+          console.log(data);
           if(data.token != null && data.token != undefined){
             const decoded = jwt_decode(data.token);
             if(decoded.idRestaurante != null && decoded.idRestaurante != undefined){

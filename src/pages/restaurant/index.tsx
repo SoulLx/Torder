@@ -53,9 +53,7 @@ const getRestaurant = async () => {
  })    
 
  const json = await response.json();
-  
-console.log(json);
- setDataRestaurant(json);
+ setDataRestaurant(json.restaurante);
  } catch (error) {
    console.error(error);
  } finally {
@@ -177,21 +175,29 @@ const openClosed = (bool) => {
             />
         </TouchableOpacity>
 
-        
-        <FlatList
-              data={Object.keys(dataRestaurant)}
-              renderItem={({ item }) => 
-              <View>
-                <Text>{dataRestaurant[item].nomeFantasia}</Text>
-                <Text style={styles.lblCategory}>{dataRestaurant[item].especialidade}</Text>
-                {openClosed(dataRestaurant[item].estaAberto)}
-                <View style={styles.viewStatus}>
-                </View>
-              </View>
-              
-              }
-            />
+            
           <View style={styles.view2}>
+        <FlatList
+          data={dataRestaurant}
+          keyExtractor={({_id }, index) => _id}
+          renderItem={({ item }) => (
+            <View>
+              <Text>{item.nomeFantasia}</Text>
+              <Text>
+                {openClosed(item.estaAberto)}
+              </Text>
+              <Text>
+                {item.especialidade}
+              </Text>
+
+              <Text>
+                {item.endereco.endereco}, 
+                {item.endereco.complemento},
+                {item.endereco.numero},
+              </Text>
+            </View>
+          )}
+        />
             <View style={styles.view3}>
             </View>                              
           </View>          

@@ -23,7 +23,7 @@ export function UserProfile() {
         },
       });
       const json = await response.json();
-      setData(json);
+      setData(json.cliente);
       console.log(json)
     } catch (error) {
       console.error(error);
@@ -38,27 +38,26 @@ export function UserProfile() {
   
   return (
     <SafeAreaView style={styles.container}>
-         <View style={styles.foto}>
-         <Text >Seja Bem Vindo: </Text>
-          <FlatList
-          style={{marginTop:'-7%',marginLeft:'5%'}}
-          data={Object.keys(data)}
-          renderItem={({ item }) => 
-            <Text style={styles.name}>{data[item].nome}</Text>
-            
-        }
+      <View style={styles.foto}>
+      <Text >Seja Bem Vindo: </Text>
+      <FlatList
+        style={{marginTop:'0%',marginLeft:'5%'}}
+        data={data}
+        keyExtractor={({_id }, index) => _id}
+        renderItem={({ item }) => ( 
+          <Text style={styles.name}>{item.nome}</Text>
+          )}
         />
         </View>
-        
-    <TouchableOpacity 
-    style={styles.config}
-    onPress={() => navigation.navigate('UserSettings')}
-    >
+      <TouchableOpacity 
+      style={styles.config}
+      onPress={() => navigation.navigate('UserSettings')}
+      >
         <Text style={styles.perfiltexto}>
             Configuração
         </Text>
-    </TouchableOpacity>
-    <BottomBar/>
+      </TouchableOpacity>
+      <BottomBar/>
     </SafeAreaView>
   )
 }

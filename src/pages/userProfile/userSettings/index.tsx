@@ -62,18 +62,22 @@ export function UserSettings() {
         },
       });
       const json = await response.json();
-      setData(json);
-      setItem({
-        nome:json.cliente.nome,
-        cpf:json.cliente.cpf,
-        telefone:json.cliente.telefone,
-        email:json.cliente.email
-      });
+      
+      setData(json.cliente);
 
-      setValue({
-        email: json.cliente.email,
-        senha: undefined
-      })
+      data.map(cliente => {
+        setItem({
+          nome:cliente.nome,
+          cpf:cliente.cpf,
+          telefone:cliente.telefone,
+          email:cliente.email
+        });
+  
+        setValue({
+          email: cliente.email,
+          senha: undefined
+        });
+      });
 
     } catch (error) {
       console.error(error);
