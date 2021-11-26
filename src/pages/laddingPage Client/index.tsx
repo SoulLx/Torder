@@ -11,6 +11,7 @@ export function LaddingPageClient({navigation}:{navigation:any}) {
 
     const[visibleRegister,setVisibleRegister]=useState(false)
     const[visibleLogin,setVisibleLogin]=useState(false)
+    const[loginError, setLoginError] = useState(true);
     
     const [value,setValue] = useState({
       nome: '',
@@ -65,6 +66,8 @@ export function LaddingPageClient({navigation}:{navigation:any}) {
               AsyncStorage.setItem("clienteId", decoded.idCliente);
               navigation.replace('UserProfile');
             }
+          }else{
+            setLoginError(false);
           }
         }catch(err){
           console.log(err)}})
@@ -179,6 +182,7 @@ export function LaddingPageClient({navigation}:{navigation:any}) {
           <ArrowLeft stroke="black"/>
           </TouchableOpacity>
           <View style={styles.modalTitle}>
+          {loginError? <Text></Text>: <Text>Usuário ou senha incorreta</Text>}
           <Text
               style={styles.registerModalName}
               
@@ -198,10 +202,10 @@ export function LaddingPageClient({navigation}:{navigation:any}) {
               value={loginValue.senha}
               ></TextInput>
            </View>
-          
+
           <TouchableOpacity 
           style={styles.registrar} 
-          onPress={() => {setVisibleLogin(false);{postLogin()}}}
+          onPress={() => {{postLogin()}}}
           >
               
               <Text 
@@ -246,7 +250,7 @@ export function LaddingPageClient({navigation}:{navigation:any}) {
 
       <TouchableOpacity 
       style={{backgroundColor:'#ededed', marginTop:"10%", alignItems:'center',marginHorizontal:'25%', paddingVertical:'1%',borderRadius:20}}
-      onPress={()=>{navigation.push('LaddingPageRestaurant')}}
+      onPress={()=>{navigation.replace('LaddingPageRestaurant')}}
       >
       <Text style={{fontSize:16,color:'black'}}>
       Parceiro?
