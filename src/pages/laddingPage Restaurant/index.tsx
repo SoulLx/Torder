@@ -217,6 +217,7 @@ export function LaddingPageRestaurant({navigation}:{navigation:any}) {
                 style={styles.box} 
                 placeholder="Senha"
                 onChangeText={(text) => setValue({ ...value, senha: text })}
+                secureTextEntry={true}
                 value={value.senha}
               ></TextInput>
               
@@ -269,6 +270,7 @@ export function LaddingPageRestaurant({navigation}:{navigation:any}) {
               style={styles.box}
               placeholder="Senha"
               onChangeText={(text) => setLoginValue({ ...loginValue, senha: text })}
+              secureTextEntry={true}
               value={loginValue.senha}
               ></TextInput>
            </View>

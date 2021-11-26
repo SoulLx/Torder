@@ -26,6 +26,7 @@ export function RestaurantIn({navigation}:{navigation:any}) {
     const json = await response.json();
      
     setData(json);
+    json.restaurante.map(data=>{setOpenClosed(data.estaAberto)})
 
     } catch (error) {
       console.error(error);
@@ -124,25 +125,33 @@ export function RestaurantIn({navigation}:{navigation:any}) {
     <View style={{marginTop:'-70%',paddingHorizontal:'60%', backgroundColor:'grey', paddingTop:'1%'}}>
     </View>
     <View style={styles.manager}>
-    <TouchableOpacity 
-    style={styles.config}
-    onPress={() => navigation.navigate('Book')}
-    >
-        <Text style={styles.perfiltexto}>
-            Cardápio
-        </Text>
-        </TouchableOpacity>
-        <TouchableOpacity 
-    style={styles.config}
-    onPress={() => navigation.navigate('Table')}
-    >
-        <Text style={styles.perfiltexto}>
-            Mesas
-        </Text>
-        </TouchableOpacity>
+      <TouchableOpacity 
+      style={styles.config}
+      onPress={() => navigation.navigate('Book')}
+      >
+          <Text style={styles.perfiltexto}>
+              Cardápio
+          </Text>
+          </TouchableOpacity>
+          <TouchableOpacity 
+          style={styles.config}
+          onPress={() => navigation.navigate('Table')}
+          >
+          <Text style={styles.perfiltexto}>
+              Mesas
+          </Text>
+      </TouchableOpacity>
 
+      <TouchableOpacity 
+      style={styles.config}
+      onPress={() => navigation.replace('LaddingPageRestaurant')}
+      >
+        <Text style={styles.perfiltexto}>
+            Sair
+        </Text>
+      </TouchableOpacity>
     </View>
-
+    
     <View style={{marginTop:'-65%',paddingHorizontal:'50%', backgroundColor:'grey', paddingTop:'1%'}}>
     </View>
     <BottomBarRestaurant/>
