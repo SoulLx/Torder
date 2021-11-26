@@ -1,11 +1,11 @@
 import React , { useState, useEffect }from 'react';
-import { View, Text, SafeAreaView, Image } from 'react-native';
+import { View, Text, SafeAreaView, Image, TouchableOpacity,TextInput, Platform,KeyboardAvoidingView } from 'react-native';
 import { ArrowLeft } from 'react-native-feather';
-import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import {Picker} from '@react-native-picker/picker';
 import styles from './styles';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { ScrollView } from 'react-native-gesture-handler';
 
 
 
@@ -18,7 +18,7 @@ export default function AddItem() {
     const [valueItem,setValueItem] = useState({
         nome:"",        
         preco: "",
-        descricao: "",     
+        descricao: "",                    
     });
 
     const postItem = async () => {
@@ -29,7 +29,8 @@ export default function AddItem() {
             const item = {
                 nome: valueItem.nome,
                 preco: valueItem.preco,
-                descricao: valueItem.descricao,                
+                descricao: valueItem.descricao,  
+                categoria: selectedCategory,              
                 restaurante: idRestaurante
             }
 
@@ -41,9 +42,11 @@ export default function AddItem() {
                 },
                 body: JSON.stringify(item)
             });
-            const json = await response.json();
-            console.log(json);
-        } catch (error) {
+
+            navigation.replace('Book');
+            console.log("a")
+            const json = await response.json();           
+        } catch (error) {            
             console.log("error "+ error)
         }
         
@@ -51,89 +54,104 @@ export default function AddItem() {
 
     const getCategory = async () => {
         try {
-         const token = AsyncStorage.getItem('token');
-         const idRestaurante = await AsyncStorage.getItem('restauranteId');
-         const idCategoria = await AsyncStorage.getItem('categoriaId');
-         
+            const token = await AsyncStorage.getItem('token');
+            const idRestaurante = await AsyncStorage.getItem('restauranteId');        
 
-         const response = await fetch('https://torder-api.vercel.app/api/categoria/ObterCategorias'+idRestaurante, {
-           method: 'GET', 
-           headers: {
-             'Content-Type': 'application/json',
-             'Authorization': 'Bearer ' + token
-           },
-       })
-         const json = await response.json();
-         setCategory(json.categorias);         
-       } catch (error) {
-         console.error(error);
-       } finally {
-         setLoading(false);
-       }
-     };
+            const response = await fetch('https://torder-api.vercel.app/api/categoria/ObterCategoria/'+idRestaurante, {
+            method: 'GET', 
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + token
+            },
+        })
+            const json = await response.json();     
+            setCategory(json.categoria);             
+        }   catch (error) {
+            console.error(error);
+        }   finally {
+                setLoading(false);
+        }
+    };
 
-     useEffect(() => {
+    useEffect(() => {
         getCategory();
-      }, []);
+    }, []);
+
+    console.log(selectedCategory)
+               
+
+    return (
+        <KeyboardAvoidingView
+            behavior="padding"
+            style={styles.container}
+        > 
+       
+            <View style={styles.containerView}>
+           
+                <TouchableOpacity 
+                    onPress={() => navigation.goBack()}
+                    style={{marginBottom:50}}
+                >
+                    <ArrowLeft 
+                        stroke="black" 
+                        width="30"
+                        height="30"
+                    />
+                </TouchableOpacity> 
+                <Text style={styles.lblTitle}>Adicionar Produto</Text>           
            
 
-        return (
-            <SafeAreaView style={styles.container}>
-                <View style={styles.view1}>
-                    <TouchableOpacity onPress={() => navigation.goBack()}>
-                        <ArrowLeft 
-                            stroke="black" 
-                            width="30"
-                            height="30"
-                        />
-                    </TouchableOpacity> 
-                    <Text style={styles.lblTitle}>Adicionar prato</Text>           
+
+            
+                
+                <View style={styles.viewPicker}> 
+                <Picker
+                    style={styles.categoryPicker}
+                    selectedValue={selectedCategory}
+                    onValueChange={(itemValue) => {setSelectedCategory(itemValue);console.log(itemValue)}}
+                >
+                    <Picker.Item label={"Selecione uma categoria"} value={""}/>
+                    {
+                        category.map((item, index) => {
+                            return(
+                                <Picker.Item label={item.nome} value={item._id} key={index}/>
+                            )
+                        })
+                    }
+                    </Picker>
                 </View>
 
-                <View style={styles.view3}>
-                    
-                    <View style={styles.viewPicker}> 
-                        <Picker
-                            style={styles.categoryPicker}
-                            selectedValue={selectedCategory}
-                            onValueChange={(itemValue) => setSelectedCategory(itemValue)}
-                        >
-                            {
-                                category.map(cr => {
-                                    return <Picker.Item label={cr} value={cr}/>
-                                })
-                            }
-                        </Picker>
-                    </View>
-                    
+                    <TextInput 
+                        style={styles.txtItem} 
+                        placeholder="Nome"
+                        onChangeText={(text) => setValueItem({...valueItem, nome: text})}
+                        value={valueItem.nome}
+                    />
+                    <TextInput style={styles.txtItem} 
+                        placeholder="Descrição"
+                        onChangeText={(text) => setValueItem({...valueItem, descricao: text})}
+                        value={valueItem.descricao}
+                        />                
 
-                        <TextInput 
-                            style={styles.txtItem} 
-                            placeholder="Nome"
-                            onChangeText={(text) => setValueItem({...valueItem, nome: text})}
-                            value={valueItem.nome}
-                        />
-                        <TextInput style={styles.txtItem} 
-                            placeholder="Descrição"
-                            onChangeText={(text) => setValueItem({...valueItem, descricao: text})}
-                            value={valueItem.descricao}
-                            />                
+                    <Text style={styles.lblPrice}>Valor</Text> 
+                    <TextInput style={styles.txtPrice} 
+                    placeholder="0.00" 
+                    keyboardType="numeric"
+                    onChangeText={(text) => setValueItem({...valueItem, preco: text})}
+                    value={valueItem.preco}
+                    />
+            
+               
 
-                        <Text style={styles.lblPrice}>Valor</Text> 
-                        <TextInput style={styles.txtPrice} 
-                        placeholder="0.00" 
-                        keyboardType="numeric"
-                        onChangeText={(text) => setValueItem({...valueItem, preco: text})}
-                        value={valueItem.preco}
-                        />
 
-                </View>
-                <View style={styles.view4}>
-                    <TouchableOpacity style={styles.addButton}>
-                        <Text style={styles.lblAddButton} onPress={() => postItem()}>Adicionar Item</Text>
-                    </TouchableOpacity>
-                </View>      
-            </SafeAreaView>
-        );
+          
+                <TouchableOpacity style={styles.addButton}>
+                    <Text style={styles.lblAddButton} onPress={() => {postItem()}}>Adicionar Item</Text>
+                </TouchableOpacity>
+            
+                     
+        </View>            
+        </KeyboardAvoidingView>
+    );
 }
 
