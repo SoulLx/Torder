@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, FlatList, SafeAreaView, Text, View, Image, TouchableOpacity } from 'react-native';
+import { ActivityIndicator, FlatList, SafeAreaView, Text, View, Image, TouchableOpacity, ToastAndroid } from 'react-native';
 import { TextInput } from 'react-native-gesture-handler';
 import { ArrowLeft } from 'react-native-feather';
 import Modal from "react-native-modal";
@@ -59,13 +59,16 @@ export function Book ({navigation}:{navigation:any}) {
         body: JSON.stringify(item)
       });
       const json = await response.json();
-
+      console.log(json);
       
     } catch (error) {
       console.log("error" + error)
     }
   }
-  
+
+  const showToast = () => {
+    ToastAndroid.show("Categoria criada", ToastAndroid.SHORT);
+  };
 
   return (
     <SafeAreaView style={styles.container}>
@@ -110,7 +113,7 @@ export function Book ({navigation}:{navigation:any}) {
             value={valueCategory.nome}
             
           />
-          <TouchableOpacity style={styles.buttonCategory} onPress={() => postCategory()}>
+          <TouchableOpacity style={styles.buttonCategory} onPress={() => {postCategory();showToast()}}>
             <Text style={{color: 'white'}}>Criar</Text>
           </TouchableOpacity>
         </View>

@@ -52,6 +52,15 @@ export function SearchRestaurant() {
   useEffect(() => {
     getRestaurantes();
   }, []);
+
+  const renderSeparator = () => (
+    <View
+      style={{
+        backgroundColor: '#bdbdbd',
+        height: 1,
+      }}
+    />
+  );
   
   return (
     <SafeAreaView style={styles.container}>
@@ -66,12 +75,15 @@ export function SearchRestaurant() {
       />
 
       <FlatList
+          ItemSeparatorComponent={renderSeparator}
+          
+          style={{width: '100%'}}
           data={data}
           keyExtractor={({_id }, index) => _id}
           renderItem={({ item }) => (
-            <View>
+            <View style={styles.viewList}>
             <TouchableOpacity onPress={() => {navigation.navigate('Restaurant');setSelectedRestaurant(item._id)}}>
-              <Text>{item.nomeFantasia}</Text>
+              <Text style={{fontSize:18, fontWeight: 'bold'}}>{item.nomeFantasia}</Text>
               <Text>
                 {openClosed(item.estaAberto)}
               </Text>
