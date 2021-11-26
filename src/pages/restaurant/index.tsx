@@ -59,6 +59,13 @@ const getRestaurant = async () => {
  }
 }
 
+const openClosed = (bool) => {
+  if(bool)
+    return <Text style={styles.lblStatus}>Aberto</Text>
+  else
+    return <Text style={styles.lblStatus}>Fechado</Text>
+}
+
 useEffect(() => {
   getRestaurant();
 }, []);

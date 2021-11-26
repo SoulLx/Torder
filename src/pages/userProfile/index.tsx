@@ -24,7 +24,8 @@ export function UserProfile() {
       });
       const json = await response.json();
       setData(json.cliente);
-      console.log(json)
+
+      
     } catch (error) {
       console.error(error);
     } finally {
@@ -51,10 +52,19 @@ export function UserProfile() {
         </View>
       <TouchableOpacity 
       style={styles.config}
-      onPress={() => navigation.navigate('UserSettings')}
+      onPress={() => navigation.push('UserSettings')}
       >
         <Text style={styles.perfiltexto}>
             Configuração
+        </Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity 
+      style={styles.config}
+      onPress={() => navigation.replace('LaddingPageClient')}
+      >
+        <Text style={styles.perfiltexto}>
+            Sair
         </Text>
       </TouchableOpacity>
       <BottomBar/>

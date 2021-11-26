@@ -11,7 +11,7 @@ export function RestaurantIn({navigation}:{navigation:any}) {
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState([]);
   
-  const getMovies = async () => {
+  const getRestaurant = async () => {
      try {
       const token = await AsyncStorage.getItem('token');
       const idRestaurante = await AsyncStorage.getItem('restauranteId');
@@ -33,9 +33,22 @@ export function RestaurantIn({navigation}:{navigation:any}) {
       setLoading(false);
     }
   }
+
+  const setStatusAbertura = async (status) => {
+    const idRestaurante = await AsyncStorage.getItem('restauranteId');
+    const token = await AsyncStorage.getItem('token');
+    
+    const response = await fetch('https://torder-api.vercel.app/api/restaurante/statusAberto/'+idRestaurante+'?estaAberto='+status, {
+        method: 'PUT', 
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+        },
+      })
+  }
   
   useEffect(() => {
-    getMovies();
+    getRestaurant();
   }, []);
 
     
@@ -88,10 +101,13 @@ export function RestaurantIn({navigation}:{navigation:any}) {
         <TouchableOpacity 
         style={styles.config}
         onPress={()=>{if(openClosed==false){
-            setOpenClosed(true)}
-            else
-            setOpenClosed(false)
-
+            setOpenClosed(true);
+            setStatusAbertura(true);
+          }
+          else{
+              setOpenClosed(false)
+              setStatusAbertura(true);
+          }
         }}
         >
         <Text {...restaurantClosedOpen} >

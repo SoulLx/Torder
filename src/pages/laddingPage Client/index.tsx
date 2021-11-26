@@ -42,7 +42,7 @@ export function LaddingPageClient({navigation}:{navigation:any}) {
         const decoded = jwt_decode(token);
         AsyncStorage.setItem("token", token);
         AsyncStorage.setItem("clienteId", decoded.idCliente);
-        navigation.push('UserProfile')
+        navigation.replace('UserProfile')
 
       }
     };
@@ -63,7 +63,7 @@ export function LaddingPageClient({navigation}:{navigation:any}) {
               AsyncStorage.setItem("token", data.token);
               AsyncStorage.setItem("usuarioId", decoded.idUsuario);
               AsyncStorage.setItem("clienteId", decoded.idCliente);
-              navigation.push('UserProfile');
+              navigation.replace('UserProfile');
             }
           }
         }catch(err){
