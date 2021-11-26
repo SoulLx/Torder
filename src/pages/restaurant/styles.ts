@@ -84,13 +84,15 @@ const styles=StyleSheet.create({
 
     viewButtonReservar: {
         width: '100%',
-        padding: 10,
+        paddingTop: "10%",
+        paddingBottom:'0%',
+        marginTop:'-15%',
     },
 
     buttonReservar: {
         backgroundColor: 'red',
         alignItems: 'center',
-        height: 60,   
+        height: "30%",   
         justifyContent: 'center',     
     },
 
