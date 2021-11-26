@@ -13,21 +13,23 @@ const styles=StyleSheet.create({
         borderBottomWidth: 1,
     },
     bottom:{
-        paddingTop: "10%",
+        paddingTop: "30%",
         borderBottomWidth: 1,
     },
     body:{
         
-        marginTop:"-10%",
+        marginTop:"0%",
         borderWidth: 1,
         
         paddingHorizontal:"25%",
-        paddingBottom:"10%",
+        paddingBottom:"0%",
+        marginBottom:"5%",
+        paddingTop:"5%",
         
     },
     bodyBottom:{
         
-        marginTop:"-10%",
+        marginTop:"0%",
         borderWidth: 1,
         
         paddingHorizontal:"25%",
@@ -46,16 +48,17 @@ const styles=StyleSheet.create({
         justifyContent:'space-between',
         flexWrap: "wrap",
         flexDirection: "row",
-        marginHorizontal:"-30%",
+        marginHorizontal:"-20%",
+        marginBottom:"5%",
     },
     bookingButtonConfirm:{
-        paddingHorizontal:"5%",
+        paddingHorizontal:"10%",
         backgroundColor:"#45cc33",
         borderRadius:20,
         
     },
     bookingButtonCancel:{
-        paddingHorizontal:"5%",
+        paddingHorizontal:"10%",
         backgroundColor:"#de423a",
         borderRadius:20,
         

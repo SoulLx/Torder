@@ -11,14 +11,17 @@ export function Book ({navigation}:{navigation:any}) {
   const [data, setData] = useState([]);
   const [visibleCategory, setVisibleCategory] = useState(false);
   const [visibleSuccess, setVisibleSuccess] = useState(false);
+  const [visibleConfirmDelete,setVisibleConfirmDelete] = useState(false);
+  const [selectedItem, setSelectedItem] = useState([]);
   const [valueCategory, setValueCategory] = useState({
     nome: "",
   })
 
   const getItem = async () => {
      try {
-      const token = AsyncStorage.getItem('token');
-      const response = await fetch('https://torder-api.vercel.app/api/produto', {
+      const token = await AsyncStorage.getItem('token');
+      const idRestaurante = await AsyncStorage.getItem("restauranteId")
+      const response = await fetch('https://torder-api.vercel.app/api/produto/obterProdutos/' + idRestaurante, {
         method: 'GET', 
         headers: {
           'Content-Type': 'application/json',
@@ -26,7 +29,8 @@ export function Book ({navigation}:{navigation:any}) {
         },
     })
       const json = await response.json();
-      setData(json.produtos);
+      setData(json.produto);
+      console.log(json)
     } catch (error) {
       console.error(error);
     } finally {
@@ -70,27 +74,70 @@ export function Book ({navigation}:{navigation:any}) {
     }
   }
 
+  const deleteItem = async (produtoId) => {
+    try {
+      const token = await AsyncStorage.getItem('token');            
 
+      const response = await fetch("https://torder-api.vercel.app/api/produto/"+ produtoId, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type':'application/json',
+          'Authorization': 'Bearer '+ token
+        },
+        body: JSON.stringify(data)
+      });
+      const json = await response.json(); 
+      /*json.mesa.map(data => console.log(data));      */
+      
+      replace()
+      console.log(produtoId);
+      
+
+      ToastAndroid.show("Produto excluido com sucesso", ToastAndroid.SHORT);
+      
+
+      
+      
+    } catch (error) {
+      console.log("error" + error)
+
+      ToastAndroid.show("Erro, produto não deletado", ToastAndroid.SHORT);
+    }
+  }
+
+  function replace() {
+    navigation.replace(
+      "Book",
+      null,
+      null,
+      Math.random().toString() 
+    )
+  }
   
 
   return (
     <SafeAreaView style={styles.container}>
 
-    <Modal
-      animationIn="slideInUp"
-      animationOutTiming={1000}
-      animationInTiming={600}
-      backdropTransitionOutTiming={800}
-      animationOut="slideOutDown"
-      isVisible={visibleSuccess}
-    >
-      <View style={{backgroundColor:'white'}}>
-        <Text>Categoria Criada</Text>
-        <TouchableOpacity onPress={() => setVisibleSuccess(false)}>
-          <Text>OK</Text>
-        </TouchableOpacity>
-      </View>
-    </Modal>
+      <Modal
+        animationIn="slideInUp"
+        animationOutTiming={1000}
+        animationInTiming={600}
+        backdropTransitionOutTiming={800}
+        animationOut="slideOutDown"
+        isVisible={visibleConfirmDelete}
+      >
+        <View style={styles.modalViewConfirm}>
+          <Text style={{fontSize:19}}>Deseja excluir esse produto?</Text>
+          <View style={styles.modalViewButtonConfirm}>
+            <TouchableOpacity style={styles.buttonYes} onPress={() => {deleteItem(selectedItem);setVisibleConfirmDelete(false)}}>
+              <Text style={{fontSize:17, color:'white'}}>Sim</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.buttonNo} onPress={() => setVisibleConfirmDelete(false)}>
+              <Text style={{fontSize:17, color:'white'}}>Não</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
 
       <Modal           
         animationIn="slideInUp"
@@ -148,8 +195,9 @@ export function Book ({navigation}:{navigation:any}) {
               <View style={styles.viewInfoTable}>
                 <Text style={{fontSize: 26, fontWeight:'bold'}}>{item.nome}</Text>                
                 <Text>Preço: R${item.preco.toFixed(2)}</Text>
+                <Text>Categoria: {item.categoria}</Text>
               </View>            
-              <TouchableOpacity style={styles.buttonDelete}><Image style={{height: '100%' , width: '100%'}} source={require('../../assets/delete-icon.png')}/></TouchableOpacity>
+              <TouchableOpacity style={styles.buttonDelete} onPress={() => {setSelectedItem(item._id);setVisibleConfirmDelete(true)}}><Image style={{height: '100%' , width: '100%'}} source={require('../../assets/delete-icon.png')}/></TouchableOpacity>
             </View>
             
           )}
