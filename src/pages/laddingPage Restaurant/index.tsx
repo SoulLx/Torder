@@ -13,6 +13,7 @@ export function LaddingPageRestaurant({navigation}:{navigation:any}) {
     const[visibleRegister,setVisibleRegister]=useState(false)
     const[visibleLogin,setVisibleLogin]=useState(false)
     const [selectedFood, setSelectedFood] = useState('');
+    const[loginError,setLoginError] = useState(true);
     
     const [value,setValue] = useState({
         nomeFantasia: "",
@@ -41,15 +42,14 @@ export function LaddingPageRestaurant({navigation}:{navigation:any}) {
     let token = '';
     const postRegister = async ( ) =>{
 
-      await fetch('https://torder-api.vercel.app/api/cadastrar', {
+      const response = await fetch('https://torder-api.vercel.app/api/cadastrar', {
           method: 'POST', 
           headers: {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify(value)
-      }).then(response => response.json())
-        .then((data) => { token = data.token; console.log(data)});
-        
+      });
+      const json =response.json()
       if(token != null && token != undefined){
         const decoded = jwt_decode(token);
 
@@ -60,7 +60,7 @@ export function LaddingPageRestaurant({navigation}:{navigation:any}) {
     };
      
     const postLogin = async () => {
-      const data = await fetch('https://torder-api.vercel.app/api/login', {
+      await fetch('https://torder-api.vercel.app/api/login', {
         method: 'POST', 
         headers: {
           'Content-Type': 'application/json'
@@ -76,10 +76,14 @@ export function LaddingPageRestaurant({navigation}:{navigation:any}) {
               AsyncStorage.setItem("restauranteId", decoded.idRestaurante);
               navigation.push('RestaurantIn');
             }
+          }else{
+            setLoginError(false);
           }
         }catch(err){
-          console.log(err)}})
+          console.log(err)}
+        })    
     }
+
     return (
       
     <View style={styles.container}>
@@ -146,7 +150,7 @@ export function LaddingPageRestaurant({navigation}:{navigation:any}) {
             <Text style={styles.registertext}>
                 Telefone da Loja
             </Text>
-            
+
             <TextInput 
             style={styles.box} 
             onChangeText={(text) => setValue({ ...value, telefones:{telefone1:text} })}
@@ -268,10 +272,12 @@ export function LaddingPageRestaurant({navigation}:{navigation:any}) {
               value={loginValue.senha}
               ></TextInput>
            </View>
+
+           {loginError? <Text></Text>: <Text>Usuário ou senha incorreta</Text>}
           
           <TouchableOpacity 
           style={styles.registrar} 
-          onPress={() => {setVisibleLogin(false);postLogin()}}
+          onPress={() => {postLogin()}}
           >
               
               <Text 

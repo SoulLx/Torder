@@ -2,38 +2,46 @@ import { StyleSheet,StatusBar,Platform } from 'react-native';
 
 const styles = StyleSheet.create({
     container: {
-        paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-        padding:10,
-        alignItems: 'flex-start',
-        justifyContent:'space-between',
-        backgroundColor: 'white' ,
-        flex:1,
+        flex: 1, 
+        alignItems: "center",
+        justifyContent: 'center',
+        backgroundColor: 'white',
     },
 
-    view1: {
-        marginTop: 30,
-        height: "10%",        
+    containerView: {
+        alignItems: "flex-start",
+        justifyContent: "center",    
         width: '100%',
+        height: '100%',
+        padding: 10,
+        marginTop: 30,
+      },
+
+    view1: {       
+        height: "10%",        
+        width: '100%',        
+        justifyContent:'space-between',
+        marginBottom: 90,
     },
+
+    
 
     view2: {
-        alignItems: 'center',
         width: "100%",
+        marginBottom: 70,        
     },
 
     view3: {
-        width: "100%",        
-    },
-
-    view4: {
         width: '100%',
-        height: 60,
+        height: 60,          
     },
 
     viewPicker: {       
         borderWidth: 1,        
         borderRadius: 10,
         borderColor: '#ababab',
+        width: '100%',
+        marginTop: 30,
     },
 
     txtItem: {
@@ -42,6 +50,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         marginVertical:10,
         borderColor: '#ababab',
+        width: '100%',
     },
 
     txtPrice: {
@@ -51,6 +60,7 @@ const styles = StyleSheet.create({
         marginVertical:10,
         borderColor: '#ababab',
         width: '50%',
+        
     },
 
     lblAddButton: {
@@ -65,7 +75,7 @@ const styles = StyleSheet.create({
 
     lblTitle: {
         fontSize: 18,
-        marginTop: 25,
+        marginBottom: 50,        
     },
 
     btnAddImage: {
@@ -79,15 +89,16 @@ const styles = StyleSheet.create({
     },
 
     categoryPicker: {             
-        marginVertical: 30,        
+        marginVertical: 22,        
     },
 
     addButton: {
         backgroundColor: '#DB2525',
         width: '100%',
-        height: '100%',
+        height: 60,
         alignItems: 'center',        
         justifyContent: 'center',
+        marginTop: 90,
     },
 
 })
