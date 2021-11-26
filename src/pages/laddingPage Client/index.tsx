@@ -247,7 +247,10 @@ export function LaddingPageClient({navigation}:{navigation:any}) {
       style={styles.parceiroTouch}
       onPress={()=>{navigation.push('LaddingPageRestaurant')}}
       >
-      <Text style={{fontSize:16,color:'black'}}>
+      <Text style={{
+        fontSize:16,color:'black',
+        elevation: 20,
+        shadowColor: '#52006A',}}>
       Parceiro?
       </Text>
       </TouchableOpacity>

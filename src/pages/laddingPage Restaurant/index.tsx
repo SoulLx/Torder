@@ -314,7 +314,10 @@ export function LaddingPageRestaurant({navigation}:{navigation:any}) {
       style={styles.clienteTouch}
       onPress={()=>{navigation.push('LaddingPageClient')}}
       >
-      <Text style={{fontSize:16,color:'black'}}>
+      <Text style={{
+        fontSize:16,color:'black',
+        elevation: 20,
+        shadowColor: '#52006A',}}>
       Cliente?
       </Text>
       </TouchableOpacity>

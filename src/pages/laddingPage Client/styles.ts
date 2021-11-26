@@ -16,7 +16,11 @@ const styles=StyleSheet.create({
         height:200,
     },
     loginButton:{
-        marginTop:"80%",
+        marginTop:"50%",
+        backgroundColor:'rgba(255, 255, 255, 0.8)',
+        paddingVertical:'15%',
+        borderRadius:20,
+        marginHorizontal:"10%",
         
     },
     parceiroTouch:{
@@ -27,26 +31,29 @@ const styles=StyleSheet.create({
         paddingVertical:'1%',
         borderRadius:20,
         marginRight:'30%',
-        marginLeft:'25%',
+        marginLeft:'26%',
     },
     entrarButton:{
-        borderWidth: 1,
-        borderColor:'black',
         paddingVertical:"3%",
         paddingHorizontal:'26%',
         borderRadius:8,
         marginBottom:"10%",
         backgroundColor:'white',
         marginRight:'20%',
-        marginLeft:'15%',
+        marginLeft:'16%',
+        elevation: 20,
+        shadowColor: '#52006A',
+        
     },
     registrarButtonLadding:{
         backgroundColor:'black',
         paddingVertical:"3%",
-        paddingHorizontal:'25%',
+        paddingHorizontal:'23%',
         borderRadius:8,
         marginRight:'20%',
-        marginLeft:'15%',
+        marginLeft:'16%',
+        elevation: 20,
+        shadowColor: '#52006A',
     },
     entrar:{
         color:'black',
