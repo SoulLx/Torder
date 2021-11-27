@@ -10,12 +10,15 @@ const styles=StyleSheet.create({
     },
     button:{
         backgroundColor:'black',
-        paddingHorizontal:'42.4%',
-        paddingVertical:'5%',
+        width: '100%',
+        height: 75,
         marginBottom:'0%',
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     confirm:{
         color:'white',
+        fontSize: 17,
     },
     textInput:{
           
