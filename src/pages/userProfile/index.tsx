@@ -42,7 +42,7 @@ export function UserProfile() {
       <View style={styles.foto}>
       <Text >Seja Bem Vindo: </Text>
       <FlatList
-        style={{marginTop:'0%',marginLeft:'5%'}}
+        style={{marginTop:'-0.9%',marginLeft:'5%'}}
         data={data}
         keyExtractor={({_id }, index) => _id}
         renderItem={({ item }) => ( 
@@ -50,23 +50,31 @@ export function UserProfile() {
           )}
         />
         </View>
+        <View style={styles.linha1}>
+
+        </View>
       <TouchableOpacity 
-      style={styles.config}
+      style={styles.config1}
       onPress={() => navigation.push('UserSettings')}
       >
         <Text style={styles.perfiltexto}>
             Configuração
         </Text>
       </TouchableOpacity>
-
+        <View style={styles.linha2}>
+          
+        </View>
       <TouchableOpacity 
-      style={styles.config}
+      style={styles.config2}
       onPress={() => navigation.replace('LaddingPageClient')}
       >
         <Text style={styles.perfiltexto}>
             Sair
         </Text>
       </TouchableOpacity>
+      <View style={styles.linha3}>
+          
+        </View>
       <BottomBar/>
     </SafeAreaView>
   )

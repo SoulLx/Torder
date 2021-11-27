@@ -36,13 +36,24 @@ const styles=StyleSheet.create({
     marginTop:"1%",
     marginLeft:"0%",
     fontSize:16,
-    fontWeight:'bold',
+    color:'red',
     },
-    config:{
+    config1:{
     alignSelf: "flex-start",
-    marginTop:"-70%",
+    marginTop:"0%",
+    marginBottom:'-20%',
+    paddingTop:'0%',
     marginLeft:'5%',
+    
     },
+    config2:{
+        alignSelf: "flex-start",
+        marginTop:"-50%",
+        marginBottom:'0%',
+        paddingTop:'0%',
+        marginLeft:'5%',
+        
+        },
     perfiltexto:{
     fontSize:16,
     fontWeight:'bold',
@@ -55,7 +66,33 @@ const styles=StyleSheet.create({
     flexWrap: "wrap",
     flexDirection: "row",
 
-    }
+    },
+    linha1:{
+        backgroundColor:'black',
+        paddingHorizontal:'50%',
+        opacity:0.2,
+        paddingTop:'0.5%',
+        marginTop:'-50%',
+        marginBottom:'-30%',
+    },
+    linha2:{
+        backgroundColor:'black',
+        paddingHorizontal:'50%',
+        opacity:0.2,
+        paddingTop:'0.5%',
+        marginTop:'-30%',
+        marginBottom:'0%',
+    },
+    linha3:{
+        backgroundColor:'black',
+        paddingHorizontal:'50%',
+        opacity:0.2,
+        paddingTop:'0.5%',
+        marginTop:'-50%',
+        marginBottom:'0%',
+    },
+    
+
 });
 
 export default styles;
