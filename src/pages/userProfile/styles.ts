@@ -36,13 +36,15 @@ const styles=StyleSheet.create({
     marginTop:"1%",
     marginLeft:"0%",
     fontSize:16,
-    color:'red',
+    color:'black',
+    fontWeight:'bold',
     },
     config1:{
     alignSelf: "flex-start",
     marginTop:"0%",
     marginBottom:'-20%',
-    paddingTop:'0%',
+    paddingVertical:'5%',
+    paddingRight:'70%',
     marginLeft:'5%',
     
     },
@@ -52,6 +54,8 @@ const styles=StyleSheet.create({
         marginBottom:'0%',
         paddingTop:'0%',
         marginLeft:'5%',
+        paddingVertical:'5%',
+    paddingRight:'70%',
         
         },
     perfiltexto:{
@@ -80,7 +84,7 @@ const styles=StyleSheet.create({
         paddingHorizontal:'50%',
         opacity:0.2,
         paddingTop:'0.5%',
-        marginTop:'-30%',
+        marginTop:'-35%',
         marginBottom:'0%',
     },
     linha3:{
@@ -88,7 +92,7 @@ const styles=StyleSheet.create({
         paddingHorizontal:'50%',
         opacity:0.2,
         paddingTop:'0.5%',
-        marginTop:'-50%',
+        marginTop:'-55%',
         marginBottom:'0%',
     },
     
