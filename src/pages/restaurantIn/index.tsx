@@ -27,7 +27,7 @@ export function RestaurantIn({navigation}:{navigation:any}) {
      
     setData(json);
     json.restaurante.map(data=>{setOpenClosed(data.estaAberto)})
-
+console.log(data)
     } catch (error) {
       console.error(error);
     } finally {
@@ -142,18 +142,19 @@ export function RestaurantIn({navigation}:{navigation:any}) {
           </Text>
       </TouchableOpacity>
 
-      <TouchableOpacity 
-      style={styles.config}
-      onPress={() => navigation.replace('LaddingPageRestaurant')}
-      >
-        <Text style={styles.perfiltexto}>
-            Sair
-        </Text>
-      </TouchableOpacity>
+      
     </View>
 
     <View style={{marginTop:'-65%',paddingHorizontal:'50%', backgroundColor:'grey', paddingTop:'1%'}}>
     </View>
+    <TouchableOpacity 
+      style={styles.sair}
+      onPress={() => navigation.replace('LaddingPageRestaurant')}
+      >
+        <Text style={styles.sairTexto}>
+            Sair
+        </Text>
+      </TouchableOpacity>
     <BottomBarRestaurant/>
     </SafeAreaView>
   )

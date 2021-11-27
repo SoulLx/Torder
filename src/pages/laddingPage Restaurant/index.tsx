@@ -278,7 +278,7 @@ export function LaddingPageRestaurant({navigation}:{navigation:any}) {
            {loginError? <Text></Text>: <Text>Usuário ou senha incorreta</Text>}
           
           <TouchableOpacity 
-          style={styles.registrar} 
+          style={styles.entrarEntra} 
           onPress={() => {postLogin()}}
           >
               

@@ -78,6 +78,10 @@ const styles=StyleSheet.create({
     fontSize:14,
     fontWeight:'bold',
     },
+    sair:{
+        marginTop:'-40%',
+        marginBottom:'-70%',
+    },
     config:{
     alignSelf:"center",
     
@@ -103,6 +107,11 @@ const styles=StyleSheet.create({
     
     marginBottom:'5%',
     },
+    sairTexto:{
+        fontSize:16,
+        color:'red',
+        marginBottom:'5%',
+        },
     foto:{
     marginLeft:20,
     alignSelf: "flex-start",

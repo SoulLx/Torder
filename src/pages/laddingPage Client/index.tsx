@@ -210,7 +210,7 @@ export function LaddingPageClient({navigation}:{navigation:any}) {
            </View>
 
           <TouchableOpacity 
-          style={styles.registrar} 
+          style={styles.entrarEntra} 
           onPress={() => {{postLogin()}}}
           >
               

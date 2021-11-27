@@ -28,6 +28,7 @@ const styles=StyleSheet.create({
     },
     modalTitle:{
         alignItems:'center',
+        marginLeft:'-5%',
     },
     logoView:{
     marginTop:150,
@@ -115,7 +116,7 @@ const styles=StyleSheet.create({
     backtouch:{
         alignSelf: "flex-start",
         paddingBottom:"5%",
-        marginTop: '10%',
+        marginTop: '5%',
         
     },
     
@@ -124,6 +125,14 @@ const styles=StyleSheet.create({
         borderRadius:3,
         backgroundColor:"black",
         marginTop: '10%',
+        paddingTop:"5%",
+        paddingHorizontal:"40%",
+    },
+    entrarEntra:{
+        alignSelf: "center",
+        borderRadius:3,
+        backgroundColor:"black",
+        marginTop: '-5%',
         paddingTop:"5%",
         paddingHorizontal:"40%",
     },

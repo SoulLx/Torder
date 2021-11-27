@@ -94,6 +94,8 @@ const styles=StyleSheet.create({
     },
     modalTitle:{
         alignItems:'center',
+        marginLeft:'-5%',
+        marginTop:'-5%',
     },
     backtouch:{
         alignSelf: "flex-start",
@@ -101,7 +103,14 @@ const styles=StyleSheet.create({
         marginTop: '5%',
         
     },
-    
+    entrarEntra:{
+        alignSelf: "center",
+        borderRadius:3,
+        backgroundColor:"black",
+        marginTop: '5%',
+        paddingTop:"5%",
+        paddingHorizontal:"40%",
+    },
     registrar:{
         alignSelf: "center",
         borderRadius:3,
