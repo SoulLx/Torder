@@ -61,9 +61,9 @@ const getRestaurant = async () => {
 
 const openClosed = (bool) => {
   if(bool)
-    return <Text style={styles.lblStatus}>Aberto</Text>
+    return <Text style={styles.lblStatusOpen}>Aberto</Text>
   else
-    return <Text style={styles.lblStatus}>Fechado</Text>
+    return <Text style={styles.lblStatusClosed}>Fechado</Text>
 }
 
 useEffect(() => {
@@ -172,34 +172,33 @@ useEffect(() => {
         </TouchableOpacity>
 
             
-          <View style={styles.view2}>
-        <FlatList
-          data={dataRestaurant}
-          keyExtractor={({_id }, index) => _id}
-          renderItem={({ item }) => (
-            <View>
-              <Text>{item.nomeFantasia}</Text>
-              <Text>
-                {openClosed(item.estaAberto)}
-              </Text>
-              <Text>
-                {item.especialidade}
-              </Text>
+        <View style={styles.view2}>
+          <FlatList
+            data={dataRestaurant}
+            keyExtractor={({_id }, index) => _id}
+            renderItem={({ item }) => (
+              <View>
+                <Text style={{fontSize: 22}}>{item.nomeFantasia}</Text>
+                
+                <Text style={{fontSize: 19}}>
+                  {item.especialidade}
+                </Text>
 
-              <Text>
-                {item.endereco.endereco}, 
-                {item.endereco.complemento},
-                {item.endereco.numero},
-              </Text>
-            </View>
-          )}
-        />
-            <View style={styles.view3}>
-            </View>                              
-          </View>          
-          <View style={styles.lblAdress}>            
-            <Text>{}</Text>         
-          </View>
+                <Text>
+                  {item.endereco.endereco}, {item.endereco.complemento}, {item.endereco.numero}
+                </Text>
+                <Text style={{marginTop: 20,
+                              width:'100%',
+                              textAlign: 'center',
+                }}>
+                  {openClosed(item.estaAberto)}
+                </Text>
+              </View>
+            )}
+          />
+                                        
+        </View>          
+          
                            
       </View>          
 
