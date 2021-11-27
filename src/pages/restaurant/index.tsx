@@ -200,10 +200,7 @@ useEffect(() => {
           <View style={styles.lblAdress}>            
             <Text>{}</Text>         
           </View>
-
-          <View style={styles.viewStatus}>
-            <Text style={styles.lblStatus}>Aberto</Text>
-          </View>                               
+                           
       </View>          
 
       <View style={styles.viewContent}>
