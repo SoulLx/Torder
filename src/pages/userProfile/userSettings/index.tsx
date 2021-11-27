@@ -159,6 +159,7 @@ export function UserSettings() {
             
             <TextInput 
              style={styles.textInput}
+             secureTextEntry={true}
              onChangeText={(text) => setValue({ ...value, senha: text })}
              value={value.senha}
             >

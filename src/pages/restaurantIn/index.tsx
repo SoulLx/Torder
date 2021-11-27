@@ -107,7 +107,7 @@ export function RestaurantIn({navigation}:{navigation:any}) {
           }
           else{
               setOpenClosed(false)
-              setStatusAbertura(true);
+              setStatusAbertura(false);
           }
         }}
         >
@@ -151,7 +151,7 @@ export function RestaurantIn({navigation}:{navigation:any}) {
         </Text>
       </TouchableOpacity>
     </View>
-    
+
     <View style={{marginTop:'-65%',paddingHorizontal:'50%', backgroundColor:'grey', paddingTop:'1%'}}>
     </View>
     <BottomBarRestaurant/>

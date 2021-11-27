@@ -4,6 +4,7 @@ const styles=StyleSheet.create({
     container:{
         backgroundColor: "white",
         paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+        padding:10,
         flex:1,
         alignItems:'center',
         justifyContent:'space-between'
@@ -16,9 +17,7 @@ const styles=StyleSheet.create({
     },
 
     view2: {
-        width: '100%',
-        flexDirection: 'row',
-        alignItems: 'center', 
+        width: '100%',         
         padding: 20,     
     },
 
@@ -48,8 +47,14 @@ const styles=StyleSheet.create({
         justifyContent: 'center',
     },
     
-    lblStatus: {
+    lblStatusOpen: {
         color: 'green',
+        fontSize: 24,
+        fontWeight: 'bold',
+    },
+
+    lblStatusClosed: {
+        color: 'red',
         fontSize: 24,
         fontWeight: 'bold',
     },
@@ -60,7 +65,8 @@ const styles=StyleSheet.create({
     
     viewContent: {
         justifyContent: 'flex-start',
-        alignItems: 'center',
+        //alignItems: 'center',
+        padding: 20,
         width: '100%', 
         height: '50%',
         
@@ -83,17 +89,16 @@ const styles=StyleSheet.create({
     },
 
     viewButtonReservar: {
-        width: '100%',
-        paddingTop: "10%",
-        paddingBottom:'0%',
-        marginTop:'-15%',
+        width: '100%',                        
+        marginBottom: 0,
+        height: 60,        
     },
 
     buttonReservar: {
         backgroundColor: 'red',
-        alignItems: 'center',
-        height: "30%",   
-        justifyContent: 'center',     
+        alignItems: 'center',           
+        justifyContent: 'center',   
+        height: '100%'  ,
     },
 
     modalView: {
