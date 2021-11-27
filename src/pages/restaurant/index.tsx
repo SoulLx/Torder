@@ -14,7 +14,8 @@ export function Restaurant({navigation}:{navigation:any}) {
   const [selectedDate, setSelectedDate] = useState([]);
   const [chair, setChair] = useState(['1','2','3','4','5','6','7','8','9','10']);
   const [selectedChair, setSelectedChair] = useState([]);
-  const [restaurant, setRestaurant] = useState([])
+  const [dataTotalTable, setDataTotalTable] = useState([])
+  const [dataAvailableTable, setDataAvailableTable] = useState([])
   const [isLoading, setLoading] = useState(true);
   const [valueBook, setValueBook] = useState([]);
   const [dataRestaurant,setDataRestaurant] = useState([]);
@@ -36,6 +37,49 @@ export function Restaurant({navigation}:{navigation:any}) {
 
 };
 
+const getTotalTable = async () => {
+  try {
+    const restaurantId = await AsyncStorage.getItem('selectedRestaurantId');
+    const token = await AsyncStorage.getItem('token');
+
+   const response = await fetch('https://torder-api.vercel.app/api/mesa/totalMesas?restauranteId='+restaurantId, {
+     method: 'GET', 
+     headers: {
+       'Content-Type': 'application/json',
+       'Authorization': 'Bearer '+ token
+     },
+ })    
+
+ const json = await response.json();
+ setDataTotalTable(json.totalMesas);
+ } catch (error) {
+   console.error(error);
+ } finally {
+   setLoading(false);
+ }
+}
+
+const getAvailableTable = async () => {
+  try {
+    const restaurantId = await AsyncStorage.getItem('selectedRestaurantId');
+    const token = await AsyncStorage.getItem('token');
+
+   const response = await fetch('https://torder-api.vercel.app/api/mesa/mesasDisponiveis?restauranteId='+ restaurantId, {
+     method: 'GET', 
+     headers: {
+       'Content-Type': 'application/json',
+       'Authorization': 'Bearer '+ token
+     },
+ })    
+
+ const json = await response.json();
+ setDataAvailableTable(json.totalMesas);
+ } catch (error) {
+   console.error(error);
+ } finally {
+   setLoading(false);
+ }
+}
 
 const getRestaurant = async () => {
   try {
@@ -68,6 +112,8 @@ const openClosed = (bool) => {
 
 useEffect(() => {
   getRestaurant();
+  getTotalTable();
+  getAvailableTable();
 }, []);
 
   return (
@@ -202,16 +248,13 @@ useEffect(() => {
                            
       </View>          
 
-      <View style={styles.viewContent}>
-        
-          <Text style={styles.lblInfoTitle}>Horário de Funcionamento</Text>
-          <Text style={styles.lblInfo}>7:00 - 22:00</Text>
+      <View style={styles.viewContent}>                  
                    
           <Text style={styles.lblInfoTitle}>Total de Mesas da Casa</Text>
-          <Text style={styles.lblInfo}>25</Text>
+          <Text style={styles.lblInfo}>{dataTotalTable}</Text>
                 
           <Text style={styles.lblInfoTitle}>Mesas Disponíveis</Text>
-          <Text style={styles.lblInfo}>10</Text>
+          <Text style={styles.lblInfo}>{dataAvailableTable}</Text>
         
       </View>          
       
