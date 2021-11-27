@@ -20,7 +20,7 @@ const styles=StyleSheet.create({
         backgroundColor:'rgba(255, 255, 255, 0.8)',
         paddingVertical:'15%',
         borderRadius:20,
-        marginHorizontal:"10%",
+        marginHorizontal:"15%",
         
     },
     parceiroTouch:{
@@ -35,12 +35,12 @@ const styles=StyleSheet.create({
     },
     entrarButton:{
         paddingVertical:"3%",
-        paddingHorizontal:'26%',
+        paddingLeft:'25%',
         borderRadius:8,
         marginBottom:"10%",
         backgroundColor:'white',
         marginRight:'20%',
-        marginLeft:'16%',
+        marginLeft:'15%',
         elevation: 20,
         shadowColor: '#52006A',
         
@@ -48,10 +48,10 @@ const styles=StyleSheet.create({
     registrarButtonLadding:{
         backgroundColor:'black',
         paddingVertical:"3%",
-        paddingHorizontal:'23%',
+        paddingLeft:'23%',
         borderRadius:8,
         marginRight:'20%',
-        marginLeft:'16%',
+        marginLeft:'15%',
         elevation: 20,
         shadowColor: '#52006A',
     },
