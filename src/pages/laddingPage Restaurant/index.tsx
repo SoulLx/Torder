@@ -42,21 +42,24 @@ export function LaddingPageRestaurant({ navigation }: { navigation: any }) {
 
   let token = '';
   const postRegister = async () => {
-
-    const response = await fetch('https://torder-api.vercel.app/api/cadastrar', {
+    
+    await fetch('https://torder-api.vercel.app/api/cadastrar', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(value)
-    });
-    const json = response.json()
+    }).then(response => response.json())
+    .then((data) => { token = data.token;});
+
+    console.log(token)
     if (token != null && token != undefined) {
       const decoded = jwt_decode(token);
 
       AsyncStorage.setItem("token", token);
       AsyncStorage.setItem("restauranteId", decoded.idRestaurante);
-      navigation.push('RestaurantIn');
+      AsyncStorage.setItem("usuarioId", decoded.idUsuario);
+      navigation.replace('RestaurantIn');
     }
   };
 
@@ -69,13 +72,13 @@ export function LaddingPageRestaurant({ navigation }: { navigation: any }) {
       body: JSON.stringify(loginValue)
     }).then(response => response.json()).then(data => {
       try {
-        console.log(data);
         if (data.token != null && data.token != undefined) {
           const decoded = jwt_decode(data.token);
           if (decoded.idRestaurante != null && decoded.idRestaurante != undefined) {
             AsyncStorage.setItem("token", data.token);
             AsyncStorage.setItem("restauranteId", decoded.idRestaurante);
-            navigation.push('RestaurantIn');
+            AsyncStorage.setItem("usuarioId", decoded.idUsuario);
+            navigation.replace('RestaurantIn');
           }
         } else {
           setLoginError(false);

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState,useEffect} from 'react';
 import { Text, SafeAreaView, View } from 'react-native';
 import { ArrowLeft, ChevronLeft } from 'react-native-feather';
 import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
@@ -7,17 +7,11 @@ import styles from './styles';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-
-
-
-
-
 export default function EditTable({navigation}:{navigation:any}) {
 
     const [value, setValue] = useState({
         nome: "",
-        quantidadeCadeiras: "",
-        restaurante: ""        
+        quantidadeCadeiras: "",       
     });
 
     
@@ -27,31 +21,52 @@ export default function EditTable({navigation}:{navigation:any}) {
             const idMesa = await AsyncStorage.getItem('mesaId');
             const token = await AsyncStorage.getItem('token');            
 
-            const item = {
-                nome: value.nome,
-                quantidadeCadeiras: value.quantidadeCadeiras
-            }
-
             const response = await fetch("https://torder-api.vercel.app/api/mesa/" + idMesa, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + token
                 },
-                body: JSON.stringify(item)
+                body: JSON.stringify(value)
             });
 
-            console.log(idMesa)
+            (idMesa)
             navigation.replace('Table');
             const json = await response.json();
-            console.log(json)
+            (json)
         } catch (error) {
             console.log("error " + error)
         }
 
     };
 
+    const getTable = async () => {
+        try {
+            const token = await AsyncStorage.getItem('token');
+            const idMesa = await AsyncStorage.getItem('mesaId');
+            const response = await fetch("https://torder-api.vercel.app/api/mesa/" + idMesa, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+            });
 
+            
+        const json = await response.json();
+        json.mesa.map(data => {
+            setValue({
+                nome: data.nome,
+                quantidadeCadeiras: data.quantidadeCadeiras, 
+            })
+            (value)
+        })
+            
+        } catch (error) {
+            console.log("error " + error)
+        }
+
+    };
 
     function replace() {
         navigation.replace(
@@ -61,7 +76,13 @@ export default function EditTable({navigation}:{navigation:any}) {
           Math.random().toString() 
         )
       }
+    
+    
+    useEffect(() => {
+        getTable();
+    }, []);
 
+      
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.topView}>
@@ -86,7 +107,7 @@ export default function EditTable({navigation}:{navigation:any}) {
                     style={styles.nameTable}
                     keyboardType="numeric"
                     onChangeText={(text) => setValue({...value, quantidadeCadeiras: text})}
-                    value={value.quantidadeCadeiras}
+                    value={String(value.quantidadeCadeiras)}
                     ></TextInput>
             </View>
             

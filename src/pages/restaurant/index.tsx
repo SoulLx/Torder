@@ -31,8 +31,6 @@ export function Restaurant({navigation}:{navigation:any}) {
     });
 
     const json = await response.json();
-    console.log(json);
-
 };
 
 const getTotalTable = async () => {
@@ -117,8 +115,6 @@ const getTable = async () => {
    const json = await response.json();
      
    setTable(json.mesa); 
-
-   console.log(json);
  } catch (error) {
    console.error(error);
  } finally {

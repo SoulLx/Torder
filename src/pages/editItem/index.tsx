@@ -50,10 +50,7 @@ export default function EditItem() {
                 body: JSON.stringify(item)
             });
 
-            console.log(idProduto)
             navigation.replace('Book');
-            const json = await response.json();
-            console.log(json)
         } catch (error) {
             console.log("error " + error)
         }
@@ -72,7 +69,6 @@ export default function EditItem() {
                 },
             });
             const json = await response.json();
-            console.log(idProduto)
 
             json.produtos.map(produto => {
                 setData(produto);
@@ -139,9 +135,6 @@ export default function EditItem() {
         getCategory();
         getProduto();
     }, []);
-
-    console.log(selectedCategory)
-
 
     return (
         <KeyboardAvoidingView

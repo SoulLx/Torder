@@ -23,6 +23,7 @@ export default function AddItem() {
 
     const postItem = async () => {
         try {
+            console.log('item édi')
             const token = await AsyncStorage.getItem('token');
             const idRestaurante = await AsyncStorage.getItem('restauranteId');       
 
@@ -42,10 +43,9 @@ export default function AddItem() {
                 },
                 body: JSON.stringify(item)
             });
-
+            const json = await response.json();
+             
             navigation.replace('Book');
-            console.log("a")
-            const json = await response.json();           
         } catch (error) {            
             console.log("error "+ error)
         }
@@ -76,10 +76,7 @@ export default function AddItem() {
     useEffect(() => {
         getCategory();
     }, []);
-
-    console.log(selectedCategory)
-               
-
+    
     return (
         <KeyboardAvoidingView
             behavior="padding"

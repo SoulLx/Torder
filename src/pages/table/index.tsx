@@ -13,7 +13,7 @@ export function Table({ navigation }: { navigation: any }) {
   const [visibleConfirmDelete, setVisibleConfirmDelete] = useState(false);
   const [mesaSelecionada, setMesaSelecionada] = useState([]);
 
-  AsyncStorage.setItem("mesaId",mesaSelecionada)
+  AsyncStorage.setItem("mesaId",String(mesaSelecionada))
 
   const getTable = async () => {
     try {
@@ -31,8 +31,6 @@ export function Table({ navigation }: { navigation: any }) {
       const json = await response.json();
 
       setTable(json.mesa);
-
-      console.log(json);
     } catch (error) {
       console.error(error);
     } finally {
@@ -53,12 +51,10 @@ export function Table({ navigation }: { navigation: any }) {
         body: JSON.stringify(table)
       });
       const json = await response.json();
-      /*json.mesa.map(data => console.log(data));      */
+      /*json.mesa.map(data => (data));      */
 
       replace()
-      console.log(mesaId);
-
-
+      
       ToastAndroid.show("Mesa excluida com sucesso", ToastAndroid.SHORT);
 
 

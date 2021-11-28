@@ -30,7 +30,6 @@ export function LaddingPageClient({ navigation }: { navigation: any }) {
 
   let token = '';
   const postRegister = async () => {
-    console.log(value);
     await fetch('https://torder-api.vercel.app/api/cadastrar', {
       method: 'POST',
       headers: {
@@ -38,7 +37,7 @@ export function LaddingPageClient({ navigation }: { navigation: any }) {
       },
       body: JSON.stringify(value)
     }).then(response => response.json())
-      .then((data) => { token = data.token; console.log(data) });
+      .then((data) => { token = data.token;});
 
     if (token != null && token != undefined) {
       const decoded = jwt_decode(token);

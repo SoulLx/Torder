@@ -21,28 +21,6 @@ export function Book({ navigation }: { navigation: any }) {
   const idProduto = JSON.stringify(selectedItem)
   AsyncStorage.setItem("produtoId",idProduto)
 
-  console.log(selectedItem)
-
-  const getItem = async () => {
-    try {
-      const token = await AsyncStorage.getItem('token');
-      const idRestaurante = await AsyncStorage.getItem("restauranteId")
-      const response = await fetch('https://torder-api.vercel.app/api/produto/obterProdutos/' + idRestaurante, {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer ' + token
-        },
-      })
-      const json = await response.json();
-      setData(json.produto);
-      console.log(json)
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
-  }
 
   const getCategory = async () => {
     try {
@@ -67,10 +45,66 @@ export function Book({ navigation }: { navigation: any }) {
 
 
   useEffect(() => {
-    getItem();
     getCategory();
   }, []);
 
+  function GetItensPerCategory(param){
+  try{
+    const [dataItem,setDataItem] = useState();
+    const fun = async (param) =>{
+      const token = await AsyncStorage.getItem('token');
+      const idRestaurante = await AsyncStorage.getItem("restauranteId")
+      const response = await fetch('https://torder-api.vercel.app/api/produto/obterProdutos/' +idRestaurante+'?categoria='+param.value, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+          },
+        })
+        const json = await response.json();
+        setDataItem(json.produto); 
+    }
+    fun(param)
+      return(
+        <FlatList
+              style={{ width: '100%', marginBottom: 20, alignSelf: 'center' }}
+              data={dataItem}              
+              keyExtractor={({ _id }, index) => _id}
+              renderItem={({ item }) => (
+                <View style={styles.viewItemListTable}>
+                  <View style={styles.viewInfoTable}>
+                    <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{item.nome}</Text>
+                    <Text>Preço: R${item.preco.toFixed(2)}</Text>
+                    <Text>Categoria: {item.categoria.nome}</Text>
+                  </View>
+                  <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '32%'}}>
+                  <TouchableOpacity style={styles.buttonDelete} onPress={() => {setSelectedItem(item._id); navigation.navigate('EditItem')}}>
+                    <Edit
+                      stroke="black"
+                      width="30"
+                      height="30"
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.buttonDelete} onPress={() => { setSelectedItem(item._id); setVisibleConfirmDelete(true) }}>
+                    <Trash2
+                      stroke="red"
+                      width="30"
+                      height="30"
+                    />
+                    
+                  </TouchableOpacity>
+                  </View>
+                </View>
+
+              )}
+            />
+      );
+    }catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   const postCategory = async () => {
     try {
@@ -83,7 +117,7 @@ export function Book({ navigation }: { navigation: any }) {
         restaurante: idRestaurante,
       }
 
-      const response = await fetch("https://torder-api.vercel.app/api/categoria", {
+      await fetch("https://torder-api.vercel.app/api/categoria", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -91,8 +125,9 @@ export function Book({ navigation }: { navigation: any }) {
         },
         body: JSON.stringify(item)
       });
-      const json = await response.json();
-      console.log(json);
+
+      setValueCategory('');
+      
 
       ToastAndroid.show("Categoria criada", ToastAndroid.SHORT);
 
@@ -155,48 +190,6 @@ export function Book({ navigation }: { navigation: any }) {
     )
   }
 
-  function TestarLista() { 
-    
-    if (category._id == data.categoria) {
-      return (
-        <FlatList
-              style={{ width: '100%', marginBottom: 20, alignSelf: 'center' }}
-              data={data}              
-              keyExtractor={({ _id }, index) => _id}
-              renderItem={({ item }) => (
-                <View style={styles.viewItemListTable}>
-                  <View style={styles.viewInfoTable}>
-                    <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{item.nome}</Text>
-                    <Text>Preço: R${item.preco.toFixed(2)}</Text>
-                    <Text>Categoria: {item.categoria.nome}</Text>
-                  </View>
-                  <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '32%'}}>
-                  <TouchableOpacity style={styles.buttonDelete} onPress={() => {setSelectedItem(item._id); navigation.navigate('EditItem')}}>
-                    <Edit
-                      stroke="black"
-                      width="30"
-                      height="30"
-                    />
-                  </TouchableOpacity>
-                  <TouchableOpacity style={styles.buttonDelete} onPress={() => { setSelectedItem(item._id); setVisibleConfirmDelete(true) }}>
-                    <Trash2
-                      stroke="red"
-                      width="30"
-                      height="30"
-                    />
-                    
-                  </TouchableOpacity>
-                  </View>
-                </View>
-
-              )}
-            />
-      )
-    } else {
-      return
-    }
-  }
-
   return (
     <SafeAreaView style={styles.container}>
 
@@ -245,7 +238,7 @@ export function Book({ navigation }: { navigation: any }) {
             value={valueCategory.nome}
 
           />
-          <TouchableOpacity style={styles.buttonCategory} onPress={() => { postCategory(); setVisibleCategory(false) }}>
+          <TouchableOpacity style={styles.buttonCategory} onPress={() => { postCategory(); setVisibleCategory(false); navigation.replace('Book') }}>
             <Text style={{ color: 'white' }}>Criar</Text>
           </TouchableOpacity>
         </View>
@@ -267,8 +260,6 @@ export function Book({ navigation }: { navigation: any }) {
         <Text style={styles.title}>Produtos</Text>
       </View>
 
-
-
       <FlatList
         style={{ width: '100%', alignSelf: 'center' }}
         data={category}
@@ -277,17 +268,10 @@ export function Book({ navigation }: { navigation: any }) {
         renderItem={({ item }) => (
           <View>
             <Text style={styles.categorias}>{item.nome}</Text>
-            <TestarLista/>
+            <GetItensPerCategory value={item._id}/>
           </View>
         )}
       />
-
-
-
-
-
-
-
       <View style={styles.viewButtonAddTable}>
         <TouchableOpacity style={styles.buttonAddCategory} onPress={() => setVisibleCategory(true)}>
           <Text style={{ fontWeight: 'bold', fontSize: 18, color: 'black' }}>Criar Categoria</Text>

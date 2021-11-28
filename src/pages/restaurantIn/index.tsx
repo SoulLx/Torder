@@ -24,10 +24,9 @@ export function RestaurantIn({navigation}:{navigation:any}) {
         },
     })    
     const json = await response.json();
-     
-    setData(json);
+    
+    setData(json.restaurante);
     json.restaurante.map(data=>{setOpenClosed(data.estaAberto)})
-console.log(data)
     } catch (error) {
       console.error(error);
     } finally {
@@ -39,7 +38,7 @@ console.log(data)
     const idRestaurante = await AsyncStorage.getItem('restauranteId');
     const token = await AsyncStorage.getItem('token');
     
-    const response = await fetch('https://torder-api.vercel.app/api/restaurante/statusAberto/'+idRestaurante+'?estaAberto='+status, {
+    await fetch('https://torder-api.vercel.app/api/restaurante/statusAberto/'+idRestaurante+'?estaAberto='+status, {
         method: 'PUT', 
         headers: {
           'Content-Type': 'application/json',
@@ -77,13 +76,15 @@ console.log(data)
     <View style={styles.foto}>
     
       <View style={styles.container}>
-        <FlatList
-          data={Object.keys(data)}
-          renderItem={({ item }) => 
-          <View>
-            <Text>{data[item].nomeFantasia}</Text>
-          </View>}
-        />
+      <FlatList
+            data={data}
+            keyExtractor={({_id }, index) => _id}
+            renderItem={({ item }) => (
+              <View>
+                <Text>{item.nomeFantasia}</Text>
+              </View>
+            )}
+          />
       </View>
 
       <TouchableOpacity 
