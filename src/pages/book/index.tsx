@@ -18,10 +18,6 @@ export function Book({ navigation }: { navigation: any }) {
     nome: "",
   })
 
-  const idProduto = JSON.stringify(selectedItem)
-  AsyncStorage.setItem("produtoId",idProduto)
-
-
   const getCategory = async () => {
     try {
         const token = await AsyncStorage.getItem('token');
@@ -78,7 +74,7 @@ export function Book({ navigation }: { navigation: any }) {
                     <Text>Categoria: {item.categoria.nome}</Text>
                   </View>
                   <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '32%'}}>
-                  <TouchableOpacity style={styles.buttonDelete} onPress={() => {setSelectedItem(item._id); navigation.navigate('EditItem')}}>
+                  <TouchableOpacity style={styles.buttonDelete} onPress={() => {AsyncStorage.setItem("produtoId",item._id); navigation.navigate('EditItem')}}>
                     <Edit
                       stroke="black"
                       width="30"

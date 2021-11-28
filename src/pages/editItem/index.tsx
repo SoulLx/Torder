@@ -57,59 +57,36 @@ export default function EditItem() {
 
     };
 
-    const getProduto = async () => {
+    const getItem = async () => {
         try {
-            const idProduto = await AsyncStorage.getItem('produtoId');
             const token = await AsyncStorage.getItem('token');
-            const response = await fetch('https://torder-api.vercel.app/api/produto/' + idProduto, {
+            const idproduto = await AsyncStorage.getItem('produtoId');
+            const response = await fetch("https://torder-api.vercel.app/api/produto/" + idproduto, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + token
                 },
             });
-            const json = await response.json();
 
-            json.produtos.map(produto => {
-                setData(produto);
-
-                setItem({
-                    nome: produto.nome,
-                    descricao: produto.descricao,
-                    preco: produto.preco,
-                    categoria: produto.categoria
-                });
-
-
-            });
-        } catch (error) {
-            console.error(error);
-        } finally {
-            setLoading(false);
-        }
-    }
-
-
-    /*const putItem = async (idProduto) => {
-        try {
-            const token = await AsyncStorage.getItem('token');
-
-            const response = await fetch('https://torder-api.vercel.app/api/produto/'+idProduto, {
-            method: 'PUT', 
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + token
-            },
+            
+        const json = await response.json();
+        console.log(idproduto);
+        json.produto.map(data => {
+            
+            setValueItem({
+                nome: data.nome,
+                preco: data.preco,
+                descricao: data.descricao,
+            })
         })
-            const json = await response.json();     
-            setCategory(json.categoria);
+            
         } catch (error) {
-            console.error(error);
-        } finally {
-            setLoading(false)
+            console.log("error " + error)
         }
-    }*/
 
+    };
+    
     const getCategory = async () => {
         try {
             const token = await AsyncStorage.getItem('token');
@@ -133,7 +110,7 @@ export default function EditItem() {
 
     useEffect(() => {
         getCategory();
-        getProduto();
+        getItem();
     }, []);
 
     return (
@@ -198,7 +175,7 @@ export default function EditItem() {
                     keyboardType="numeric"
                     onChangeText={(text) => {setValueItem({ ...valueItem, preco: text });
                                              setItem({...item, preco: text})}}
-                    value={valueItem.preco}
+                    value={String(valueItem.preco)}
                 />
 
 
