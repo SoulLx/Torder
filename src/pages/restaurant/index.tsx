@@ -11,6 +11,7 @@ export function Restaurant({navigation}:{navigation:any}) {
   const [visibleBooking,setVisibleBooking]=useState(false)
   const [visibleConfirm,setVisibleConfirm]=useState(false)
   const [table, setTable] = useState([]);
+  const [avalibleTables, setAvalibleTables] = useState([]);
   const [selectedTable, setSelectedTable] = useState([]);
   const [dataTotalTable, setDataTotalTable] = useState([])
   const [dataAvailableTable, setDataAvailableTable] = useState([])
@@ -19,18 +20,28 @@ export function Restaurant({navigation}:{navigation:any}) {
   const [dataRestaurant,setDataRestaurant] = useState([]);
  
   const postBook = async () => {
+    const clientId = await AsyncStorage.getItem('clienteId');
     const token = await AsyncStorage.getItem('token');
-    const clitentId = await AsyncStorage.getItem('clienteId');
+    const booking = { cliente: clientId, mesa: selectedTable};
     const response = await fetch("https://torder-api.vercel.app/api/reserva", {
         method: 'POST',
         headers: {
             'Content-Type':'application/json',
             'Authorization': 'Bearer ' + token
         },
-        body: JSON.stringify(valueBook)
+        body: JSON.stringify(booking)
     });
-
+    
     const json = await response.json();
+    const statusMesa = {status:'Reservada'};
+    await fetch("https://torder-api.vercel.app/api/mesa/"+json.reserva.mesa, {
+        method: 'PUT',
+        headers: {
+            'Content-Type':'application/json',
+            'Authorization': 'Bearer ' + token
+        },
+        body: JSON.stringify(statusMesa)
+    });
 };
 
 const getTotalTable = async () => {
@@ -55,12 +66,34 @@ const getTotalTable = async () => {
  }
 }
 
+const getAvailableTableData = async () => {
+  try {
+    const restaurantId = await AsyncStorage.getItem('selectedRestaurantId');
+    const token = await AsyncStorage.getItem('token');
+
+    const response = await fetch('https://torder-api.vercel.app/api/mesa/mesasDisponiveis?restauranteId='+ restaurantId, {
+     method: 'GET', 
+     headers: {
+       'Content-Type': 'application/json',
+       'Authorization': 'Bearer '+ token
+     }
+    })    
+
+    const json = await response.json();
+    setAvalibleTables(json.mesas);
+ } catch (error) {
+   console.error(error);
+ } finally {
+   setLoading(false);
+ }
+}
+
 const getAvailableTable = async () => {
   try {
     const restaurantId = await AsyncStorage.getItem('selectedRestaurantId');
     const token = await AsyncStorage.getItem('token');
 
-   const response = await fetch('https://torder-api.vercel.app/api/mesa/mesasDisponiveis?restauranteId='+ restaurantId, {
+   const response = await fetch('https://torder-api.vercel.app/api/mesa/totalMesasDisponiveis?restauranteId='+ restaurantId, {
      method: 'GET', 
      headers: {
        'Content-Type': 'application/json',
@@ -133,7 +166,6 @@ useEffect(() => {
   getRestaurant();
   getTotalTable();
   getAvailableTable();
-  getTable();
 }, []);
 
   return (
@@ -189,7 +221,7 @@ useEffect(() => {
           >
             <Picker.Item label={"Selecione uma mesa"} value={""}/>
             {
-                table.map((item, index) => {
+                avalibleTables.map((item, index) => {
                     return(
                         <Picker.Item label={item.nome} value={item._id} key={index}/>
                     )
@@ -215,7 +247,7 @@ useEffect(() => {
         <View style={styles.modalViewConfirm}>
             <Text style={{fontSize: 20}}>Deseja confirmar a reserva?</Text>
             <View style={styles.modalViewButtonConfirm}>
-              <TouchableOpacity style={styles.buttonYes} onPress={() => postBook()}>
+              <TouchableOpacity style={styles.buttonYes} onPress={() => {postBook();navigation.replace('Restaurant')}}>
                 <Text style={{color: 'white', fontSize: 17}}>Sim</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.buttonNo} onPress={() => setVisibleConfirm(false)}>
@@ -279,7 +311,7 @@ useEffect(() => {
       </View>          
       
       <View style={styles.viewButtonReservar}>
-        <TouchableOpacity style={styles.buttonReservar} onPress={() => {setVisibleBooking(true)}}>
+        <TouchableOpacity style={styles.buttonReservar} onPress={() => {setVisibleBooking(true);getAvailableTableData()}}>
           <Text style={{fontSize: 20, color: 'white'}}>Reservar Mesa</Text>
         </TouchableOpacity>
       </View>
