@@ -18,7 +18,8 @@ export function Book({ navigation }: { navigation: any }) {
     nome: "",
   })
 
-  AsyncStorage.setItem("produtoId",selectedItem)
+  const idProduto = JSON.stringify(selectedItem)
+  AsyncStorage.setItem("produtoId",idProduto)
 
   console.log(selectedItem)
 
