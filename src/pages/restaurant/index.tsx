@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Image, SafeAreaView, Text, View, FlatList, ActivityIndicator,TouchableOpacity} from 'react-native';
-import { ArrowLeft } from 'react-native-feather';
+import { ArrowLeft, ChevronLeft } from 'react-native-feather';
 import Modal from "react-native-modal";
 import styles from './styles'
 import {Picker} from '@react-native-picker/picker';
@@ -10,10 +10,8 @@ export function Restaurant({navigation}:{navigation:any}) {
 
   const [visibleBooking,setVisibleBooking]=useState(false)
   const [visibleConfirm,setVisibleConfirm]=useState(false)
-  const [date, setDate] = useState(['15:00','15:15','15:30','15:45','16:00']);
-  const [selectedDate, setSelectedDate] = useState([]);
-  const [chair, setChair] = useState(['1','2','3','4','5','6','7','8','9','10']);
-  const [selectedChair, setSelectedChair] = useState([]);
+  const [table, setTable] = useState([]);
+  const [selectedTable, setSelectedTable] = useState([]);
   const [dataTotalTable, setDataTotalTable] = useState([])
   const [dataAvailableTable, setDataAvailableTable] = useState([])
   const [isLoading, setLoading] = useState(true);
@@ -103,6 +101,31 @@ const getRestaurant = async () => {
  }
 }
 
+const getTable = async () => {
+  try {
+   const token = await AsyncStorage.getItem('token');
+   const idRestaurante = await AsyncStorage.getItem('selectedRestaurantId');
+   
+
+   const response = await fetch('https://torder-api.vercel.app/api/mesa/obterMesas/'+ idRestaurante, {
+     method: 'GET', 
+     headers: {
+       'Content-Type': 'application/json',
+       'Authorization': 'Bearer '+token
+     },
+ })
+   const json = await response.json();
+     
+   setTable(json.mesa); 
+
+   console.log(json);
+ } catch (error) {
+   console.error(error);
+ } finally {
+   setLoading(false);
+ }
+}
+
 const openClosed = (bool) => {
   if(bool)
     return <Text style={styles.lblStatusOpen}>Aberto</Text>
@@ -114,6 +137,7 @@ useEffect(() => {
   getRestaurant();
   getTotalTable();
   getAvailableTable();
+  getTable();
 }, []);
 
   return (
@@ -129,9 +153,9 @@ useEffect(() => {
       >
         <View style={styles.modalView}>
           <TouchableOpacity onPress={() => {setVisibleBooking(false)}}>
-            <ArrowLeft 
+            <ChevronLeft 
                 style={{marginBottom: 20} }
-                stroke="black" 
+                stroke="#DB2525" 
                 width="30"
                 height="30"
             />
@@ -140,42 +164,42 @@ useEffect(() => {
                         fontWeight: 'bold', 
                         marginBottom: 20,}}>
             Reserva
-          </Text>                            
-          
-          <Text style={styles.lblModal}>Hora</Text>
+          </Text>   
+
+          <Text style={styles.lblModal}>Horário</Text>
           <Picker
-            style={{
-              width: '100%',
-              height: 70,
-            }}  
-            selectedValue={selectedDate}
-            onValueChange={(itemValue) =>
-              setSelectedDate(itemValue)
-            }>
-            {
-              date.map(cr => {
-                return <Picker.Item label={cr} value={cr}/>
-                })
-              }
-          </Picker>
-          <Text style={styles.lblModal}>Mesa</Text>
-          <Picker     
             style={{
 
               width: '100%',
               height: 70,
-            }}               
-            selectedValue={selectedChair}
-            onValueChange={(itemValue) => setSelectedChair(itemValue)}
+            }}
+            enabled={false}
+            selectedValue={selectedTable}
+            onValueChange={(itemValue) => {setSelectedTable(itemValue);console.log(itemValue)}}
           >
-            {
-              chair.map(cr => {
-                return <Picker.Item label={cr} value={cr}/>
-              })
-            }
-          </Picker>
-      
+            <Picker.Item label={"16:00"} value={""}/>
             
+          </Picker>                         
+          
+          <Text style={styles.lblModal}>Mesa</Text>
+          
+          <Picker
+            style={{              
+              width: '100%',
+              height: 70,
+            }}
+            selectedValue={selectedTable}
+            onValueChange={(itemValue) => {setSelectedTable(itemValue);console.log(itemValue)}}
+          >
+            <Picker.Item label={"Selecione uma mesa"} value={""}/>
+            {
+                table.map((item, index) => {
+                    return(
+                        <Picker.Item label={item.nome} value={item._id} key={index}/>
+                    )
+                })
+            }
+          </Picker>                     
 
           <TouchableOpacity style={styles.buttonModalReservar} onPress={() => {setVisibleConfirm(true)}}>
             <Text style={{fontSize: 20, color: 'white'}}>Confirmar Reserva</Text>
@@ -210,8 +234,8 @@ useEffect(() => {
 
       <View style={styles.view1}>
         <TouchableOpacity onPress={()=> navigation.goBack()}>
-          <ArrowLeft
-              stroke="black" 
+          <ChevronLeft
+              stroke="#DB2525" 
               width="30"
               height="30" 
             />

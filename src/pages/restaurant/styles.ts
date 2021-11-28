@@ -95,7 +95,7 @@ const styles=StyleSheet.create({
     },
 
     buttonReservar: {
-        backgroundColor: 'red',
+        backgroundColor: '#DB2525',
         alignItems: 'center',           
         justifyContent: 'center',   
         height: '100%'  ,
@@ -110,7 +110,7 @@ const styles=StyleSheet.create({
     },
 
     buttonModalReservar: {
-        backgroundColor: 'red',
+        backgroundColor: '#DB2525',
         alignItems: 'center',
         height: 60,   
         justifyContent: 'center',  

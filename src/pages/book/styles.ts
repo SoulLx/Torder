@@ -3,45 +3,59 @@ import { StyleSheet,StatusBar,Platform } from 'react-native';
 const styles = StyleSheet.create({
     container: {
         paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-        padding:10,  
+        padding:0,  
         alignItems: 'flex-start',      
         justifyContent:'space-between',
         backgroundColor: 'white' ,
         flex:1,
     },
 
-    viewItemListTable: {
-        borderWidth: 1,
-        borderRadius: 15,
-        borderColor: "#bdbdbd",
-        padding: 20,
+    viewItemListTable: {                      
+        paddingVertical: 20,
         flexDirection: 'row',
         justifyContent: 'space-between',      
         alignItems: 'center',  
         marginBottom: 20,
+        borderTopWidth: 3,
+        paddingHorizontal: 25,
+        borderColor: '#e8e8e8'
     },
 
     viewInfoTable: {
-
+        
     },
 
     listTable: {
         width: '98%',
     },
 
-    buttonAddTable: {
-        backgroundColor: '#dcdcdc',
-        height: 50,
-        width: 350,        
+    buttonAddCategory: {       
+        height: 70,
+        width: "100%",        
         alignItems: 'center',
         justifyContent: 'center',
-        marginVertical: 7,
+        borderBottomWidth:5,
+        borderColor: '#e8e8e8',        
+        flexDirection: 'row',
+    },
+
+    buttonAddTable: {       
+        height: 70,
+        width: "100%",        
+        alignItems: 'center',
+        justifyContent: 'center',       
+       
+        flexDirection: 'row',
+        borderTopWidth: 5,
+        borderColor: '#e8e8e8',
     },
     
     title: {
         fontSize: 20,
         fontWeight: 'bold',
         marginVertical: 20,
+        width:'100%',
+        textAlign: 'center',       
     },
 
     buttonDelete: {
@@ -51,7 +65,7 @@ const styles = StyleSheet.create({
 
     viewButtonAddTable: {
         width: '100%',
-        alignItems: 'center',
+        alignItems: 'center',       
     },
 
     viewModalCategory: {
@@ -96,6 +110,15 @@ const styles = StyleSheet.create({
         width: '40%',
         alignItems: 'center',
         justifyContent: 'center',
+    },
+
+    categorias: {
+        fontSize: 25 ,
+        fontWeight: 'bold',
+        borderColor: 'rgba(200, 200, 200, 0.4)',
+        width: '100%',
+        paddingHorizontal: '3%',
+        marginVertical: 20,
     },
     
 });

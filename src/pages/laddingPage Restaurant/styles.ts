@@ -88,7 +88,11 @@ const styles=StyleSheet.create({
         fontSize:14,
         fontWeight:'bold',
     },
-    modalView: {
+    modalView: {        
+        padding:10,      
+        margin: 5,          
+    },
+    modalView2: {
         backgroundColor:"white",
         margin:5,
         padding:20,

@@ -33,6 +33,7 @@ export function RestaurantMenu({navigation}:{navigation:any}) {
 
   return (          
     <SafeAreaView style={styles.container}>
+      
       <View style={styles.view2}>
         <View style={styles.view1}>
           <Image style={styles.imageLogo}source={require("../../assets/mc-logo.png")}/>
@@ -52,6 +53,11 @@ export function RestaurantMenu({navigation}:{navigation:any}) {
           )        
         }}
       />
+
+      <TouchableOpacity style={styles.buttonVoltar} onPress={() => {navigation.replace('Booking')}}>
+        <Text style={{color: 'white', fontSize: 18}}>Estou indo embora</Text>
+      </TouchableOpacity>
+      
     </SafeAreaView>    
   );
 }

@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
 
     lblTitle: {
         fontSize: 18,
-        marginBottom: 50,   
+        marginBottom: 50,  
         width: '100%',
         textAlign: 'center',
     },

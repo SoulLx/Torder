@@ -57,6 +57,14 @@ const styles = StyleSheet.create({
         height: 60,
         width: 60,
         borderRadius: 100,        
+    },
+
+    buttonVoltar: {
+        width: '100%',
+        height: 60,
+        backgroundColor: 'green',
+        alignItems: 'center',
+        justifyContent: 'center',
     }
 })
 

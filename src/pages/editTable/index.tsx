@@ -12,7 +12,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
-export default function AddTable({navigation}:{navigation:any}) {
+export default function EditTable({navigation}:{navigation:any}) {
 
     const [value, setValue] = useState({
         nome: "",
@@ -20,27 +20,38 @@ export default function AddTable({navigation}:{navigation:any}) {
         restaurante: ""        
     });
 
-    const postTable = async () => {      
-        const token = await AsyncStorage.getItem('token');
-        const idRestaurante = await AsyncStorage.getItem('restauranteId');
+    
 
-        const mesa = {
-            nome: value.nome,
-            quantidadeCadeiras: value.quantidadeCadeiras,
-            restaurante: idRestaurante
-        }
-         const response = await fetch('https://torder-api.vercel.app/api/mesa', {
-           method: 'POST', 
-           headers: {
-             'Content-Type': 'application/json',
-             'Authorization': 'Bearer '+ token
-           },
-            body:JSON.stringify(mesa)
-       });
+    const putTable = async () => {
+        try {
+            const idMesa = await AsyncStorage.getItem('mesaId');
+            const token = await AsyncStorage.getItem('token');            
+
+            const item = {
+                nome: value.nome,
+                quantidadeCadeiras: value.quantidadeCadeiras
+            }
+
+            const response = await fetch("https://torder-api.vercel.app/api/mesa/" + idMesa, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                },
+                body: JSON.stringify(item)
+            });
+
+            console.log(idMesa)
+            navigation.replace('Table');
             const json = await response.json();
             console.log(json)
-            replace()
+        } catch (error) {
+            console.log("error " + error)
+        }
+
     };
+
+
 
     function replace() {
         navigation.replace(
@@ -61,7 +72,7 @@ export default function AddTable({navigation}:{navigation:any}) {
                         height="30"           
                     /> 
                 </TouchableOpacity>
-                <Text style={styles.title}>Adicionar Mesa</Text>
+                <Text style={styles.title}>Editar Mesa</Text>
                 <Text style={styles.labelName}>Nome da Mesa</Text>
                 <TextInput 
                     style={styles.nameTable}
@@ -80,8 +91,8 @@ export default function AddTable({navigation}:{navigation:any}) {
             </View>
             
             <View style={styles.addButtonView}>
-                <TouchableOpacity style={styles.addButton} onPress={() => postTable()}>
-                    <Text style={{fontWeight: 'bold', padding: 10, fontSize: 18, color: "white"}}>Adicionar</Text>
+                <TouchableOpacity style={styles.addButton} onPress={() => putTable()}>
+                    <Text style={{fontWeight: 'bold', padding: 10, fontSize: 18, color: 'white'}}>Editar</Text>
                 </TouchableOpacity>
             </View>      
         </SafeAreaView>

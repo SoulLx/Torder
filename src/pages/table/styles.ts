@@ -29,12 +29,12 @@ const styles = StyleSheet.create({
         width: '98%',
     },
 
-    buttonAddTable: {
-        backgroundColor: '#dcdcdc',
+    buttonAddTable: {    
         height: 50,
         width: 350,        
         alignItems: 'center',
         justifyContent: 'center',
+        flexDirection: 'row',
     },
     
     title: {

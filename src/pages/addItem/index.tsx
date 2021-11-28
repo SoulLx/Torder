@@ -1,6 +1,6 @@
 import React , { useState, useEffect }from 'react';
 import { View, Text, SafeAreaView, Image, TouchableOpacity,TextInput, Platform,KeyboardAvoidingView } from 'react-native';
-import { ArrowLeft } from 'react-native-feather';
+import { ArrowLeft, ChevronLeft } from 'react-native-feather';
 import {Picker} from '@react-native-picker/picker';
 import styles from './styles';
 import { useNavigation } from '@react-navigation/native';
@@ -92,8 +92,8 @@ export default function AddItem() {
                     onPress={() => navigation.goBack()}
                     style={{marginBottom:50}}
                 >
-                    <ArrowLeft 
-                        stroke="black" 
+                    <ChevronLeft 
+                        stroke="#DB2525" 
                         width="30"
                         height="30"
                     />
@@ -125,6 +125,7 @@ export default function AddItem() {
                         style={styles.txtItem} 
                         placeholder="Nome"
                         onChangeText={(text) => setValueItem({...valueItem, nome: text})}
+                        maxLength={20}
                         value={valueItem.nome}
                     />
                     <TextInput style={styles.txtItem} 
