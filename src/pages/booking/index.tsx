@@ -99,7 +99,7 @@ export function Booking({navigation}:{navigation:any}) {
 }
   
   useEffect(() => {
-    
+    getBookings();
     getCurrentBooking();
   }, []);
 

@@ -10,10 +10,6 @@ import { Item } from 'react-native-paper/lib/typescript/components/List/List';
 export function RestaurantMenu({navigation}:{navigation:any}) {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  const [visibleCategory, setVisibleCategory] = useState(false);
-  const [visibleSuccess, setVisibleSuccess] = useState(false);
-  const [visibleConfirmDelete, setVisibleConfirmDelete] = useState(false);
-  const [selectedItem, setSelectedItem] = useState([]);
   const [category, setCategory] = useState([]);
   const [valueCategory, setValueCategory] = useState({
     nome: "",
@@ -41,9 +37,70 @@ export function RestaurantMenu({navigation}:{navigation:any}) {
     }
   };
 
+  const getRestaurant = async () => {
+    try {
+      const token = await AsyncStorage.getItem('token');
+      const idRestaurante = await AsyncStorage.getItem('restauranteId');
+
+      const response = await fetch('https://torder-api.vercel.app/api/restaurante/' + idRestaurante, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+        },
+      })
+      const json = await response.json();
+      setData(json.restaurante);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const endBooking = async () => {
+    try {
+     const token = await AsyncStorage.getItem('token');
+     const clientId = await AsyncStorage.getItem('clienteId');
+     
+     const response = await fetch('https://torder-api.vercel.app/api/reserva/obterReservaAtual/?idCliente='+ clientId, {
+       method: 'GET', 
+       headers: {
+           'Content-Type': 'application/json',
+           'Authorization': 'Bearer ' + token
+     }})
+  
+     const json = await response.json();     
+     json.reserva.map(data => {
+        fetch('https://torder-api.vercel.app/api/mesa/'+ data.mesa._id, {
+          method: 'PUT', 
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + token
+          },
+          body: JSON.stringify({status: "Disponivel"})
+        })
+        fetch('https://torder-api.vercel.app/api/reserva/'+ data._id, {
+          method: 'PUT', 
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + token
+          },
+          body: JSON.stringify({status: "Cancelada"})
+        })
+        navigation.replace('Booking')
+     })
+  
+   } catch (error) {
+     console.error(error);
+   } finally {
+     setLoading(false);
+   }
+  }
 
   useEffect(() => {
     getCategory();
+    getRestaurant();
   }, []);
 
   function GetItensPerCategory(param) {
@@ -85,36 +142,46 @@ export function RestaurantMenu({navigation}:{navigation:any}) {
   return (          
     <SafeAreaView style={styles.container}>
       
-      <View style={styles.view2}>
-        <View style={styles.view1}>
-          <Image style={styles.imageLogo}source={require("../../assets/mc-logo.png")}/>
-          <Text style={{fontWeight: 'bold', fontSize: 24}}>McDonald's</Text>
-        </View>
-      </View>
-      
-      
+      <FlatList 
+        style={styles.list}
+        data={data}
+        keyExtractor={item => item._id}
+        renderItem={({item}) => {
+          return(
+            <View>
+              <View>
+                <Text style={{fontWeight: 'bold', fontSize: 24}}>{item.nomeFantasia}</Text>
+              </View>
+            </View>
+          )        
+        }}
+      />
+
       <Text style={{fontSize:17}}>Cardápio</Text>
+      
+      
       <FlatList 
         style={styles.list}
         data={category}
         keyExtractor={item => item._id}
         renderItem={({item}) => {
           return(
-            
-            <List.Section title="">
-              
-              <List.Accordion
-                title={item.nome}>
-                <GetItensPerCategory value={item._id}/>
-              </List.Accordion>
-            </List.Section>
+            <View>
+              <List.Section title="">
+                
+                <List.Accordion
+                  title={item.nome}>
+                  <GetItensPerCategory value={item._id}/>
+                </List.Accordion>
+              </List.Section>
+            </View>
           )        
         }}
       />
       
       
 
-      <TouchableOpacity style={styles.buttonVoltar} onPress={() => {navigation.replace('Booking')}}>
+      <TouchableOpacity style={styles.buttonVoltar} onPress={() => {endBooking()}}>
         <Text style={{color: 'white', fontSize: 18}}>Estou indo embora</Text>
       </TouchableOpacity>
       
