@@ -10,9 +10,9 @@ export function Booking({navigation}:{navigation:any}) {
   const[confirm,setconfirm]=useState(false)
   const[details,setdetails]=useState(false)
   const[cancel,setcancel]=useState(false)
-  const userId = AsyncStorage.getItem("clienteId");
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
+  const [dataConfirm, setDataConfirm] = useState([]);
   const [dataBooking, setDataBooking] = useState([]);
 
   const getBookings = async () => {
@@ -56,6 +56,36 @@ export function Booking({navigation}:{navigation:any}) {
      setLoading(false);
    }
  }
+
+
+ const goBooking = async () => {
+  try {
+   const token = await AsyncStorage.getItem('token');
+   const clientId = await AsyncStorage.getItem('clienteId');
+   AsyncStorage.setItem("restauranteReservadoId",dataConfirm.mesa.restaurante._id)
+
+   fetch('https://torder-api.vercel.app/api/reserva/'+ dataConfirm._id, {
+          method: 'PUT', 
+          headers: {
+              'Content-Type': 'application/json',
+              'Authorization': 'Bearer ' + token
+          },
+          body: JSON.stringify({status: "Presente"})
+        });
+    fetch('https://torder-api.vercel.app/api/mesa/'+ data.mesa._id, {
+      method: 'PUT', 
+      headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+      },
+      body: JSON.stringify({status: "Ocupada"})
+    });
+ } catch (error) {
+   console.error(error);
+ } finally {
+   setLoading(false);
+ }
+}
 
 
  const cancelBooking = async () => {
@@ -132,7 +162,7 @@ export function Booking({navigation}:{navigation:any}) {
               </TouchableOpacity>
               <TouchableOpacity 
               style={{marginTop:'10%',width:"20%",height:"20%"}}
-              onPress={()=>{navigation.replace('RestaurantMenu')}}
+              onPress={()=>{goBooking();navigation.replace('RestaurantMenu')}}
               >
                 <Text style={styles.textConfirm}>
                 Sim
@@ -236,7 +266,7 @@ export function Booking({navigation}:{navigation:any}) {
               
               <TouchableOpacity 
               style={styles.bookingButtonConfirm}
-              onPress={()=>{setconfirm(true);AsyncStorage.setItem("restauranteReservadoId",item.mesa.restaurante._id)}}
+              onPress={()=>{setconfirm(true);setDataConfirm(item)}}
               >  
                 <Text>confirmar</Text>
               </TouchableOpacity>

@@ -7,10 +7,13 @@ import styles from './styles';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TextInputMask } from 'react-native-masked-text'
+import Modal from "react-native-modal";
 
 export default function EditTable({ navigation }: { navigation: any }) {
 
     const [selectedStatus, setSelectedStatus] = useState("")
+    const [bookedTable,setBookedTable] = useState(false);
+    const [visibleConfirm,setVisibleConfirm] = useState(false);
 
     const [value, setValue] = useState({
         nome: "",
@@ -19,6 +22,22 @@ export default function EditTable({ navigation }: { navigation: any }) {
     });
 
 
+    const isTableBooked = async () =>{
+        const idMesa = await AsyncStorage.getItem('mesaId');
+        const token = await AsyncStorage.getItem('token');
+        const response = await fetch('https://torder-api.vercel.app/api/reserva/mesaReservada?idMesa='+ idMesa, {
+                method: 'GET', 
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                }})
+            
+            const json = await response.json();     
+            if(json.length != 0)
+                setBookedTable(true)
+            else
+                setBookedTable(false)
+    }
 
 
     const putTable = async () => {
@@ -32,7 +51,7 @@ export default function EditTable({ navigation }: { navigation: any }) {
                 status: selectedStatus,
             }
 
-            const response = await fetch("https://torder-api.vercel.app/api/mesa/" + idMesa, {
+            await fetch("https://torder-api.vercel.app/api/mesa/" + idMesa, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -41,10 +60,28 @@ export default function EditTable({ navigation }: { navigation: any }) {
                 body: JSON.stringify(item)
             });
 
-            (idMesa)
+            const response = await fetch('https://torder-api.vercel.app/api/reserva/mesaReservada?idMesa='+ idMesa, {
+                method: 'GET', 
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'Bearer ' + token
+                }})
+            
+            const json = await response.json();     
+            if(json.length != 0){
+                json.reserva.map(data => {
+                    fetch('https://torder-api.vercel.app/api/reserva/'+ data._id, {
+                        method: 'PUT', 
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': 'Bearer ' + token
+                        },
+                        body: JSON.stringify({status: "Concluido"})
+                    })
+                    navigation.replace('Booking')
+                })
+            }
             navigation.replace('Table');
-            const json = await response.json();
-            (json)
         } catch (error) {
             console.log("error " + error)
         }
@@ -63,14 +100,12 @@ export default function EditTable({ navigation }: { navigation: any }) {
                 },
             });
 
-
             const json = await response.json();
             json.mesa.map(data => {
                 setValue({
                     nome: data.nome,
-                    quantidadeCadeiras: data.quantidadeCadeiras,
+                    quantidadeCadeiras: data.quantidadeCadeiras
                 })
-                    (value)
             })
 
         } catch (error) {
@@ -91,11 +126,49 @@ export default function EditTable({ navigation }: { navigation: any }) {
 
     useEffect(() => {
         getTable();
+        isTableBooked();
     }, []);
 
 
     return (
         <SafeAreaView style={styles.container}>
+
+            <Modal 
+                animationIn="slideInUp"
+                animationOutTiming={1000}
+                animationInTiming={600}
+                backdropTransitionOutTiming={800}
+                animationOut="slideOutDown"
+                isVisible={visibleConfirm}
+                >
+                    <View>
+                    <View>
+                        
+                        <View >
+                        <Text >
+                            Esta mesa está reservada ou o cliente está presente na mesa. Deseja Alterar o Status da mesa?
+                        </Text>
+                        <TouchableOpacity 
+                        style={{marginTop:'10%',width:"20%",height:"20%"}}
+                        onPress={()=>{setVisibleConfirm(false)}}
+                        >
+                            <Text>
+                            Não
+                        </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity 
+                        style={{marginTop:'10%',width:"20%",height:"20%"}}
+                        onPress={()=>{putTable();navigation.replace('Table')}}
+                        >
+                            <Text>
+                            Sim
+                        </Text>
+                        </TouchableOpacity>
+                        </View>
+                    </View>
+                    </View>
+                </Modal>
+
             <View style={styles.topView}>
                 <TouchableOpacity style={styles.backtouch} onPress={() => navigation.replace("Table")}>
                     <ChevronLeft
@@ -138,7 +211,7 @@ export default function EditTable({ navigation }: { navigation: any }) {
             </View>
 
             <View style={styles.addButtonView}>
-                <TouchableOpacity style={styles.addButton} onPress={() => putTable()}>
+                <TouchableOpacity style={styles.addButton} onPress={() => {if(bookedTable){setVisibleConfirm(true)}}}>
                     <Text style={{ fontWeight: 'bold', padding: 10, fontSize: 18, color: 'white' }}>Editar</Text>
                 </TouchableOpacity>
             </View>
