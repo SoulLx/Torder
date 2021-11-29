@@ -12,7 +12,7 @@ export function BottomBar(){
         <View style={styles.barra}>
     <TouchableOpacity 
     style={styles.buttons}
-    onPress={() => navigation.navigate('SearchRestaurant')}
+    onPress={() => navigation.replace('SearchRestaurant')}
     >
         <Text style={styles.textbutton}>
             Restaurantes
@@ -20,7 +20,7 @@ export function BottomBar(){
         </TouchableOpacity>
         <TouchableOpacity 
         style={styles.buttons}
-        onPress={() => navigation.navigate('Booking')}
+        onPress={() => navigation.replace('Booking')}
         >
         <Text style={styles.textbutton}>
             Reservas
@@ -28,7 +28,7 @@ export function BottomBar(){
         </TouchableOpacity>
         <TouchableOpacity 
         style={styles.buttons}
-        onPress={() => navigation.navigate('UserProfile')}
+        onPress={() => navigation.replace('UserProfile')}
         >
         <Text style={styles.textbutton}>
             Perfil

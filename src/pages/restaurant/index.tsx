@@ -18,6 +18,8 @@ export function Restaurant({navigation}:{navigation:any}) {
   const [isLoading, setLoading] = useState(true);
   const [valueBook, setValueBook] = useState([]);
   const [dataRestaurant,setDataRestaurant] = useState([]);
+  const [isClientHasAnBookInProgress,setIsClientHasAnBookInProgress] = useState(false);
+  const [blockClientBooking,setBlockClientBooking]= useState(false);
  
   const postBook = async () => {
     const clientId = await AsyncStorage.getItem('clienteId');
@@ -132,27 +134,29 @@ const getRestaurant = async () => {
  }
 }
 
-const getTable = async () => {
+const clientHasAnBookInProgress = async () =>{
   try {
-   const token = await AsyncStorage.getItem('token');
-   const idRestaurante = await AsyncStorage.getItem('selectedRestaurantId');
-   
+    const token = await AsyncStorage.getItem('token');
+    const clientId = await AsyncStorage.getItem('clienteId');
+    
+    const response = await fetch('https://torder-api.vercel.app/api/reserva/obterReservaAtual/idCliente='+clientId, {
+      method: 'GET', 
+      headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+      }
+    })
 
-   const response = await fetch('https://torder-api.vercel.app/api/mesa/obterMesas/'+ idRestaurante, {
-     method: 'GET', 
-     headers: {
-       'Content-Type': 'application/json',
-       'Authorization': 'Bearer '+token
-     },
- })
-   const json = await response.json();
-     
-   setTable(json.mesa); 
- } catch (error) {
-   console.error(error);
- } finally {
-   setLoading(false);
- }
+    if(response)
+      setIsClientHasAnBookInProgress(true);
+    else
+      setIsClientHasAnBookInProgress(false);
+
+  } catch (error) {
+    console.error(error);
+  } finally {
+    setLoading(false);
+  }
 }
 
 const openClosed = (bool) => {
@@ -166,10 +170,36 @@ useEffect(() => {
   getRestaurant();
   getTotalTable();
   getAvailableTable();
+  clientHasAnBookInProgress();
 }, []);
 
   return (
     <SafeAreaView style={styles.container}>
+
+    <Modal           
+          animationIn="slideInUp"
+          animationOutTiming={1000}
+          animationInTiming={600}
+          backdropTransitionOutTiming={800}
+          animationOut="slideOutDown"
+          isVisible={blockClientBooking}
+      >
+        <View style={styles.modalView}>
+          <TouchableOpacity onPress={() => {setBlockClientBooking(false)}}>
+            <ChevronLeft 
+                style={{marginBottom: 20} }
+                stroke="#DB2525" 
+                width="30"
+                height="30"
+            />
+          </TouchableOpacity> 
+          <Text style={{fontSize: 25, 
+                        fontWeight: 'bold', 
+                        marginBottom: 20,}}>
+            Você já tem uma reserva em andamento.
+          </Text>   
+        </View>
+      </Modal>
 
       <Modal           
           animationIn="slideInUp"
@@ -203,7 +233,7 @@ useEffect(() => {
             }}
             enabled={false}
             selectedValue={selectedTable}
-            onValueChange={(itemValue) => {setSelectedTable(itemValue);console.log(itemValue)}}
+            onValueChange={(itemValue) => {setSelectedTable(itemValue)}}
           >
             <Picker.Item label={"16:00"} value={""}/>
             
@@ -217,7 +247,7 @@ useEffect(() => {
               height: 70,
             }}
             selectedValue={selectedTable}
-            onValueChange={(itemValue) => {setSelectedTable(itemValue);console.log(itemValue)}}
+            onValueChange={(itemValue) => {setSelectedTable(itemValue)}}
           >
             <Picker.Item label={"Selecione uma mesa"} value={""}/>
             {
@@ -311,7 +341,7 @@ useEffect(() => {
       </View>          
       
       <View style={styles.viewButtonReservar}>
-        <TouchableOpacity style={styles.buttonReservar} onPress={() => {setVisibleBooking(true);getAvailableTableData()}}>
+        <TouchableOpacity style={styles.buttonReservar} onPress={() => {if(!isClientHasAnBookInProgress){setVisibleBooking(true);getAvailableTableData()}else{setBlockClientBooking(true)}}}>
           <Text style={{fontSize: 20, color: 'white'}}>Reservar Mesa</Text>
         </TouchableOpacity>
       </View>
