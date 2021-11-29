@@ -183,20 +183,24 @@ useEffect(() => {
           animationOut="slideOutDown"
           isVisible={blockClientBooking}
       >
-        <View style={styles.modalView}>
+        <View style={styles.modalView2}>
           <TouchableOpacity onPress={() => {setBlockClientBooking(false)}}>
-            <ChevronLeft 
-                style={{marginBottom: 20} }
-                stroke="#DB2525" 
-                width="30"
-                height="30"
-            />
-          </TouchableOpacity> 
+            
           <Text style={{fontSize: 25, 
                         fontWeight: 'bold', 
-                        marginBottom: 20,}}>
-            Você já tem uma reserva em andamento.
+                        marginBottom: "50%",
+                        marginTop:'25%',
+                        alignSelf:'center'}}>
+            Você Possui Uma Reserva
           </Text>   
+          <Text style={{fontSize: 25, 
+                        fontWeight: 'bold', 
+                        marginTop: "-40%",
+                        marginBottom:'5%',
+                        alignSelf:'center'}}>
+            Ativa.
+          </Text> 
+          </TouchableOpacity> 
         </View>
       </Modal>
 

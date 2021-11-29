@@ -108,6 +108,14 @@ const styles=StyleSheet.create({
         height: '70%',
         justifyContent: 'space-between' ,
     },
+    modalView2: {
+        borderRadius: 20,
+        backgroundColor: "white",
+        padding: '5%',   
+        height: '50%',
+        justifyContent: 'space-between' ,
+        
+    },
 
     buttonModalReservar: {
         backgroundColor: '#DB2525',
