@@ -95,16 +95,16 @@ const getAvailableTable = async () => {
     const restaurantId = await AsyncStorage.getItem('selectedRestaurantId');
     const token = await AsyncStorage.getItem('token');
 
-   const response = await fetch('https://torder-api.vercel.app/api/mesa/totalMesasDisponiveis?restauranteId='+ restaurantId, {
+    const response = await fetch('https://torder-api.vercel.app/api/mesa/totalMesasDisponiveis?restauranteId='+ restaurantId, {
      method: 'GET', 
      headers: {
        'Content-Type': 'application/json',
        'Authorization': 'Bearer '+ token
      },
- })    
+    })    
 
- const json = await response.json();
- setDataAvailableTable(json.totalMesas);
+    const json = await response.json();
+    setDataAvailableTable(json.totalMesas);
  } catch (error) {
    console.error(error);
  } finally {
@@ -139,19 +139,18 @@ const clientHasAnBookInProgress = async () =>{
     const token = await AsyncStorage.getItem('token');
     const clientId = await AsyncStorage.getItem('clienteId');
     
-    const response = await fetch('https://torder-api.vercel.app/api/reserva/obterReservaAtual/idCliente='+clientId, {
+    const response = await fetch('https://torder-api.vercel.app/api/reserva/obterReservaAtual/?idCliente='+ clientId, {
       method: 'GET', 
       headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + token
-      }
-    })
-
-    if(response)
+    }})
+ 
+    const json = await response.json();  
+    if(json.reserva.length !== 0)
       setIsClientHasAnBookInProgress(true);
     else
       setIsClientHasAnBookInProgress(false);
-
   } catch (error) {
     console.error(error);
   } finally {
