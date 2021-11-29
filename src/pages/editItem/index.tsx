@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, SafeAreaView, Image, TouchableOpacity, TextInput, Platform, KeyboardAvoidingView } from 'react-native';
+import { View, Text, SafeAreaView, Image, TouchableOpacity, TextInput, Platform, KeyboardAvoidingView, Keyboard } from 'react-native';
 import { ArrowLeft, ChevronLeft } from 'react-native-feather';
 import { Picker } from '@react-native-picker/picker';
 import styles from './styles';
@@ -114,6 +114,9 @@ export default function EditItem() {
         getItem();
     }, []);
 
+    const campoNome = useRef();
+    const campoDescricao = useRef();
+
     return (
         <KeyboardAvoidingView
             behavior="padding"
@@ -164,6 +167,10 @@ export default function EditItem() {
                     }}
                     maxLength={20}
                     value={valueItem.nome}
+                    returnKeyType='next'
+                    ref={campoNome}
+                    onSubmitEditing={() => { campoDescricao.current.focus() }}
+                    blurOnSubmit={false}
                 />
                 <TextInput style={styles.txtItem}
                     placeholder="Descrição"
@@ -172,6 +179,10 @@ export default function EditItem() {
                         setItem({ ...item, descricao: text })
                     }}
                     value={valueItem.descricao}
+                    returnKeyType='done'
+                    ref={campoDescricao}
+                    onSubmitEditing={Keyboard.dismiss}
+                    blurOnSubmit={false}
                 />
 
                 <Text style={styles.lblPrice}>Valor</Text>
@@ -190,7 +201,10 @@ export default function EditItem() {
                         setValueItem({ ...valueItem, preco: text });
                         setItem({ ...item, preco: text })
                     }}
-                    value={String(valueItem.preco*100)}
+                    value={String(valueItem.preco * 100)}
+                    returnKeyType='done'
+                    onSubmitEditing={Keyboard.dismiss}
+                    blurOnSubmit={false}
                 ></TextInputMask>
 
 

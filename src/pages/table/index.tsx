@@ -131,6 +131,7 @@ export function Table({ navigation }: { navigation: any }) {
             <View style={styles.viewInfoTable}>
               <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{item.nome}</Text>
               <Text>Cadeiras: {item.quantidadeCadeiras}</Text>
+              <Text style={{fontSize: 15}}>{item.status}</Text>
             </View>
             <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '32%' }}>
               <TouchableOpacity style={styles.buttonDelete} onPress={() => {setMesaSelecionada(item._id); navigation.navigate('EditTable')}}>

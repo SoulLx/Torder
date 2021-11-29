@@ -51,6 +51,9 @@ export default function AddTable({ navigation }: { navigation: any }) {
         )
     }
 
+
+    
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.topView}>

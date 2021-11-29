@@ -10,10 +10,15 @@ import { TextInputMask } from 'react-native-masked-text'
 
 export default function EditTable({ navigation }: { navigation: any }) {
 
+    const [selectedStatus, setSelectedStatus] = useState([])
+
     const [value, setValue] = useState({
         nome: "",
         quantidadeCadeiras: "",
+        status: selectedStatus,
     });
+
+    console.log(value.status)
 
 
 
@@ -58,7 +63,8 @@ export default function EditTable({ navigation }: { navigation: any }) {
             json.mesa.map(data => {
                 setValue({
                     nome: data.nome,
-                    quantidadeCadeiras: data.quantidadeCadeiras,
+                    quantidadeCadeiras: data.quantidadeCadeiras, 
+                    status: data.status,                  
                 })
                     (value)
             })
@@ -111,6 +117,18 @@ export default function EditTable({ navigation }: { navigation: any }) {
                     onChangeText={(text) => setValue({ ...value, quantidadeCadeiras: text })}
                     value={String(value.quantidadeCadeiras)}
                 ></TextInputMask>
+            </View>
+
+            <View style={styles.viewPicker}>
+                <Picker
+                    style={styles.statusPicker}
+                    selectedValue={selectedStatus}
+                    onValueChange={(itemValue) => { setSelectedStatus(itemValue); console.log(itemValue) }}
+                >
+                    <Picker.Item label={"Disponivel"} value={"Disponivel"}  />
+                    <Picker.Item label={"Reservada"} value={"Reservada"} />
+                    <Picker.Item label={"Ocupada"} value={"Ocupada"} />
+                </Picker>
             </View>
 
             <View style={styles.addButtonView}>

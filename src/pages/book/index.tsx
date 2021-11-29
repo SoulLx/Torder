@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ActivityIndicator, FlatList, SafeAreaView, Text, View, Image, TouchableOpacity, ToastAndroid } from 'react-native';
-import { TextInput } from 'react-native-gesture-handler';
+import { ActivityIndicator, FlatList, SafeAreaView, Text, View, Image, TouchableOpacity, TextInput, TouchableWithoutFeedback, ToastAndroid } from 'react-native';
 import { ArrowLeft, ChevronLeft, Edit, Plus, Trash2 } from 'react-native-feather';
 import Modal from "react-native-modal";
 import styles from './styles';
@@ -20,37 +19,37 @@ export function Book({ navigation }: { navigation: any }) {
 
   const getCategory = async () => {
     try {
-        const token = await AsyncStorage.getItem('token');
-        const idRestaurante = await AsyncStorage.getItem('restauranteId');        
+      const token = await AsyncStorage.getItem('token');
+      const idRestaurante = await AsyncStorage.getItem('restauranteId');
 
-        const response = await fetch('https://torder-api.vercel.app/api/categoria/ObterCategoria/'+idRestaurante, {
-        method: 'GET', 
+      const response = await fetch('https://torder-api.vercel.app/api/categoria/ObterCategoria/' + idRestaurante, {
+        method: 'GET',
         headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + token
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
         },
-    })
-        const json = await response.json();     
-        setCategory(json.categoria);             
-    }   catch (error) {
-        console.error(error);
-    }   finally {
-            setLoading(false);
+      })
+      const json = await response.json();
+      setCategory(json.categoria);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
     }
-};
+  };
 
 
   useEffect(() => {
     getCategory();
   }, []);
 
-  function GetItensPerCategory(param){
-  try{
-    const [dataItem,setDataItem] = useState();
-    const fun = async (param) =>{
-      const token = await AsyncStorage.getItem('token');
-      const idRestaurante = await AsyncStorage.getItem("restauranteId")
-      const response = await fetch('https://torder-api.vercel.app/api/produto/obterProdutos/' +idRestaurante+'?categoria='+param.value, {
+  function GetItensPerCategory(param) {
+    try {
+      const [dataItem, setDataItem] = useState();
+      const fun = async (param) => {
+        const token = await AsyncStorage.getItem('token');
+        const idRestaurante = await AsyncStorage.getItem("restauranteId")
+        const response = await fetch('https://torder-api.vercel.app/api/produto/obterProdutos/' + idRestaurante + '?categoria=' + param.value, {
           method: 'GET',
           headers: {
             'Content-Type': 'application/json',
@@ -58,44 +57,44 @@ export function Book({ navigation }: { navigation: any }) {
           },
         })
         const json = await response.json();
-        setDataItem(json.produto); 
-    }
-    fun(param)
-      return(
+        setDataItem(json.produto);
+      }
+      fun(param)
+      return (
         <FlatList
-              style={{ width: '100%', marginBottom: 20, alignSelf: 'center' }}
-              data={dataItem}              
-              keyExtractor={({ _id }, index) => _id}
-              renderItem={({ item }) => (
-                <View style={styles.viewItemListTable}>
-                  <View style={styles.viewInfoTable}>
-                    <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{item.nome}</Text>
-                    <Text>Preço: R${item.preco.toFixed(2)}</Text>
-                    <Text>Categoria: {item.categoria.nome}</Text>
-                  </View>
-                  <View style={{flexDirection: 'row', justifyContent: 'space-between', width: '32%'}}>
-                  <TouchableOpacity style={styles.buttonDelete} onPress={() => {AsyncStorage.setItem("produtoId",item._id); navigation.navigate('EditItem')}}>
-                    <Edit
-                      stroke="black"
-                      width="30"
-                      height="30"
-                    />
-                  </TouchableOpacity>
-                  <TouchableOpacity style={styles.buttonDelete} onPress={() => { setSelectedItem(item._id); setVisibleConfirmDelete(true) }}>
-                    <Trash2
-                      stroke="red"
-                      width="30"
-                      height="30"
-                    />
-                    
-                  </TouchableOpacity>
-                  </View>
-                </View>
+          style={{ width: '100%', marginBottom: 20, alignSelf: 'center' }}
+          data={dataItem}
+          keyExtractor={({ _id }, index) => _id}
+          renderItem={({ item }) => (
+            <View style={styles.viewItemListTable}>
+              <View style={styles.viewInfoTable}>
+                <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{item.nome}</Text>
+                <Text>Preço: R${item.preco.toFixed(2)}</Text>
+                <Text>Categoria: {item.categoria.nome}</Text>
+              </View>
+              <View style={{ flexDirection: 'row', justifyContent: 'space-between', width: '32%' }}>
+                <TouchableOpacity style={styles.buttonDelete} onPress={() => { AsyncStorage.setItem("produtoId", item._id); navigation.navigate('EditItem') }}>
+                  <Edit
+                    stroke="black"
+                    width="30"
+                    height="30"
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.buttonDelete} onPress={() => { setSelectedItem(item._id); setVisibleConfirmDelete(true) }}>
+                  <Trash2
+                    stroke="red"
+                    width="30"
+                    height="30"
+                  />
 
-              )}
-            />
+                </TouchableOpacity>
+              </View>
+            </View>
+
+          )}
+        />
       );
-    }catch (error) {
+    } catch (error) {
       console.error(error);
     } finally {
       setLoading(false);
@@ -123,7 +122,7 @@ export function Book({ navigation }: { navigation: any }) {
       });
 
       setValueCategory('');
-      
+
 
       ToastAndroid.show("Categoria criada", ToastAndroid.SHORT);
 
@@ -174,17 +173,15 @@ export function Book({ navigation }: { navigation: any }) {
     )
   }
 
-  function ListSeparator1() {
-    return (
-      <View style={{height:5, backgroundColor: '#e8e8e8'}}></View>
-    )
-  }
+
 
   function ListSeparator2() {
     return (
-      <View style={{height:20, backgroundColor: '#e8e8e8'}}></View>
+      <View style={{ height: 20, backgroundColor: '#e8e8e8' }}></View>
     )
   }
+
+ 
 
   return (
     <SafeAreaView style={styles.container}>
@@ -219,6 +216,7 @@ export function Book({ navigation }: { navigation: any }) {
         isVisible={visibleCategory}
       >
         <View style={styles.viewModalCategory}>
+
           <TouchableOpacity onPress={() => { setVisibleCategory(false) }}>
             <ArrowLeft
               stroke="black"
@@ -241,6 +239,7 @@ export function Book({ navigation }: { navigation: any }) {
       </Modal>
 
       <View style={{ width: "100%", padding: 5 }}>
+
         <TouchableOpacity onPress={() => navigation.replace('RestaurantIn')}>
           <ChevronLeft
             style={{
@@ -262,9 +261,9 @@ export function Book({ navigation }: { navigation: any }) {
         ItemSeparatorComponent={ListSeparator2}
         keyExtractor={({ _id }, index) => _id}
         renderItem={({ item }) => (
-          <View>
-            <Text style={styles.categorias}>{item.nome}</Text>
-            <GetItensPerCategory value={item._id}/>
+          <View>            
+            <Text style={styles.categorias}>{item.nome}</Text>            
+            <GetItensPerCategory value={item._id} />
           </View>
         )}
       />
@@ -272,7 +271,7 @@ export function Book({ navigation }: { navigation: any }) {
         <TouchableOpacity style={styles.buttonAddCategory} onPress={() => setVisibleCategory(true)}>
           <Text style={{ fontWeight: 'bold', fontSize: 18, color: 'black' }}>Criar Categoria</Text>
           <Plus
-            style={{marginHorizontal: 10}}
+            style={{ marginHorizontal: 10 }}
             stroke="#DB2525"
             width="23"
             height="23"
@@ -281,12 +280,13 @@ export function Book({ navigation }: { navigation: any }) {
         <TouchableOpacity style={styles.buttonAddTable} onPress={() => navigation.navigate('AddItem')}>
           <Text style={{ fontWeight: 'bold', fontSize: 18, color: 'black' }}>Adicionar Produto</Text>
           <Plus
-            style={{marginHorizontal: 10}}
+            style={{ marginHorizontal: 10 }}
             stroke="#DB2525"
             width="23"
             height="23"
           />
         </TouchableOpacity>
+
       </View>
 
     </SafeAreaView>

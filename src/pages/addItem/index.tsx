@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, SafeAreaView, Image, TouchableOpacity, TextInput, Platform, KeyboardAvoidingView } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { View, Text, SafeAreaView, Image, TouchableOpacity, TextInput, Platform, KeyboardAvoidingView, Keyboard } from 'react-native';
 import { ArrowLeft, ChevronLeft } from 'react-native-feather';
 import { Picker } from '@react-native-picker/picker';
 import styles from './styles';
@@ -78,6 +78,11 @@ export default function AddItem() {
         getCategory();
     }, []);
 
+
+    const campoNome = useRef();
+    const campoDescricao = useRef();
+
+
     return (
         <KeyboardAvoidingView
             behavior="padding"
@@ -121,15 +126,24 @@ export default function AddItem() {
 
                 <TextInput
                     style={styles.txtItem}
+                    maxLength={20}
                     placeholder="Nome"
                     onChangeText={(text) => setValueItem({ ...valueItem, nome: text })}
                     maxLength={20}
                     value={valueItem.nome}
+                    returnKeyType='next'
+                    ref={campoNome}
+                    onSubmitEditing={() => { campoDescricao.current.focus() }}
+                    blurOnSubmit={false}
                 />
                 <TextInput style={styles.txtItem}
                     placeholder="Descrição"
                     onChangeText={(text) => setValueItem({ ...valueItem, descricao: text })}
                     value={valueItem.descricao}
+                    returnKeyType='done'
+                    ref={campoDescricao}
+                    onSubmitEditing={Keyboard.dismiss}
+                    blurOnSubmit={false}
                 />
 
                 <Text style={styles.lblPrice}>Valor</Text>
@@ -141,11 +155,15 @@ export default function AddItem() {
                         delimiter: ',',
                         unit: '',
                         suffixUnit: ''
-                      }}
+                    }}
+
                     placeholder="0.00"
                     keyboardType="numeric"
                     onChangeText={(text) => setValueItem({ ...valueItem, preco: text })}
                     value={valueItem.preco}
+                    returnKeyType='done'
+                    onSubmitEditing={Keyboard.dismiss}
+                    blurOnSubmit={false}
                 ></TextInputMask>
 
 
