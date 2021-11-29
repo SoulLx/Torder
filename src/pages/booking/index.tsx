@@ -239,8 +239,9 @@ export function Booking({navigation}:{navigation:any}) {
           </TouchableOpacity>
         </View>
       </View>
-      
+      <View style={{marginTop:'-140%'}}>
       <BottomBar/>
+      </View>
     </SafeAreaView>
   )
 }

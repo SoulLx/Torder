@@ -15,32 +15,34 @@ const styles=StyleSheet.create({
     bottom:{
         paddingTop: "30%",
         borderBottomWidth: 1,
+        marginTop:'-120%',
+        
     },
     body:{
         
-        marginTop:"0%",
+        marginTop:"5%",
         borderWidth: 1,
         
-        paddingHorizontal:"25%",
+        paddingHorizontal:"10%",
         paddingBottom:"0%",
-        marginBottom:"5%",
+        marginBottom:"110%",
         paddingTop:"5%",
         
     },
     bodyBottom:{
         
-        marginTop:"0%",
+        marginTop:"5%",
         borderWidth: 1,
         
         paddingHorizontal:"25%",
-        paddingBottom:"5%",
-        
+        paddingBottom:"30%",
+        marginBottom:'150%',
     },
     midBooking:{
         alignItems:'center',
     },
     nameBooking:{
-        marginVertical:"10%",
+        marginVertical:"5%",
         
     },
     bookingAction:{
@@ -48,7 +50,7 @@ const styles=StyleSheet.create({
         justifyContent:'space-between',
         flexWrap: "wrap",
         flexDirection: "row",
-        marginHorizontal:"-20%",
+        marginHorizontal:"0%",
         marginBottom:"5%",
     },
     bookingButtonConfirm:{
