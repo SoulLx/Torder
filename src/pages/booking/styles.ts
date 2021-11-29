@@ -20,7 +20,7 @@ const styles=StyleSheet.create({
         borderWidth: 1,
         
         paddingHorizontal:"10%",
-        paddingBottom:"10%",
+        paddingBottom:"20%",
         marginBottom:"45%",
         paddingTop:"0%",
         
