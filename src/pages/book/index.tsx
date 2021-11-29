@@ -4,6 +4,7 @@ import { ArrowLeft, ChevronLeft, Edit, Plus, Trash2 } from 'react-native-feather
 import Modal from "react-native-modal";
 import styles from './styles';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { add } from 'react-native-reanimated';
 
 export function Book({ navigation }: { navigation: any }) {
   const [isLoading, setLoading] = useState(true);
@@ -13,9 +14,16 @@ export function Book({ navigation }: { navigation: any }) {
   const [visibleConfirmDelete, setVisibleConfirmDelete] = useState(false);
   const [selectedItem, setSelectedItem] = useState([]);
   const [category, setCategory] = useState([]);
+  
   const [valueCategory, setValueCategory] = useState({
     nome: "",
   })
+
+  
+
+
+  const [addItemDisable, setAddItemDisable] = useState(false);
+  console.log(addItemDisable)
 
   const getCategory = async () => {
     try {
@@ -31,6 +39,11 @@ export function Book({ navigation }: { navigation: any }) {
       })
       const json = await response.json();
       setCategory(json.categoria);
+      if (category.length === 0) {
+        setAddItemDisable(true)
+      } else {
+        setAddItemDisable(false)
+      }
     } catch (error) {
       console.error(error);
     } finally {
@@ -164,6 +177,37 @@ export function Book({ navigation }: { navigation: any }) {
     }
   }
 
+  const deleteCategory = async (categoriaId) => {
+    try {
+      const token = await AsyncStorage.getItem('token');
+
+      const response = await fetch("https://torder-api.vercel.app/api/categoria/" + categoriaId, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+        },
+        body: JSON.stringify(data)
+      });
+      const json = await response.json();
+      /*json.mesa.map(data => console.log(data));      */
+
+      replace()
+      console.log(categoriaId);
+
+
+      ToastAndroid.show("Categoria excluida com sucesso", ToastAndroid.SHORT);
+
+
+
+
+    } catch (error) {
+      console.log("error" + error)
+
+      ToastAndroid.show("Erro, categoria não deletada", ToastAndroid.SHORT);
+    }
+  }
+
   function replace() {
     navigation.replace(
       "Book",
@@ -181,7 +225,7 @@ export function Book({ navigation }: { navigation: any }) {
     )
   }
 
- 
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -261,8 +305,18 @@ export function Book({ navigation }: { navigation: any }) {
         ItemSeparatorComponent={ListSeparator2}
         keyExtractor={({ _id }, index) => _id}
         renderItem={({ item }) => (
-          <View>            
-            <Text style={styles.categorias}>{item.nome}</Text>            
+          <View>
+            <View style={styles.viewCategorias}>
+              <Text style={styles.categorias}>{item.nome}</Text>
+              <TouchableOpacity onPress={() => deleteCategory(item._id)}>
+                <Trash2
+                  stroke="red"
+                  width="30"
+                  height="30"
+                />
+              </TouchableOpacity>
+            </View>
+
             <GetItensPerCategory value={item._id} />
           </View>
         )}
@@ -277,7 +331,11 @@ export function Book({ navigation }: { navigation: any }) {
             height="23"
           />
         </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonAddTable} onPress={() => navigation.navigate('AddItem')}>
+        <TouchableOpacity 
+          style={styles.buttonAddTable} 
+          onPress={() => navigation.navigate('AddItem')}
+          disabled={addItemDisable}
+        >
           <Text style={{ fontWeight: 'bold', fontSize: 18, color: 'black' }}>Adicionar Produto</Text>
           <Plus
             style={{ marginHorizontal: 10 }}

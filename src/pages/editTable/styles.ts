@@ -71,12 +71,12 @@ const styles = StyleSheet.create({
         borderWidth: 1,        
         borderRadius: 10,
         borderColor: '#ababab',
-        width: '100%',
-        marginTop: 30,
+        width: '100%',      
+        marginTop: "5%"  
     },
     
     statusPicker: {             
-        marginVertical: 22,        
+        marginVertical: 18,        
     },
 
 })

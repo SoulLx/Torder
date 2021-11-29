@@ -10,15 +10,14 @@ import { TextInputMask } from 'react-native-masked-text'
 
 export default function EditTable({ navigation }: { navigation: any }) {
 
-    const [selectedStatus, setSelectedStatus] = useState([])
+    const [selectedStatus, setSelectedStatus] = useState("")
 
     const [value, setValue] = useState({
         nome: "",
         quantidadeCadeiras: "",
-        status: selectedStatus,
+        status: "",
     });
 
-    console.log(value.status)
 
 
 
@@ -27,13 +26,19 @@ export default function EditTable({ navigation }: { navigation: any }) {
             const idMesa = await AsyncStorage.getItem('mesaId');
             const token = await AsyncStorage.getItem('token');
 
+            const item = {
+                nome: value.nome,
+                quantidadeCadeiras: value.quantidadeCadeiras,
+                status: selectedStatus,
+            }
+
             const response = await fetch("https://torder-api.vercel.app/api/mesa/" + idMesa, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': 'Bearer ' + token
                 },
-                body: JSON.stringify(value)
+                body: JSON.stringify(item)
             });
 
             (idMesa)
@@ -63,8 +68,7 @@ export default function EditTable({ navigation }: { navigation: any }) {
             json.mesa.map(data => {
                 setValue({
                     nome: data.nome,
-                    quantidadeCadeiras: data.quantidadeCadeiras, 
-                    status: data.status,                  
+                    quantidadeCadeiras: data.quantidadeCadeiras,
                 })
                     (value)
             })
@@ -117,18 +121,20 @@ export default function EditTable({ navigation }: { navigation: any }) {
                     onChangeText={(text) => setValue({ ...value, quantidadeCadeiras: text })}
                     value={String(value.quantidadeCadeiras)}
                 ></TextInputMask>
-            </View>
 
-            <View style={styles.viewPicker}>
-                <Picker
-                    style={styles.statusPicker}
-                    selectedValue={selectedStatus}
-                    onValueChange={(itemValue) => { setSelectedStatus(itemValue); console.log(itemValue) }}
-                >
-                    <Picker.Item label={"Disponivel"} value={"Disponivel"}  />
-                    <Picker.Item label={"Reservada"} value={"Reservada"} />
-                    <Picker.Item label={"Ocupada"} value={"Ocupada"} />
-                </Picker>
+
+                <Text style={styles.labelName}>Status da Mesa</Text>
+                <View style={styles.viewPicker}>
+                    <Picker
+                        style={styles.statusPicker}
+                        selectedValue={selectedStatus}
+                        onValueChange={(itemValue) => { setSelectedStatus(itemValue) }}
+                    >
+                        <Picker.Item label={"-- Selecione o status da mesa --"} value={""} />
+                        <Picker.Item label={"Disponivel"} value={"Disponivel"} />
+                        <Picker.Item label={"Ocupada"} value={"Ocupada"} />
+                    </Picker>
+                </View>
             </View>
 
             <View style={styles.addButtonView}>

@@ -115,11 +115,17 @@ const styles = StyleSheet.create({
     categorias: {
         fontSize: 25 ,
         fontWeight: 'bold',
-        borderColor: 'rgba(200, 200, 200, 0.4)',
-        width: '100%',
-        paddingHorizontal: '3%',
         marginVertical: 20,
     },
+
+    viewCategorias: {
+        borderColor: 'rgba(200, 200, 200, 0.4)',                                
+        flexDirection: 'row', 
+        width: '100%', 
+        alignItems: 'center', 
+        justifyContent: 'space-between', 
+        paddingHorizontal: '6%',
+    }
     
 });
 
