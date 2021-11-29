@@ -14,6 +14,21 @@ const styles = StyleSheet.create({
         width: "100%",
         padding: 5,
     },
+    modalView: {
+        alignItems:'center',
+        backgroundColor:"white",
+        margin:"0%",
+        paddingHorizontal:"10%",
+        paddingVertical:"20%",
+        borderRadius:20,
+        elevation:10,
+    },
+    centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        
+      },
 
     title: {
         fontSize: 20,

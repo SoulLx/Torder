@@ -141,29 +141,43 @@ export default function EditTable({ navigation }: { navigation: any }) {
                 animationOut="slideOutDown"
                 isVisible={visibleConfirm}
                 >
-                    <View>
-                    <View>
+                    <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
                         
                         <View >
-                        <Text >
-                            Esta mesa está reservada ou o cliente está presente na mesa. Deseja Alterar o Status da mesa?
+                        <Text style={{fontSize:18,color:'red'}}>
+                            Esta mesa está reservada ou 
                         </Text>
+                        <Text style={{fontSize:18,color:'red'}}>
+                            o cliente está presente na mesa.
+                        </Text>
+                        <Text style={{fontSize:18,paddingTop:'5%'}}>
+                            Deseja Alterar o Status da mesa?
+                        </Text>
+                        <View style={{
+                            padding:"2%",
+                            marginTop:'10%',
+                            justifyContent:'space-evenly',
+                            flexWrap: "wrap",
+                            flexDirection: "row",
+                        }}>
                         <TouchableOpacity 
-                        style={{marginTop:'10%',width:"20%",height:"20%"}}
+                        style={{}}
                         onPress={()=>{setVisibleConfirm(false)}}
                         >
-                            <Text>
+                            <Text style={{fontSize:20,color:'red',fontWeight:'bold'}}>
                             Não
                         </Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
-                        style={{marginTop:'10%',width:"20%",height:"20%"}}
+                        style={{}}
                         onPress={()=>{putTable();navigation.replace('Table')}}
                         >
-                            <Text>
+                            <Text style={{fontSize:20,color:'green',fontWeight:'bold'}}>
                             Sim
                         </Text>
                         </TouchableOpacity>
+                        </View>
                         </View>
                     </View>
                     </View>
