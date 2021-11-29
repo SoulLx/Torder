@@ -309,15 +309,19 @@ useEffect(() => {
             keyExtractor={({_id }, index) => _id}
             renderItem={({ item }) => (
               <View>
-                <Text style={{fontSize: 22}}>{item.nomeFantasia}</Text>
-                
-                <Text style={{fontSize: 19}}>
+                <Text style={{fontSize: 24,fontWeight:'bold'}}>{item.nomeFantasia}</Text>
+                <View style={{flexDirection: "row"}}>
+                <Text style={{fontSize:18}}>Especialidade: </Text>
+                <Text style={{fontSize: 16,marginTop:'0.8%'}}>
                   {item.especialidade}
                 </Text>
-
-                <Text>
+                </View>
+                <View style={{flexDirection: "row"}}>
+                <Text style={{fontSize:18}}>Endereço: </Text>
+                <Text style={{fontSize:16, marginTop:'0.8%'}}>
                   {item.endereco.endereco}, {item.endereco.complemento}, {item.endereco.numero}
                 </Text>
+                </View>
                 <Text style={{marginTop: 20,
                               width:'100%',
                               textAlign: 'center',

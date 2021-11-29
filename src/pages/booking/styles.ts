@@ -2,7 +2,7 @@ import { StyleSheet,StatusBar,Platform } from 'react-native';
 
 const styles=StyleSheet.create({
     container:{
-        backgroundColor: "white",
+        backgroundColor:'rgba(217, 217, 217,0.5)', 
         paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
         flex:1,
         alignItems:'center',
@@ -10,19 +10,21 @@ const styles=StyleSheet.create({
         
     },
     head:{
-        paddingTop: "5%",
-        borderBottomWidth: 1,
-        
+        padding: "2%",
+        marginTop:'5%',
+        paddingHorizontal:'36.9%',
+        backgroundColor: 'white',
+        marginBottom:'-4%',
     },
     body:{
-        
+
         marginTop:"5%",
-        borderWidth: 1,
+        borderRadius:20,
+        backgroundColor: 'white',
+        paddingHorizontal:"25%",
+        marginBottom:"41%",
         
-        paddingHorizontal:"10%",
-        paddingBottom:"20%",
-        marginBottom:"45%",
-        paddingTop:"0%",
+        
         
     },
     nameBooking:{
@@ -31,19 +33,23 @@ const styles=StyleSheet.create({
         
     },
     bottom:{
-        paddingTop: "0%",
-        borderBottomWidth: 1,
-        marginTop:'-40%',
+        paddingVertical: "2%",
+        marginTop:'-120%',
         marginBottom:'2%',
+        backgroundColor: 'white',
+        paddingHorizontal:'33.6%',
     },
 
     bodyBottom:{
         alignItems:'center',
         marginTop:"0%",
-        borderWidth: 1,
+        borderBottomWidth:1,
+        borderRadius:20,
         paddingHorizontal:"5%",
         paddingBottom:"10%",
         marginBottom:'10%',
+        backgroundColor: 'white',
+        borderBottomColor:'grey',
     },
     midBooking:{
         alignItems:'center',

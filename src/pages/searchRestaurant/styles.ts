@@ -2,7 +2,7 @@ import { StyleSheet,StatusBar,Platform } from 'react-native';
 
 const styles=StyleSheet.create({
     container:{
-        backgroundColor: "white",
+        backgroundColor:'rgba(217, 217, 217,0.5)',
         paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
         flex:1,
         alignItems:'center',
@@ -11,8 +11,9 @@ const styles=StyleSheet.create({
 
     viewList: {       
         backgroundColor: 'white',
-        marginTop: 10,
-        marginLeft: 50,
+        paddingTop:'5%',
+        
+        paddingLeft:'10%',
     },
 });
 

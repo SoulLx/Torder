@@ -64,7 +64,8 @@ export function SearchRestaurant() {
   
   return (
     <SafeAreaView style={styles.container}>
-      <SearchBar                
+      <View style={{marginBottom:'2%',width: '100%'}} >
+      <SearchBar              
           placeholder="Pesquisar Restaurante"
           value={state.search}
           platform={'android'}
@@ -73,7 +74,7 @@ export function SearchRestaurant() {
           round={false} 
           onChangeText={(search) => {setState({ ...state, search: search });getRestaurantes()}}  
       />
-
+      </View>
       <FlatList
           ItemSeparatorComponent={renderSeparator}
           

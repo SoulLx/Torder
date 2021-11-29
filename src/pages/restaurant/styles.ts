@@ -2,12 +2,13 @@ import { StyleSheet,StatusBar,Platform } from 'react-native';
 
 const styles=StyleSheet.create({
     container:{
-        backgroundColor: "white",
+        
         paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
         padding:10,
         flex:1,
         alignItems:'center',
-        justifyContent:'space-between'
+        justifyContent:'space-between',
+        backgroundColor:'rgba(217, 217, 217,0.5)', 
     },
 
     view1: {
@@ -18,7 +19,11 @@ const styles=StyleSheet.create({
 
     view2: {
         width: '100%',         
-        padding: 20,     
+        padding: '5%',   
+        backgroundColor:'rgba(255, 255, 255,0.5)',  
+        marginBottom:'-8%',
+        borderRadius:8,
+        marginTop:'5%',
     },
 
     view3: {
@@ -65,11 +70,12 @@ const styles=StyleSheet.create({
     
     viewContent: {
         justifyContent: 'flex-start',
-        //alignItems: 'center',
-        padding: 20,
-        width: '100%', 
-        height: '50%',
-        
+        alignItems: 'center',
+        padding: '10%',
+        width: '97.6%', 
+        height: '47%',
+        backgroundColor:'rgba(255, 255, 255,0.5)',
+        borderRadius:8,
     },
 
     lblInfoTitle: {
@@ -89,9 +95,9 @@ const styles=StyleSheet.create({
     },
 
     viewButtonReservar: {
-        width: '100%',                        
-        marginBottom: 0,
-        height: 60,        
+        width: '110%',                        
+        height: "10%", 
+        marginBottom:'-3%',       
     },
 
     buttonReservar: {

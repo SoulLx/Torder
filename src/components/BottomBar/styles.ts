@@ -19,6 +19,7 @@ const styles=StyleSheet.create({
     marginTop:"2%",
     minWidth: "32%",
     textAlign: "center",
+    
     },
     textbutton:{
         

@@ -204,7 +204,7 @@ export function Booking({navigation}:{navigation:any}) {
           Minhas Reservas 
         </Text>
       </View>  
-     
+     <View style={{marginBottom:'80%'}}>
       <FlatList
         style={styles.body}
         data={dataBooking}
@@ -214,7 +214,7 @@ export function Booking({navigation}:{navigation:any}) {
           <View style={styles.midBooking}>
 
             <View style={styles.nameBooking}>
-              <Text>{item.mesa.restaurante.nomeFantasia}</Text>
+              <Text style={{fontWeight:'bold',}}>{item.mesa.restaurante.nomeFantasia}</Text>
             </View>
 
             <View >
@@ -244,7 +244,7 @@ export function Booking({navigation}:{navigation:any}) {
 
         )}
         />
-      
+      </View>
  
 
       <View style={styles.bottom}> 
@@ -254,6 +254,7 @@ export function Booking({navigation}:{navigation:any}) {
         </View>
       
         <FlatList
+        style={{backgroundColor:'white',width:'95%',borderRadius:20}}
         initialNumToRender={10}
         data={data}
         keyExtractor={({_id }, index) => _id}
