@@ -94,11 +94,6 @@ const AppRoutes: React.FC= ()=> (
         />
 
         <stackRoutes.Screen
-            name="MenuItem"
-            component={MenuItem}
-        />
-
-        <stackRoutes.Screen
             name="EditItem"
             component={EditItem}
         />
