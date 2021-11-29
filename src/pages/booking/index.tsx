@@ -210,6 +210,7 @@ export function Booking({navigation}:{navigation:any}) {
         data={dataBooking}
         keyExtractor={({_id }, index) => _id}
         renderItem={({ item }) => (
+          
           <View style={styles.midBooking}>
 
             <View style={styles.nameBooking}>
@@ -240,6 +241,7 @@ export function Booking({navigation}:{navigation:any}) {
               </TouchableOpacity>
             </View>
           </View>
+
         )}
         />
       
@@ -252,25 +254,19 @@ export function Booking({navigation}:{navigation:any}) {
         </View>
       
         <FlatList
-        style={styles.bodyBottom}
+        initialNumToRender={10}
         data={data}
         keyExtractor={({_id }, index) => _id}
         renderItem={({ item }) => (
+          <View style={styles.bodyBottom}>
           <View style={styles.nameBooking}>
-            <Text style={{fontSize:18, fontWeight: 'bold'}}>{item.mesa.restaurante.nomeFantasia}</Text>
+          <Text style={{fontSize:18, fontWeight: 'bold'}}>{item.mesa.restaurante.nomeFantasia}</Text>
+           </View>
             <View style={styles.midBooking}>
               <Text> {item.status} </Text>
               <Text> Reserva criada em: { item.horarioCriacao} </Text>
               <Text> Reserva reservada em: { item.horarioCriacao} </Text>
             </View>
-            <View >
-          <TouchableOpacity 
-          style={styles.bookingDetails}
-          onPress={()=>{setdetails(true)}}
-          >
-            <Text>Ver mais detalhes</Text>
-          </TouchableOpacity>
-          </View>
           </View>
         )}
         /> 

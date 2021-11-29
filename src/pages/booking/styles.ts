@@ -20,29 +20,30 @@ const styles=StyleSheet.create({
         borderWidth: 1,
         
         paddingHorizontal:"10%",
-        paddingBottom:"0%",
-        marginBottom:"0%",
+        paddingBottom:"10%",
+        marginBottom:"45%",
         paddingTop:"0%",
         
     },
     nameBooking:{
-        
+        paddingHorizontal:'0%',
         marginTop:'5%',
         
     },
     bottom:{
         paddingTop: "0%",
         borderBottomWidth: 1,
-        marginTop:'5%',
+        marginTop:'-40%',
+        marginBottom:'2%',
     },
 
     bodyBottom:{
-        
-        marginTop:"5%",
+        alignItems:'center',
+        marginTop:"0%",
         borderWidth: 1,
-        paddingHorizontal:"40%",
-        paddingBottom:"40%",
-        marginBottom:'40%',
+        paddingHorizontal:"5%",
+        paddingBottom:"10%",
+        marginBottom:'10%',
     },
     midBooking:{
         alignItems:'center',
