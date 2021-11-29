@@ -15,23 +15,23 @@ const styles=StyleSheet.create({
     bottom:{
         paddingTop: "30%",
         borderBottomWidth: 1,
-        marginTop:'-120%',
+        marginTop:'-180%',
         
     },
     body:{
         
-        marginTop:"5%",
+        marginTop:"-20%",
         borderWidth: 1,
         
         paddingHorizontal:"10%",
         paddingBottom:"0%",
-        marginBottom:"110%",
-        paddingTop:"5%",
+        marginBottom:"140%",
+        paddingTop:"0%",
         
     },
     bodyBottom:{
         
-        marginTop:"5%",
+        marginTop:"-20%",
         borderWidth: 1,
         
         paddingHorizontal:"25%",
