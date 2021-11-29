@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, SafeAreaView, Image, TouchableOpacity, TextInput, Platform, KeyboardAvoidingView } from 'react-native';
+import { View, Text, SafeAreaView, Image, TouchableOpacity, TextInput, Platform, KeyboardAvoidingView, Keyboard } from 'react-native';
 import { ArrowLeft, ChevronLeft } from 'react-native-feather';
 import { Picker } from '@react-native-picker/picker';
 import styles from './styles';
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { ScrollView } from 'react-native-gesture-handler';
+import { TextInputMask } from 'react-native-masked-text'
 
 
 
@@ -69,24 +70,24 @@ export default function EditItem() {
                 },
             });
 
-            
-        const json = await response.json();
-        console.log(idproduto);
-        json.produto.map(data => {
-            
-            setValueItem({
-                nome: data.nome,
-                preco: data.preco,
-                descricao: data.descricao,
+
+            const json = await response.json();
+            console.log(idproduto);
+            json.produto.map(data => {
+
+                setValueItem({
+                    nome: data.nome,
+                    preco: data.preco,
+                    descricao: data.descricao,
+                })
             })
-        })
-            
+
         } catch (error) {
             console.log("error " + error)
         }
 
     };
-    
+
     const getCategory = async () => {
         try {
             const token = await AsyncStorage.getItem('token');
@@ -112,6 +113,9 @@ export default function EditItem() {
         getCategory();
         getItem();
     }, []);
+
+    const campoNome = useRef();
+    const campoDescricao = useRef();
 
     return (
         <KeyboardAvoidingView
@@ -157,26 +161,51 @@ export default function EditItem() {
                 <TextInput
                     style={styles.txtItem}
                     placeholder="Nome"
-                    onChangeText={(text) => {setValueItem({ ...valueItem, nome: text });
-                                             setItem({...item, nome: text})}}
+                    onChangeText={(text) => {
+                        setValueItem({ ...valueItem, nome: text });
+                        setItem({ ...item, nome: text })
+                    }}
                     maxLength={20}
                     value={valueItem.nome}
+                    returnKeyType='next'
+                    ref={campoNome}
+                    onSubmitEditing={() => { campoDescricao.current.focus() }}
+                    blurOnSubmit={false}
                 />
                 <TextInput style={styles.txtItem}
                     placeholder="Descrição"
-                    onChangeText={(text) => {setValueItem({ ...valueItem, descricao: text });
-                                             setItem({...item, descricao: text})}}
+                    onChangeText={(text) => {
+                        setValueItem({ ...valueItem, descricao: text });
+                        setItem({ ...item, descricao: text })
+                    }}
                     value={valueItem.descricao}
+                    returnKeyType='done'
+                    ref={campoDescricao}
+                    onSubmitEditing={Keyboard.dismiss}
+                    blurOnSubmit={false}
                 />
 
                 <Text style={styles.lblPrice}>Valor</Text>
-                <TextInput style={styles.txtPrice}
+                <TextInputMask style={styles.txtPrice}
+                    type={'money'}
+                    options={{
+                        precision: 2,
+                        separator: '.',
+                        delimiter: ',',
+                        unit: '',
+                        suffixUnit: ''
+                    }}
                     placeholder="0.00"
                     keyboardType="numeric"
-                    onChangeText={(text) => {setValueItem({ ...valueItem, preco: text });
-                                             setItem({...item, preco: text})}}
-                    value={String(valueItem.preco)}
-                />
+                    onChangeText={(text) => {
+                        setValueItem({ ...valueItem, preco: text });
+                        setItem({ ...item, preco: text })
+                    }}
+                    value={String(valueItem.preco * 100)}
+                    returnKeyType='done'
+                    onSubmitEditing={Keyboard.dismiss}
+                    blurOnSubmit={false}
+                ></TextInputMask>
 
 
 

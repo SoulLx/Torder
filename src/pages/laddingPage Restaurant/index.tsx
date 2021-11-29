@@ -8,6 +8,7 @@ import { Picker } from '@react-native-picker/picker';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import jwt_decode from "jwt-decode";
 import KeyboardAvoidingWapper from '../../components/KeyboardAvoidingWapper/KeyboardAvoidingWapper';
+import { TextInputMask } from 'react-native-masked-text'
 
 
 export function LaddingPageRestaurant({ navigation }: { navigation: any }) {
@@ -42,7 +43,7 @@ export function LaddingPageRestaurant({ navigation }: { navigation: any }) {
 
   let token = '';
   const postRegister = async () => {
-    
+
     await fetch('https://torder-api.vercel.app/api/cadastrar', {
       method: 'POST',
       headers: {
@@ -50,7 +51,7 @@ export function LaddingPageRestaurant({ navigation }: { navigation: any }) {
       },
       body: JSON.stringify(value)
     }).then(response => response.json())
-    .then((data) => { token = data.token;});
+      .then((data) => { token = data.token; });
 
     console.log(token)
     if (token != null && token != undefined) {
@@ -140,26 +141,22 @@ export function LaddingPageRestaurant({ navigation }: { navigation: any }) {
                     >Registro</Text>
                   </View>
 
-                  <View style={styles.registerBox}>
+                  <View style={styles.registerBox}>                    
 
-                    <Text style={styles.registertext}>
-                      CNPJ
-                    </Text>
-
-                    <TextInput style={styles.box}
+                    <TextInputMask
+                      type={'cnpj'}
+                      placeholder={"CNPJ"}
+                      style={styles.box}
                       onChangeText={(text) => setValue({ ...value, cnpj: text })}
                       value={value.cnpj}
                       returnKeyType='next'
                       ref={campo1}
                       onSubmitEditing={() => { campo2.current.focus(); }}
                       blurOnSubmit={false}
-                    ></TextInput >
-
-                    <Text style={styles.registertext}>
-                      Razão social
-                    </Text>
+                    ></TextInputMask >
 
                     <TextInput
+                      placeholder={"Razão Social"}
                       style={styles.box}
                       onChangeText={(text) => setValue({ ...value, razaoSocial: text })}
                       value={value.razaoSocial}
@@ -168,12 +165,10 @@ export function LaddingPageRestaurant({ navigation }: { navigation: any }) {
                       onSubmitEditing={() => { campo3.current.focus() }}
                       blurOnSubmit={false}
                     ></TextInput >
-
-                    <Text style={styles.registertext}>
-                      Nome Fantasia
-                    </Text>
+                  
 
                     <TextInput
+                      placeholder={"Nome Fantasia"}
                       style={styles.box}
                       onChangeText={(text) => setValue({ ...value, nomeFantasia: text })}
                       value={value.nomeFantasia}
@@ -182,12 +177,16 @@ export function LaddingPageRestaurant({ navigation }: { navigation: any }) {
                       onSubmitEditing={() => { campo4.current.focus() }}
                       blurOnSubmit={false}
                     >
-                    </TextInput >
-                    <Text style={styles.registertext}>
-                      Telefone da Loja
-                    </Text>
+                    </TextInput >                    
 
-                    <TextInput
+                    <TextInputMask
+                      type={'cel-phone'}
+                      options={{
+                        maskType: 'BRL',
+                        withDDD: true,
+                        dddMask: '(99) '
+                      }}
+                      placeholder={"Telefone"}
                       style={styles.box}
                       onChangeText={(text) => setValue({ ...value, telefones: { telefone1: text } })}
                       value={value.telefones.telefone1}
@@ -196,49 +195,51 @@ export function LaddingPageRestaurant({ navigation }: { navigation: any }) {
                       onSubmitEditing={() => { campo5.current.focus() }}
                       blurOnSubmit={false}
                     >
-                    </TextInput >
-                    <Text style={styles.registertext}>
-                      Complemento
-                    </Text>
+                    </TextInputMask >
+
+                    
 
                     <TextInput
-                      style={styles.box}
-                      onChangeText={(text) => setValue({ ...value, endereco: { complemento: text, endereco: value.endereco.endereco, numero: value.endereco.numero } })}
-                      value={value.endereco.complemento}
+                      placeholder={"Endereço"}
+                      style={styles.box}                      
+                      onChangeText={(text) => setValue({ ...value, endereco: { complemento: value.endereco.complemento, endereco: text, numero: value.endereco.numero } })}
+                      value={value.endereco.endereco}
                       ref={campo5}
                       returnKeyType='next'
                       onSubmitEditing={() => { campo6.current.focus() }}
                       blurOnSubmit={false}
                     >
                     </TextInput >
-                    <Text style={styles.registertext}>
-                      Endereço
-                    </Text>
+
+
+                  
 
                     <TextInput
+                      placeholder={"Número"}
                       style={styles.box}
-                      onChangeText={(text) => setValue({ ...value, endereco: { complemento: value.endereco.complemento, endereco: text, numero: value.endereco.numero } })}
-                      value={value.endereco.endereco}
+                      onChangeText={(text) => setValue({ ...value, endereco: { complemento: value.endereco.complemento, endereco: value.endereco.endereco, numero: text } })}
+                      value={value.endereco.numero}
                       ref={campo6}
                       returnKeyType='next'
                       onSubmitEditing={() => { campo7.current.focus() }}
                       blurOnSubmit={false}
                     >
                     </TextInput >
-                    <Text style={styles.registertext}>
-                      Número do prédio
-                    </Text>
+
+                  
 
                     <TextInput
+                      placeholder={"Complemento"}
                       style={styles.box}
-                      onChangeText={(text) => setValue({ ...value, endereco: { complemento: value.endereco.complemento, endereco: value.endereco.endereco, numero: text } })}
-                      value={value.endereco.numero}
+                      onChangeText={(text) => setValue({ ...value, endereco: { complemento: text, endereco: value.endereco.endereco, numero: value.endereco.numero } })}
+                      value={value.endereco.complemento}
                       ref={campo7}
                       returnKeyType='next'
                       onSubmitEditing={() => { campo8.current.focus() }}
                       blurOnSubmit={false}
                     >
                     </TextInput >
+
                     <Text style={styles.registertext}>
                       Especialidade da Loja
                     </Text>
@@ -248,32 +249,32 @@ export function LaddingPageRestaurant({ navigation }: { navigation: any }) {
                         selectedValue={selectedFood}
                         onValueChange={(itemValue, itemIndex) => setValue({ ...value, especialidade: itemValue })
                         }>
+                        <Picker.Item label="-- Selecione a Especialidade da Loja --" value="" />
                         <Picker.Item label="Hamburguer" value="Hamburguer" />
                         <Picker.Item label="Sopa" value="Sopa" />
                         <Picker.Item label="Suco" value="Suco" />
                         <Picker.Item label="Pizza" value="Pizza" />
                       </Picker>
                     </View>
-                    <Text style={styles.registertext}>
-                      Email
-                    </Text>
+                    
 
                     <TextInput
+                      placeholder={"Email"}
                       style={styles.box}
                       onChangeText={(text) => setValue({ ...value, email: text })}
                       value={value.email}
                       ref={campo8}
+                      keyboardType={'email-address'}
                       returnKeyType='next'
                       onSubmitEditing={() => { campo9.current.focus() }}
                       blurOnSubmit={false}
                     >
                     </TextInput >
 
-                    <Text style={styles.registertext}>
-                      Senha
-                    </Text>
+                    
 
                     <TextInput
+                      placeholder={"Senha"}
                       style={styles.box}
                       onChangeText={(text) => setValue({ ...value, senha: text })}
                       secureTextEntry={true}
@@ -323,7 +324,7 @@ export function LaddingPageRestaurant({ navigation }: { navigation: any }) {
                     <ArrowLeft stroke="black" />
                   </TouchableOpacity>
                   <View style={styles.modalTitle}>
-                  {loginError ? <Text></Text> : <Text style={{color:'red', marginBottom: 15}}>Usuário ou senha incorreta</Text>}
+                    {loginError ? <Text></Text> : <Text style={{ color: 'red', marginBottom: 15 }}>Usuário ou senha incorreta</Text>}
                     <Text
                       style={styles.registerModalName}
 
@@ -336,6 +337,7 @@ export function LaddingPageRestaurant({ navigation }: { navigation: any }) {
                       onChangeText={(text) => setLoginValue({ ...loginValue, email: text })}
                       value={loginValue.email}
                       returnKeyType='next'
+                      keyboardType={'email-address'}
                       ref={campo11}
                       onSubmitEditing={() => { campo12.current.focus(); }}
                       blurOnSubmit={false}
@@ -353,7 +355,7 @@ export function LaddingPageRestaurant({ navigation }: { navigation: any }) {
                     ></TextInput>
                   </View>
 
-                  
+
 
                   <TouchableOpacity
                     style={styles.entrarEntra}

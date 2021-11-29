@@ -1,49 +1,50 @@
-import React, {useState,useEffect} from 'react';
-import { Text,TextInput, View, Image,ScrollView, SafeAreaView,TouchableOpacity} from 'react-native';
-import { ArrowLeft} from "react-native-feather";
+import React, { useState, useEffect } from 'react';
+import { Text, TextInput, View, Image, ScrollView, SafeAreaView, TouchableOpacity } from 'react-native';
+import { ArrowLeft } from "react-native-feather";
 import styles from './styles'
 import { useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { TextInputMask } from 'react-native-masked-text'
 
 export function UserSettings() {
-    const navigation = useNavigation();
-    const [isLoading, setLoading] = useState(true);
-    const [data, setData] = useState([]);
-    
-    const putUser = async () => {      
-      const token = await AsyncStorage.getItem('token');
-      const idCliente = await AsyncStorage.getItem('clienteId');
-      const idUsuario = await AsyncStorage.getItem('usuarioId');
-      
-       await fetch('https://torder-api.vercel.app/api/cliente/'+ idCliente, {
-         method: 'PUT', 
-         headers: {
-           'Content-Type': 'application/json',
-           'Authorization': 'Bearer '+ token
-         },
-          body:JSON.stringify(item)
-      });
-       await fetch('https://torder-api.vercel.app/api/usuario/'+ idUsuario, {
-         method: 'PUT', 
-         headers: {
-           'Content-Type': 'application/json',
-           'Authorization': 'Bearer '+ token
-         },
-          body:JSON.stringify(value)
-      })
+  const navigation = useNavigation();
+  const [isLoading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
 
-      navigation.replace('UserProfile')
+  const putUser = async () => {
+    const token = await AsyncStorage.getItem('token');
+    const idCliente = await AsyncStorage.getItem('clienteId');
+    const idUsuario = await AsyncStorage.getItem('usuarioId');
+
+    await fetch('https://torder-api.vercel.app/api/cliente/' + idCliente, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      },
+      body: JSON.stringify(item)
+    });
+    await fetch('https://torder-api.vercel.app/api/usuario/' + idUsuario, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token
+      },
+      body: JSON.stringify(value)
+    })
+
+    navigation.replace('UserProfile')
   };
-  
-  const [item,setItem] = useState({
+
+  const [item, setItem] = useState({
     nome: '',
     cpf: '',
     telefone: '',
-    email:'',
+    email: '',
   });
 
-  const [value,setValue] = useState({
-    email:'',
+  const [value, setValue] = useState({
+    email: '',
     senha: undefined,
   });
 
@@ -51,25 +52,25 @@ export function UserSettings() {
     try {
       const token = await AsyncStorage.getItem('token');
       const idCliente = await AsyncStorage.getItem('clienteId');
-      const response = await fetch('https://torder-api.vercel.app/api/cliente/'+ idCliente,{
-        method: 'GET', 
+      const response = await fetch('https://torder-api.vercel.app/api/cliente/' + idCliente, {
+        method: 'GET',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': 'Bearer '+ token
+          'Authorization': 'Bearer ' + token
         },
-      });  
+      });
       const json = await response.json();
-  
+
       json.cliente.map(cliente => {
         setData(cliente);
-        
+
         setItem({
-          nome:cliente.nome,
-          cpf:cliente.cpf,
-          telefone:cliente.telefone,
-          email:cliente.email
+          nome: cliente.nome,
+          cpf: cliente.cpf,
+          telefone: cliente.telefone,
+          email: cliente.email
         });
-    
+
         setValue({
           email: cliente.email,
           senha: undefined
@@ -86,95 +87,104 @@ export function UserSettings() {
     getCliente();
   }, []);
 
-  
-    return (
+
+  return (
     <SafeAreaView style={styles.container}>
-        <View style={styles.back}>
+      <View style={styles.back}>
         <TouchableOpacity
-        onPress={() => navigation.goBack()}
+          onPress={() => navigation.goBack()}
         >
-        <ArrowLeft 
-        stroke="black"
-        width="30"
-        height="30"
-        />
+          <ArrowLeft
+            stroke="black"
+            width="30"
+            height="30"
+          />
         </TouchableOpacity>
-        </View>
-        <ScrollView >
+      </View>
+      <ScrollView >
         <View style={styles.fields}>
-            
-            <Text style={styles.fieldName}>
-                Nome
-            </Text>
-            
-            <TextInput 
+
+          <Text style={styles.fieldName}>
+            Nome
+          </Text>
+
+          <TextInput
             style={styles.textInput}
             onChangeText={(text) => setItem({ ...item, nome: text })}
-            
+
             value={item.nome}
-            
-            ></TextInput >
-           
-            
-            <Text style={styles.fieldName}>
-                Número de celular
-            </Text>
-            
-            <TextInput 
-               style={styles.textInput}
-               onChangeText={(text) => setItem({ ...item, telefone: text })}
+
+          ></TextInput >
+
+
+          <Text style={styles.fieldName}>
+            Número de celular
+          </Text>
+
+          <TextInputMask
+            type={'cel-phone'}
+            options={{
+              maskType: 'BRL',
+              withDDD: true,
+              dddMask: '(99) '
+            }}
+            style={styles.textInput}
+            onChangeText={(text) => setItem({ ...item, telefone: text })}
             value={item.telefone}
-            
-            ></TextInput >
-            
-            
-            <Text style={styles.fieldName}>
-                CPF
-            </Text>
-            
-            <TextInput 
-             style={styles.textInput}
-             onChangeText={(text) => setItem({ ...item, cpf: text })}
+
+          ></TextInputMask >
+
+
+          <Text style={styles.fieldName}>
+            CPF
+          </Text>
+
+          <TextInputMask
+            type={'cpf'}
+            style={styles.textInput}
+            onChangeText={(text) => setItem({ ...item, cpf: text })}
             value={item.cpf}
-            
-            >
-            </TextInput >
 
-            <Text style={styles.fieldName}>
-                Email
-            </Text>
-            
-            <TextInput 
-             style={styles.textInput}
-             onChangeText={(text) => {setValue({ ...value, email: text });
-                                      setItem({ ...item, email: text })}}
+          >
+          </TextInputMask >
+
+          <Text style={styles.fieldName}>
+            Email
+          </Text>
+
+          <TextInput
+            style={styles.textInput}
+            onChangeText={(text) => {
+              setValue({ ...value, email: text });
+              setItem({ ...item, email: text })
+            }}
             value={value.email}
-            
-            >
-            </TextInput >
 
-            <Text style={styles.fieldName}>
-                Senha
-            </Text>
-            
-            <TextInput 
-             style={styles.textInput}
-             secureTextEntry={true}
-             onChangeText={(text) => setValue({ ...value, senha: text })}
-             value={value.senha}
-            >
-            </TextInput >
-            
+          >
+          </TextInput >
+
+          <Text style={styles.fieldName}>
+            Senha
+          </Text>
+
+          <TextInput
+            style={styles.textInput}
+            secureTextEntry={true}
+            onChangeText={(text) => setValue({ ...value, senha: text })}
+            value={value.senha}
+          >
+          </TextInput >
+
         </View>
-        </ScrollView>
-        <TouchableOpacity 
-            style={styles.button}
-            onPress={() => {putUser()}}
-            >
-              <Text style={styles.confirm}>
-                Confirmar
-              </Text>
-            </TouchableOpacity>
+      </ScrollView>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => { putUser() }}
+      >
+        <Text style={styles.confirm}>
+          Confirmar
+        </Text>
+      </TouchableOpacity>
     </SafeAreaView>
   )
 }

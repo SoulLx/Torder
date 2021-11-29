@@ -6,6 +6,8 @@ import Modal from "react-native-modal";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import jwt_decode from "jwt-decode";
 import KeyboardAvoidingWapper from '../../components/KeyboardAvoidingWapper/KeyboardAvoidingWapper';
+import { TextInputMask } from 'react-native-masked-text'
+
 
 
 export function LaddingPageClient({ navigation }: { navigation: any }) {
@@ -37,7 +39,7 @@ export function LaddingPageClient({ navigation }: { navigation: any }) {
       },
       body: JSON.stringify(value)
     }).then(response => response.json())
-      .then((data) => { token = data.token;});
+      .then((data) => { token = data.token; });
 
     if (token != null && token != undefined) {
       const decoded = jwt_decode(token);
@@ -121,6 +123,8 @@ export function LaddingPageClient({ navigation }: { navigation: any }) {
                 </View>
                 <View >
 
+
+
                   <TextInput
                     style={styles.box}
                     placeholder="Nome"
@@ -152,7 +156,8 @@ export function LaddingPageClient({ navigation }: { navigation: any }) {
                 </View>
                 <View >
 
-                  <TextInput
+                  <TextInputMask
+                    type={'cpf'}
                     style={styles.box}
                     placeholder="CPF"
                     onChangeText={(text) => setValue({ ...value, cpf: text })}
@@ -161,11 +166,28 @@ export function LaddingPageClient({ navigation }: { navigation: any }) {
                     ref={campo3}
                     onSubmitEditing={() => { campo4.current.focus(); }}
                     blurOnSubmit={false}
-                  ></TextInput>
+                  ></TextInputMask>
+
+                  {/*<TextInput
+                    style={styles.box}
+                    placeholder="CPF"
+                    onChangeText={(text) => setValue({ ...value, cpf: text })}
+                    value={value.cpf}
+                    returnKeyType='next'
+                    ref={campo3}
+                    onSubmitEditing={() => { campo4.current.focus(); }}
+                    blurOnSubmit={false}
+                  ></TextInput>*/}
 
                 </View>
                 <View >
-                  <TextInput
+                  <TextInputMask
+                    type={'cel-phone'}
+                    options={{
+                      maskType: 'BRL',
+                      withDDD: true,
+                      dddMask: '(99) '
+                    }}
                     style={styles.box}
                     placeholder="Celular"
                     onChangeText={(text) => setValue({ ...value, telefone: text })}
@@ -174,7 +196,7 @@ export function LaddingPageClient({ navigation }: { navigation: any }) {
                     ref={campo4}
                     onSubmitEditing={() => { campo5.current.focus(); }}
                     blurOnSubmit={false}
-                  ></TextInput>
+                  ></TextInputMask>
 
                 </View>
 

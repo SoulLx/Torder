@@ -66,7 +66,18 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
 
+
+    viewPicker: {       
+        borderWidth: 1,        
+        borderRadius: 10,
+        borderColor: '#ababab',
+        width: '100%',
+        marginTop: 30,
+    },
     
+    statusPicker: {             
+        marginVertical: 22,        
+    },
 
 })
 
