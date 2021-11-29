@@ -56,6 +56,46 @@ export function Booking({navigation}:{navigation:any}) {
      setLoading(false);
    }
  }
+
+
+ const cancelBooking = async () => {
+  try {
+   const token = await AsyncStorage.getItem('token');
+   const clientId = await AsyncStorage.getItem('clienteId');
+   
+   const response = await fetch('https://torder-api.vercel.app/api/reserva/obterReservaAtual/?idCliente='+ clientId, {
+     method: 'GET', 
+     headers: {
+         'Content-Type': 'application/json',
+         'Authorization': 'Bearer ' + token
+   }})
+
+   const json = await response.json();     
+   json.reserva.map(data => {
+      fetch('https://torder-api.vercel.app/api/mesa/'+ data.mesa._id, {
+        method: 'PUT', 
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        },
+        body: JSON.stringify({status: "Disponivel"})
+      })
+      fetch('https://torder-api.vercel.app/api/reserva/'+ data._id, {
+        method: 'PUT', 
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+        },
+        body: JSON.stringify({status: "Cancelada"})
+      })
+   })
+
+ } catch (error) {
+   console.error(error);
+ } finally {
+   setLoading(false);
+ }
+}
   
   useEffect(() => {
     
@@ -138,12 +178,22 @@ export function Booking({navigation}:{navigation:any}) {
             </Text>
             <TouchableOpacity 
             style={styles.cancelButtom}
-            onPress={()=>{setcancel(false)}}
+            onPress={()=>{setcancel(false);cancelBooking()}}
             >
               <Text>
                 Cancelar
               </Text>
             </TouchableOpacity>
+
+            <TouchableOpacity 
+            style={styles.cancelButtom}
+            onPress={()=>{setcancel(false)}}
+            >
+              <Text>
+                Não Cancelar
+              </Text>
+            </TouchableOpacity>
+            
           </View>
         </View>
       </Modal>
@@ -183,7 +233,7 @@ export function Booking({navigation}:{navigation:any}) {
               
               <TouchableOpacity 
               style={styles.bookingButtonConfirm}
-              onPress={()=>{setconfirm(true)}}
+              onPress={()=>{setconfirm(true);AsyncStorage.setItem("restauranteReservadoId",item.mesa.restaurante._id)}}
               >  
                 <Text>confirmar</Text>
               </TouchableOpacity>

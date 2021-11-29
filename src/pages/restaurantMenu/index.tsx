@@ -1,36 +1,87 @@
-import React, { useState } from 'react';
-import { View, Text, ScrollView , FlatList, SafeAreaView, Image, TouchableOpacity} from 'react-native';
-import { Bold } from 'react-native-feather';
+import React, { useEffect, useState } from 'react';
+import { FlatList, SafeAreaView, Text, View, Image, TouchableOpacity } from 'react-native';;
 import styles from './styles';
+import { List } from 'react-native-paper';
+import { Edit,Trash2 } from 'react-native-feather';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Item } from 'react-native-paper/lib/typescript/components/List/List';
 
 
 export function RestaurantMenu({navigation}:{navigation:any}) {
-
-  const category = [ 
-    {id: '1', name: 'Entrada'},
-    {id: '2', name: 'Lanches'}, 
-    {id: '3', name: 'Sobremesas'}, 
-    {id: '4', name: 'Especiais'},
+  const [isLoading, setLoading] = useState(true);
+  const [data, setData] = useState([]);
+  const [visibleCategory, setVisibleCategory] = useState(false);
+  const [visibleSuccess, setVisibleSuccess] = useState(false);
+  const [visibleConfirmDelete, setVisibleConfirmDelete] = useState(false);
+  const [selectedItem, setSelectedItem] = useState([]);
+  const [category, setCategory] = useState([]);
+  const [valueCategory, setValueCategory] = useState({
+    nome: "",
+  })
   
-    
+  const getCategory = async () => {
+    try {
+      const token = await AsyncStorage.getItem('token');
+      const idRestaurante = await AsyncStorage.getItem('restauranteId');
 
-  ]
+      const response = await fetch('https://torder-api.vercel.app/api/categoria/ObterCategoria/' + idRestaurante, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+        },
+      })
+      const json = await response.json();
+      console.log(json.categoria)
+      setCategory(json.categoria);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  function ItemCategory({nameCategory}){
-      return(
-          <TouchableOpacity style={styles.itemMenu} onPress={()=>{navigation.navigate('MenuItem')}}>           
-            <View style={styles.viewImageCategory}>
-              <Image style={styles.imageItem} source={require("../../assets/bigmac.jpg")}/>              
-            </View>                               
-            <View style={styles.viewNameCategory}>
-              <Text style={{fontSize:17, textAlign: 'left'}}>{nameCategory}</Text>     
-            </View>
-          </TouchableOpacity>
-        
 
-      )
+  useEffect(() => {
+    getCategory();
+  }, []);
+
+  function GetItensPerCategory(param) {
+    try {
+      const [dataItem, setDataItem] = useState();
+      const fun = async (param) => {
+        const token = await AsyncStorage.getItem('token');
+        const idRestaurante = await AsyncStorage.getItem("restauranteReservadoId")
+        const response = await fetch('https://torder-api.vercel.app/api/produto/obterProdutos/' + idRestaurante + '?categoria=' + param.value, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + token
+          },
+        })
+        const json = await response.json();
+        setDataItem(json.produto);
       }
-
+      fun(param)
+      return (
+        <FlatList
+          style={{ width: '100%', marginBottom: 20, alignSelf: 'center' }}
+          data={dataItem}
+          keyExtractor={({ _id }, index) => _id}
+          renderItem={({ item }) => (
+            <List.Item 
+              title={item.nome}
+              description={item.descricao}
+              right={props => <Text {...props}>R$ {String(item.preco.toFixed(2))}</Text>}/>
+          )}
+        />
+      );
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  }
   return (          
     <SafeAreaView style={styles.container}>
       
@@ -46,13 +97,22 @@ export function RestaurantMenu({navigation}:{navigation:any}) {
       <FlatList 
         style={styles.list}
         data={category}
-        keyExtractor={item => item.id}
+        keyExtractor={item => item._id}
         renderItem={({item}) => {
           return(
-            <ItemCategory nameCategory={item.name}/>
+            
+            <List.Section title="">
+              
+              <List.Accordion
+                title={item.nome}>
+                <GetItensPerCategory value={item._id}/>
+              </List.Accordion>
+            </List.Section>
           )        
         }}
       />
+      
+      
 
       <TouchableOpacity style={styles.buttonVoltar} onPress={() => {navigation.replace('Booking')}}>
         <Text style={{color: 'white', fontSize: 18}}>Estou indo embora</Text>
