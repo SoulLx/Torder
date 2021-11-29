@@ -18,7 +18,7 @@ export function RestaurantMenu({navigation}:{navigation:any}) {
   const getCategory = async () => {
     try {
       const token = await AsyncStorage.getItem('token');
-      const idRestaurante = await AsyncStorage.getItem('restauranteId');
+      const idRestaurante = await AsyncStorage.getItem('restauranteReservadoId');
 
       const response = await fetch('https://torder-api.vercel.app/api/categoria/ObterCategoria/' + idRestaurante, {
         method: 'GET',
@@ -40,7 +40,7 @@ export function RestaurantMenu({navigation}:{navigation:any}) {
   const getRestaurant = async () => {
     try {
       const token = await AsyncStorage.getItem('token');
-      const idRestaurante = await AsyncStorage.getItem('restauranteId');
+      const idRestaurante = await AsyncStorage.getItem('restauranteReservadoId');
 
       const response = await fetch('https://torder-api.vercel.app/api/restaurante/' + idRestaurante, {
         method: 'GET',
@@ -86,7 +86,7 @@ export function RestaurantMenu({navigation}:{navigation:any}) {
               'Content-Type': 'application/json',
               'Authorization': 'Bearer ' + token
           },
-          body: JSON.stringify({status: "Cancelada"})
+          body: JSON.stringify({status: "Concluido"})
         })
         navigation.replace('Booking')
      })
