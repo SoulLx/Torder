@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { Text, SafeAreaView, View } from 'react-native';
+import { Text, SafeAreaView, View,TextInput, TouchableOpacity } from 'react-native';
 import { ArrowLeft, ChevronLeft } from 'react-native-feather';
-import { TextInput, TouchableOpacity } from 'react-native-gesture-handler';
 import { Picker } from '@react-native-picker/picker';
 import styles from './styles';
 import { useNavigation } from '@react-navigation/native';
