@@ -10,19 +10,19 @@ const styles=StyleSheet.create({
         
     },
     head:{
-        padding: "2%",
+        padding: "5%",
         marginTop:'5%',
-        paddingHorizontal:'36.9%',
+        paddingHorizontal:'36%',
         backgroundColor: 'white',
         marginBottom:'-4%',
     },
     body:{
 
-        marginTop:"5%",
+        marginTop:"8%",
         borderRadius:20,
         backgroundColor: 'white',
         paddingHorizontal:"25%",
-        marginBottom:"41%",
+        marginBottom:"85%",
         
         
         
@@ -33,11 +33,11 @@ const styles=StyleSheet.create({
         
     },
     bottom:{
-        paddingVertical: "2%",
-        marginTop:'-120%',
+        paddingVertical: "5%",
+        marginTop:'-162%',
         marginBottom:'2%',
         backgroundColor: 'white',
-        paddingHorizontal:'33.6%',
+        paddingHorizontal:'33%',
     },
 
     bodyBottom:{
