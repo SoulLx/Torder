@@ -153,9 +153,9 @@ export function Booking({navigation}:{navigation:any}) {
           Minhas Reservas 
         </Text>
       </View>  
-      <View style={styles.body}>
+     
       <FlatList
-        style={{width: '100%'}}
+        style={styles.body}
         data={dataBooking}
         keyExtractor={({_id }, index) => _id}
         renderItem={({ item }) => (
@@ -191,18 +191,17 @@ export function Booking({navigation}:{navigation:any}) {
           </View>
         )}
         />
-      </View>
+      
  
 
       <View style={styles.bottom}> 
         <Text> 
           Histórico de reservas
         </Text>
-      </View>
+        </View>
       
-      <View style={styles.bodyBottom}>
         <FlatList
-        style={{width: '100%'}}
+        style={styles.bodyBottom}
         data={data}
         keyExtractor={({_id }, index) => _id}
         renderItem={({ item }) => (
@@ -213,35 +212,21 @@ export function Booking({navigation}:{navigation:any}) {
               <Text> Reserva criada em: { item.horarioCriacao} </Text>
               <Text> Reserva reservada em: { item.horarioCriacao} </Text>
             </View>
-          </View>
-        )}
-        /> 
-
-        <View style={styles.nameBooking}>
-          <Text>
-            Nome do Restaurante
-          </Text>
-        </View>
-        <View style={styles.midBooking}>
-          <Text>
-            Status da Reserva
-          </Text>
-          <Text>
-            Resumo da Reserva
-          </Text>
-          </View>
-          <View >
+            <View >
           <TouchableOpacity 
           style={styles.bookingDetails}
           onPress={()=>{setdetails(true)}}
           >
             <Text>Ver mais detalhes</Text>
           </TouchableOpacity>
-        </View>
-      </View>
-      <View style={{marginTop:'-140%'}}>
+          </View>
+          </View>
+        )}
+        /> 
+      
+      
       <BottomBar/>
-      </View>
+      
     </SafeAreaView>
   )
 }

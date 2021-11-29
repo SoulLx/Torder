@@ -7,44 +7,47 @@ const styles=StyleSheet.create({
         flex:1,
         alignItems:'center',
         justifyContent:'space-between'
+        
     },
     head:{
         paddingTop: "5%",
         borderBottomWidth: 1,
-    },
-    bottom:{
-        paddingTop: "30%",
-        borderBottomWidth: 1,
-        marginTop:'-180%',
         
     },
     body:{
         
-        marginTop:"-20%",
+        marginTop:"5%",
         borderWidth: 1,
         
         paddingHorizontal:"10%",
         paddingBottom:"0%",
-        marginBottom:"140%",
+        marginBottom:"0%",
         paddingTop:"0%",
         
     },
+    nameBooking:{
+        
+        marginTop:'5%',
+        
+    },
+    bottom:{
+        paddingTop: "0%",
+        borderBottomWidth: 1,
+        marginTop:'5%',
+    },
+
     bodyBottom:{
         
-        marginTop:"-20%",
+        marginTop:"5%",
         borderWidth: 1,
-        
-        paddingHorizontal:"25%",
-        paddingBottom:"30%",
-        marginBottom:'150%',
+        paddingHorizontal:"40%",
+        paddingBottom:"40%",
+        marginBottom:'40%',
     },
     midBooking:{
         alignItems:'center',
     },
-    nameBooking:{
-        marginVertical:"5%",
-        
-    },
+    
     bookingAction:{
         marginTop:"10%",
         justifyContent:'space-between',
