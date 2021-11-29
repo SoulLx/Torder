@@ -117,15 +117,10 @@ export function Booking({navigation}:{navigation:any}) {
       >
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
-            <Text style={styles.textCode}>
-              22246665578
-            </Text>
+            
             <View style={styles.modalView}>
               <Text style={styles.textConfirm}>
-                Informe seu código
-              </Text>
-              <Text style={styles.textConfirm}>
-                ao Garçom
+                Deseja
               </Text>
               <TouchableOpacity 
               style={{marginTop:20,backgroundColor:'white',width:40,height:40}}
