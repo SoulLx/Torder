@@ -120,17 +120,23 @@ export function Booking({navigation}:{navigation:any}) {
             
             <View style={styles.modalView}>
               <Text style={styles.textConfirm}>
-                Deseja
+                Confirmar presença?
               </Text>
               <TouchableOpacity 
-              style={{marginTop:20,backgroundColor:'white',width:40,height:40}}
+              style={{marginTop:'10%',width:"20%",height:"20%"}}
               onPress={()=>{setconfirm(false)}}
               >
+                <Text style={styles.textConfirm}>
+                Não
+              </Text>
               </TouchableOpacity>
               <TouchableOpacity 
-              style={{marginTop:20,backgroundColor:'white',width:40,height:40}}
-              onPress={()=>{navigation.navigate('RestaurantLadding')}}
+              style={{marginTop:'10%',width:"20%",height:"20%"}}
+              onPress={()=>{navigation.replace('RestaurantMenu')}}
               >
+                <Text style={styles.textConfirm}>
+                Sim
+              </Text>
               </TouchableOpacity>
             </View>
           </View>

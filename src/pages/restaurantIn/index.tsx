@@ -81,7 +81,7 @@ export function RestaurantIn({navigation}:{navigation:any}) {
             keyExtractor={({_id }, index) => _id}
             renderItem={({ item }) => (
               <View>
-                <Text>{item.nomeFantasia}</Text>
+                <Text style={styles.name}>{item.nomeFantasia}</Text>
               </View>
             )}
           />

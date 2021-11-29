@@ -112,7 +112,7 @@ const styles=StyleSheet.create({
         alignItems:'center',
         backgroundColor:"black",
         margin:5,
-        paddingHorizontal:"10%",
+        paddingHorizontal:"5%",
         paddingVertical:"20%",
         borderRadius:20,
         elevation:10,

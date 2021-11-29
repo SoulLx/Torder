@@ -69,13 +69,14 @@ const styles=StyleSheet.create({
     profileRestaurant:{
     marginTop:'5%',
     marginLeft:'45%',
+    marginRight:'5%',
     fontSize:14,
     fontWeight:'bold',
     },
     name:{
-    marginTop:'5%',
+    marginTop:'-5%',
     marginLeft:'2%',
-    fontSize:14,
+    fontSize:20,
     fontWeight:'bold',
     },
     sair:{
@@ -104,7 +105,6 @@ const styles=StyleSheet.create({
     },
     perfiltexto:{
     fontSize:16,
-    
     marginBottom:'5%',
     },
     sairTexto:{

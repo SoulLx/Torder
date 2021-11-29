@@ -6,7 +6,6 @@ import { SearchRestaurant } from '../pages/searchRestaurant';
 import { Restaurant } from '../pages/restaurant';
 import { Booking } from '../pages/booking';
 import { UserSettings } from '../pages/userProfile/userSettings';
-import { RestaurantLadding } from '../pages/restaurantLadding';
 import { LaddingPageRestaurant } from '../pages/laddingPage Restaurant';
 import { RestaurantIn } from '../pages/restaurantIn';
 import { Book } from '../pages/book';
@@ -65,10 +64,6 @@ const AppRoutes: React.FC= ()=> (
         <stackRoutes.Screen
             name="UserSettings"
             component={UserSettings}
-        />
-        <stackRoutes.Screen
-            name="RestaurantLadding"
-            component={RestaurantLadding}
         />
         <stackRoutes.Screen
             name="Book"
