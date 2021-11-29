@@ -15,7 +15,6 @@ import { RestaurantProfileSettings } from '../pages/restaurantProfileSettings';
 import AddItem from '../pages/addItem';
 import AddTable from '../pages/addTable';
 import { RestaurantMenu } from '../pages/restaurantMenu';
-import { MenuItem } from '../pages/restaurantMenu/menuItem';
 import EditItem from '../pages/editItem';
 import EditTable from '../pages/editTable';
 
@@ -91,11 +90,6 @@ const AppRoutes: React.FC= ()=> (
         <stackRoutes.Screen
             name="RestaurantMenu"
             component={RestaurantMenu}
-        />
-
-        <stackRoutes.Screen
-            name="MenuItem"
-            component={MenuItem}
         />
 
         <stackRoutes.Screen
