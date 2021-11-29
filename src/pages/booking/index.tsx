@@ -88,6 +88,7 @@ export function Booking({navigation}:{navigation:any}) {
         },
         body: JSON.stringify({status: "Cancelada"})
       })
+      navigation.replace('Booking')
    })
 
  } catch (error) {
