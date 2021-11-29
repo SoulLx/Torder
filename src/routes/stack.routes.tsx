@@ -15,7 +15,6 @@ import { RestaurantProfileSettings } from '../pages/restaurantProfileSettings';
 import AddItem from '../pages/addItem';
 import AddTable from '../pages/addTable';
 import { RestaurantMenu } from '../pages/restaurantMenu';
-import { MenuItem } from '../pages/restaurantMenu/menuItem';
 import EditItem from '../pages/editItem';
 import EditTable from '../pages/editTable';
 
