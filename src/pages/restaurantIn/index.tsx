@@ -75,12 +75,12 @@ export function RestaurantIn({navigation}:{navigation:any}) {
     <SafeAreaView style={styles.container}>
     <View style={styles.foto}>
     
-      <View style={styles.container}>
+      <View style={styles.flat}>
       <FlatList
             data={data}
             keyExtractor={({_id }, index) => _id}
             renderItem={({ item }) => (
-              <View>
+              <View >
                 <Text style={styles.name}>{item.nomeFantasia}</Text>
               </View>
             )}

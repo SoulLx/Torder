@@ -2,7 +2,7 @@ import { StyleSheet,StatusBar,Platform } from 'react-native';
 
 const styles=StyleSheet.create({
     container:{
-        backgroundColor: "white",
+        backgroundColor:'rgba(217, 217, 217,0.5)', 
         paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
         flex:1,
         alignItems:'center',
@@ -44,19 +44,22 @@ const styles=StyleSheet.create({
     marginTop:"0%",
     marginBottom:'-20%',
     paddingVertical:'5%',
-    paddingRight:'70%',
-    marginLeft:'5%',
-    
+    paddingLeft:'5%',
+    paddingRight:'71%',
+    paddingHorizontal:'0%',
+    marginLeft:'0%',
+    backgroundColor:'white',
     },
     config2:{
         alignSelf: "flex-start",
-        marginTop:"-50%",
+        marginTop:"-40%",
         marginBottom:'0%',
-        paddingTop:'0%',
-        marginLeft:'5%',
+        paddingTop:'5%',
+        paddingLeft:'5%',
+        marginLeft:'0%',
         paddingVertical:'5%',
-    paddingRight:'70%',
-        
+        paddingRight:'88%',
+    backgroundColor:'white',
         },
     perfiltexto:{
     fontSize:16,
@@ -82,7 +85,7 @@ const styles=StyleSheet.create({
     linha2:{
         backgroundColor:'black',
         paddingHorizontal:'50%',
-        opacity:0.2,
+        opacity:0.0,
         paddingTop:'0.5%',
         marginTop:'-35%',
         marginBottom:'0%',
@@ -90,7 +93,7 @@ const styles=StyleSheet.create({
     linha3:{
         backgroundColor:'black',
         paddingHorizontal:'50%',
-        opacity:0.2,
+        opacity:0.0,
         paddingTop:'0.5%',
         marginTop:'-55%',
         marginBottom:'0%',

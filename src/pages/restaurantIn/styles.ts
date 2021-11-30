@@ -8,6 +8,11 @@ const styles=StyleSheet.create({
         alignItems:'center',
         justifyContent:'space-between'
     },
+    flat:{
+        marginLeft:'5%',
+        marginTop:'5%',
+        alignItems:'center',
+    },
     barOpen:{
         backgroundColor:'green',
         marginTop:'-70%',
@@ -68,14 +73,15 @@ const styles=StyleSheet.create({
     },
     profileRestaurant:{
     marginTop:'5%',
-    marginLeft:'45%',
+    marginLeft:'35%',
     marginRight:'5%',
     fontSize:14,
     fontWeight:'bold',
     },
     name:{
-    marginTop:'-5%',
-    marginLeft:'2%',
+    marginTop:'0%',
+    marginLeft:'5%',
+    paddingHorizontal:'0%',
     fontSize:20,
     fontWeight:'bold',
     },
@@ -85,7 +91,7 @@ const styles=StyleSheet.create({
     },
     config:{
     alignSelf:"center",
-    
+    marginLeft:'16%',
     marginHorizontal:'15%',
     justifyContent:'space-between',
 
@@ -113,7 +119,7 @@ const styles=StyleSheet.create({
         marginBottom:'5%',
         },
     foto:{
-    marginLeft:20,
+    paddingLeft:'0%',
     alignSelf: "flex-start",
     marginTop:60,
     justifyContent:'space-between',
