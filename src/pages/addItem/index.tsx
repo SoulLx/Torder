@@ -171,8 +171,8 @@ export default function AddItem() {
 
 
 
-                <TouchableOpacity style={styles.addButton}>
-                    <Text style={styles.lblAddButton} onPress={() => { postItem() }}>Adicionar Item</Text>
+                <TouchableOpacity onPress={() => { postItem()}} style={styles.addButton}>
+                    <Text style={styles.lblAddButton}>Adicionar Item</Text>
                 </TouchableOpacity>
 
 

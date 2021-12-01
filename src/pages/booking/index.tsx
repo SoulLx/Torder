@@ -5,9 +5,12 @@ import BottomBar from '../../components/BottomBar/BottomBar';
 import Modal from "react-native-modal";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TextMask } from 'react-native-masked-text'
-const { DateTime } = require("luxon");
+import moment from 'moment';
+
+
 
 export function Booking({ navigation }: { navigation: any }) {
+  moment.locale('pt-br') 
   const [confirm, setconfirm] = useState(false)
   const [details, setdetails] = useState(false)
   const [cancel, setcancel] = useState(false)
@@ -15,6 +18,13 @@ export function Booking({ navigation }: { navigation: any }) {
   const [data, setData] = useState([]);
   const [dataConfirm, setDataConfirm] = useState([]);
   const [dataBooking, setDataBooking] = useState([]);
+  
+  function convertDate(date) {
+     
+    const convDate = moment(date).format("DD/MM/YYYY HH:mm")
+    
+    return convDate
+  }
 
   const getBookings = async () => {
     try {
@@ -62,12 +72,12 @@ export function Booking({ navigation }: { navigation: any }) {
 
   function NoBooking() {
     if (dataBooking.length == 0) {
-      return <Text style={{fontSize: 15, marginTop: 35}}>Você não possui reservas no momento</Text>
+      return <Text style={{ fontSize: 15, marginTop: 35 }}>Você não possui reservas no momento</Text>
     } else {
       return null
     }
   }
-  
+
 
 
   const goBooking = async () => {
@@ -237,7 +247,7 @@ export function Booking({ navigation }: { navigation: any }) {
         </Text>
       </View>
       <View style={styles.bookingView}>
-      <NoBooking/>
+        <NoBooking />
         <FlatList
           style={styles.booking1}
           data={dataBooking}
@@ -245,16 +255,17 @@ export function Booking({ navigation }: { navigation: any }) {
           renderItem={({ item }) => (
 
             <View style={styles.midBooking}>
-              
+
               <Text style={{ fontWeight: 'bold', }}>{item.mesa.restaurante.nomeFantasia}</Text>
               <Text>{item.status}</Text>
-              <TextMask
-                value={item.horarioReserva}
-                type={'datetime'}
-                options={{
-                  format: 'YYYY/MM/DD  HH:mm'
-                }}
-              />
+              <Text>
+                {String(convertDate(item.horarioCriacao))}
+              </Text>
+
+
+
+
+
 
 
               <View style={styles.bookingAction}>
@@ -302,23 +313,8 @@ export function Booking({ navigation }: { navigation: any }) {
           <View style={styles.historyView}>
             <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{item.mesa.restaurante.nomeFantasia}</Text>
             <Text> {item.status} </Text>
-            <Text>Reserva criada em: <TextMask
-              value={item.horarioCriacao}
-
-              type={'datetime'}
-              options={{
-                format: 'YYYY/MM/DD  HH:mm'
-              }}
-            />
-            </Text>
-            <Text> Reserva reservada em: <TextMask
-              value={item.horarioCriacao}
-              type={'datetime'}
-              options={{
-                format: 'YYYY/MM/DD  HH:mm'
-              }}
-            />
-            </Text>
+            <Text>Reserva criada em: {String(convertDate(item.horarioCriacao))}</Text>
+            <Text>Reserva reservada em: {String(convertDate(item.horarioReserva))}</Text>
           </View>
         )}
       />

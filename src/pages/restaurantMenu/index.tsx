@@ -151,7 +151,7 @@ export function RestaurantMenu({ navigation }: { navigation: any }) {
         animationInTiming={600}
         backdropTransitionOutTiming={800}
         animationOut="slideOutDown"
-        isVisible={visibleConfirm}        
+        isVisible={visibleConfirm}
       >
         <View style={styles.modalViewConfirm}>
           <Text style={{ fontSize: 19 }}>Confirma que deseja ir embora?</Text>
@@ -165,42 +165,43 @@ export function RestaurantMenu({ navigation }: { navigation: any }) {
           </View>
         </View>
       </Modal>
+     
 
-      <FlatList
-        style={styles.list}
-        data={data}
-        keyExtractor={item => item._id}
-        renderItem={({ item }) => {
-          return (
-            <View style={styles.restaurantName}>
-              <Text style={{ fontWeight: 'bold', fontSize: 24 }}>{item.nomeFantasia}</Text>
-            </View>
-          )
-        }}
-      />
+        <FlatList
+          style={{width: '100%'}}
+          data={data}
+          keyExtractor={item => item._id}
+          renderItem={({ item }) => {
+            return (
+              <View style={styles.restaurantName}>
+                <Text style={{ fontWeight: 'bold', fontSize: 24 }}>{item.nomeFantasia}</Text>
+              </View>
+            )
+          }}
+        />
 
-      <Text style={{ fontSize: 17 }}>Cardápio</Text>
+        <Text style={{ fontSize: 17 }}>Cardápio</Text>
 
 
-      <FlatList
-        style={styles.list}
-        data={category}
-        keyExtractor={item => item._id}
-        renderItem={({ item }) => {
-          return (
-            <View>
-              <List.Section title="">
+        <FlatList
+          style={styles.list}
+          data={category}
+          keyExtractor={item => item._id}
+          renderItem={({ item }) => {
+            return (
+              <View>
+                <List.Section title="">
 
-                <List.Accordion
-                  title={item.nome}>
-                  <GetItensPerCategory value={item._id} />
-                </List.Accordion>
-              </List.Section>
-            </View>
-          )
-        }}
-      />
-
+                  <List.Accordion
+                    title={item.nome}>
+                    <GetItensPerCategory value={item._id} />
+                  </List.Accordion>
+                </List.Section>
+              </View>
+            )
+          }}
+        />
+   
 
 
       <TouchableOpacity style={styles.buttonVoltar} onPress={() => { setVisibleConfirm(true) }}>

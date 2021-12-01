@@ -125,8 +125,14 @@ const styles = StyleSheet.create({
         alignItems: 'center', 
         justifyContent: 'space-between', 
         paddingHorizontal: '6%',
-    }
+    },
     
+    categoryAction: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',        
+        width: '27%',
+    }
+
 });
 
 export default styles;

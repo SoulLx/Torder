@@ -9,20 +9,21 @@ import { add } from 'react-native-reanimated';
 export function Book({ navigation }: { navigation: any }) {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  const [visibleCategory, setVisibleCategory] = useState(false);  
+  const [visibleCategory, setVisibleCategory] = useState(false);
   const [visibleConfirmDelete, setVisibleConfirmDelete] = useState(false);
   const [visiblePermission, setVisiblePermission] = useState(false);
   const [visibleConfirmDeleteCategory, setVisibleConfirmDeleteCategory] = useState(false)
   const [selectedItem, setSelectedItem] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState([]);
   const [category, setCategory] = useState([]);
+  const [visibleConfirmEditCategory, setVisibleConfirmEditCategory] = useState(false)
   const [ifDelete, setIfDelete] = useState([])
-  
+
   const [valueCategory, setValueCategory] = useState({
     nome: "",
   })
 
-  
+
   console.log(category)
 
   const verificarCategorias = async () => {
@@ -34,8 +35,8 @@ export function Book({ navigation }: { navigation: any }) {
     }
   }
 
- 
-    
+  
+
 
 
   const getCategory = async () => {
@@ -52,23 +53,23 @@ export function Book({ navigation }: { navigation: any }) {
       })
       const json = await response.json();
       setCategory(json.categoria);
-      
-      
+
+
     } catch (error) {
       console.error(error);
     } finally {
       setLoading(false);
     }
   };
- 
 
-  
+
+
 
   useEffect(() => {
     getCategory();
   }, []);
 
-  
+
   function GetItensPerCategory(param) {
     try {
       const [dataItem, setDataItem] = useState([]);
@@ -83,8 +84,8 @@ export function Book({ navigation }: { navigation: any }) {
           },
         })
         const json = await response.json();
-        setDataItem(json.produto);       
-     
+        setDataItem(json.produto);
+
       }
       fun(param)
       return (
@@ -222,6 +223,30 @@ export function Book({ navigation }: { navigation: any }) {
     }
   }
 
+  const putCategory = async (categoriaId) => {
+    try {
+      const token = await AsyncStorage.getItem('token');
+
+      const item = {
+        nome: valueCategory.nome,       
+      }
+
+      const response = await fetch("https://torder-api.vercel.app/api/categoria/" + categoriaId, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+        },
+        body: JSON.stringify(item)
+      });
+
+      navigation.replace('Book');
+    } catch (error) {
+      console.log("error " + error)
+    }
+
+  };
+
   function replace() {
     navigation.replace(
       "Book",
@@ -309,6 +334,37 @@ export function Book({ navigation }: { navigation: any }) {
         animationInTiming={600}
         backdropTransitionOutTiming={800}
         animationOut="slideOutDown"
+        isVisible={visibleConfirmEditCategory}
+      >
+        <View style={styles.viewModalCategory}>
+
+          <TouchableOpacity onPress={() => { setVisibleConfirmEditCategory(false) }}>
+            <ArrowLeft
+              stroke="black"
+              width="30"
+              height="30"
+            />
+          </TouchableOpacity>
+          <Text style={{ fontWeight: 'bold', fontSize: 21 }}>Editar Categoria</Text>
+          <TextInput
+            style={{ padding: 7, borderWidth: 1, borderRadius: 10, borderColor: "#bdbdbd" }}
+            placeholder="Nome da categoria"
+            onChangeText={(text) => setValueCategory({ ...valueCategory, nome: text })}
+            value={valueCategory.nome}
+
+          />
+          <TouchableOpacity style={styles.buttonCategory} onPress={() => { putCategory(selectedCategory); setVisibleCategory(false)}}>
+            <Text style={{ color: 'white' }}>Editar</Text>
+          </TouchableOpacity>
+        </View>
+      </Modal>
+
+      <Modal
+        animationIn="slideInUp"
+        animationOutTiming={1000}
+        animationInTiming={600}
+        backdropTransitionOutTiming={800}
+        animationOut="slideOutDown"
         isVisible={visibleCategory}
       >
         <View style={styles.viewModalCategory}>
@@ -360,13 +416,22 @@ export function Book({ navigation }: { navigation: any }) {
           <View>
             <View style={styles.viewCategorias}>
               <Text style={styles.categorias}>{item.nome}</Text>
-              <TouchableOpacity onPress={() => {setSelectedCategory(item._id);setVisibleConfirmDeleteCategory(true)}}>
-                <Trash2
-                  stroke="red"
-                  width="30"
-                  height="30"
-                />
-              </TouchableOpacity>
+              <View style={styles.categoryAction}>
+                <TouchableOpacity onPress={() => { setSelectedCategory(item._id); setVisibleConfirmEditCategory(true) }}>
+                  <Edit
+                    stroke="black"
+                    width="30"
+                    height="30"
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => { setSelectedCategory(item._id); setVisibleConfirmDeleteCategory(true) }}>
+                  <Trash2
+                    stroke="red"
+                    width="30"
+                    height="30"
+                  />
+                </TouchableOpacity>
+              </View>
             </View>
 
             <GetItensPerCategory value={item._id} />
@@ -383,9 +448,9 @@ export function Book({ navigation }: { navigation: any }) {
             height="23"
           />
         </TouchableOpacity>
-        <TouchableOpacity 
-          style={styles.buttonAddTable} 
-          onPress={() => verificarCategorias()}          
+        <TouchableOpacity
+          style={styles.buttonAddTable}
+          onPress={() => verificarCategorias()}
         >
           <Text style={{ fontWeight: 'bold', fontSize: 18, color: 'black' }}>Adicionar Produto</Text>
           <Plus
