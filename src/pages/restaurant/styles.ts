@@ -111,7 +111,7 @@ const styles=StyleSheet.create({
         borderRadius: 20,
         backgroundColor: "white",
         padding: 20,   
-        height: '70%',
+        height: 360,
         justifyContent: 'space-between' ,
     },
     modalView2: {

@@ -226,21 +226,7 @@ useEffect(() => {
                         marginBottom: 20,}}>
             Reserva
           </Text>   
-
-          <Text style={styles.lblModal}>Horário</Text>
-          <Picker
-            style={{
-
-              width: '100%',
-              height: 70,
-            }}
-            enabled={false}
-            selectedValue={selectedTable}
-            onValueChange={(itemValue) => {setSelectedTable(itemValue)}}
-          >
-            <Picker.Item label={"16:00"} value={""}/>
-            
-          </Picker>                         
+                            
           
           <Text style={styles.lblModal}>Mesa</Text>
           

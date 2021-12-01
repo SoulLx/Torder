@@ -60,6 +60,15 @@ export function Booking({ navigation }: { navigation: any }) {
     }
   }
 
+  function NoBooking() {
+    if (dataBooking.length == 0) {
+      return <Text style={{fontSize: 15, marginTop: 35}}>Você não possui reservas no momento</Text>
+    } else {
+      return null
+    }
+  }
+  
+
 
   const goBooking = async () => {
     try {
@@ -228,6 +237,7 @@ export function Booking({ navigation }: { navigation: any }) {
         </Text>
       </View>
       <View style={styles.bookingView}>
+      <NoBooking/>
         <FlatList
           style={styles.booking1}
           data={dataBooking}
@@ -235,6 +245,7 @@ export function Booking({ navigation }: { navigation: any }) {
           renderItem={({ item }) => (
 
             <View style={styles.midBooking}>
+              
               <Text style={{ fontWeight: 'bold', }}>{item.mesa.restaurante.nomeFantasia}</Text>
               <Text>{item.status}</Text>
               <TextMask

@@ -9,21 +9,34 @@ import { add } from 'react-native-reanimated';
 export function Book({ navigation }: { navigation: any }) {
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
-  const [visibleCategory, setVisibleCategory] = useState(false);
-  const [visibleSuccess, setVisibleSuccess] = useState(false);
+  const [visibleCategory, setVisibleCategory] = useState(false);  
   const [visibleConfirmDelete, setVisibleConfirmDelete] = useState(false);
+  const [visiblePermission, setVisiblePermission] = useState(false);
+  const [visibleConfirmDeleteCategory, setVisibleConfirmDeleteCategory] = useState(false)
   const [selectedItem, setSelectedItem] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState([]);
   const [category, setCategory] = useState([]);
+  const [ifDelete, setIfDelete] = useState([])
   
   const [valueCategory, setValueCategory] = useState({
     nome: "",
   })
 
   
+  console.log(category)
 
+  const verificarCategorias = async () => {
+    if (category.length == 0) {
+      setVisiblePermission(true);
+    } else {
+      navigation.replace('AddItem');
+      setVisiblePermission(false);
+    }
+  }
 
-  const [addItemDisable, setAddItemDisable] = useState(false);
-  console.log(addItemDisable)
+ 
+    
+
 
   const getCategory = async () => {
     try {
@@ -39,26 +52,26 @@ export function Book({ navigation }: { navigation: any }) {
       })
       const json = await response.json();
       setCategory(json.categoria);
-      if (category.length === 0) {
-        setAddItemDisable(true)
-      } else {
-        setAddItemDisable(false)
-      }
+      
+      
     } catch (error) {
       console.error(error);
     } finally {
       setLoading(false);
     }
   };
+ 
 
+  
 
   useEffect(() => {
     getCategory();
   }, []);
 
+  
   function GetItensPerCategory(param) {
     try {
-      const [dataItem, setDataItem] = useState();
+      const [dataItem, setDataItem] = useState([]);
       const fun = async (param) => {
         const token = await AsyncStorage.getItem('token');
         const idRestaurante = await AsyncStorage.getItem("restauranteId")
@@ -70,7 +83,8 @@ export function Book({ navigation }: { navigation: any }) {
           },
         })
         const json = await response.json();
-        setDataItem(json.produto);
+        setDataItem(json.produto);       
+     
       }
       fun(param)
       return (
@@ -236,6 +250,44 @@ export function Book({ navigation }: { navigation: any }) {
         animationInTiming={600}
         backdropTransitionOutTiming={800}
         animationOut="slideOutDown"
+        isVisible={visiblePermission}
+      >
+        <View style={styles.modalViewConfirm}>
+          <Text style={{ fontSize: 19 }}>Crie uma categoria</Text>
+          <TouchableOpacity style={styles.buttonNo} onPress={() => setVisiblePermission(false)}>
+            <Text style={{ fontSize: 17, color: 'white' }}>OK</Text>
+          </TouchableOpacity>
+        </View>
+
+      </Modal>
+
+      <Modal
+        animationIn="slideInUp"
+        animationOutTiming={1000}
+        animationInTiming={600}
+        backdropTransitionOutTiming={800}
+        animationOut="slideOutDown"
+        isVisible={visibleConfirmDeleteCategory}
+      >
+        <View style={styles.modalViewConfirm}>
+          <Text style={{ fontSize: 19 }}>Deseja excluir essa categoria?</Text>
+          <View style={styles.modalViewButtonConfirm}>
+            <TouchableOpacity style={styles.buttonYes} onPress={() => { deleteCategory(selectedCategory); setVisibleConfirmDeleteCategory(false) }}>
+              <Text style={{ fontSize: 17, color: 'white' }}>Sim</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.buttonNo} onPress={() => setVisibleConfirmDeleteCategory(false)}>
+              <Text style={{ fontSize: 17, color: 'white' }}>Não</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+
+      <Modal
+        animationIn="slideInUp"
+        animationOutTiming={1000}
+        animationInTiming={600}
+        backdropTransitionOutTiming={800}
+        animationOut="slideOutDown"
         isVisible={visibleConfirmDelete}
       >
         <View style={styles.modalViewConfirm}>
@@ -308,7 +360,7 @@ export function Book({ navigation }: { navigation: any }) {
           <View>
             <View style={styles.viewCategorias}>
               <Text style={styles.categorias}>{item.nome}</Text>
-              <TouchableOpacity onPress={() => deleteCategory(item._id)}>
+              <TouchableOpacity onPress={() => {setSelectedCategory(item._id);setVisibleConfirmDeleteCategory(true)}}>
                 <Trash2
                   stroke="red"
                   width="30"
@@ -333,8 +385,7 @@ export function Book({ navigation }: { navigation: any }) {
         </TouchableOpacity>
         <TouchableOpacity 
           style={styles.buttonAddTable} 
-          onPress={() => navigation.navigate('AddItem')}
-          disabled={addItemDisable}
+          onPress={() => verificarCategorias()}          
         >
           <Text style={{ fontWeight: 'bold', fontSize: 18, color: 'black' }}>Adicionar Produto</Text>
           <Plus

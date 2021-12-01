@@ -45,6 +45,7 @@ export default function AddItem() {
                 body: JSON.stringify(item)
             });
             const json = await response.json();
+            console.log(json)
 
             navigation.replace('Book');
         } catch (error) {
@@ -92,7 +93,7 @@ export default function AddItem() {
             <View style={styles.containerView}>
 
                 <TouchableOpacity
-                    onPress={() => navigation.goBack()}
+                    onPress={() => navigation.replace('Book')}
                     style={{ marginBottom: 50 }}
                 >
                     <ChevronLeft
