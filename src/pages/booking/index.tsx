@@ -1,34 +1,36 @@
-import React, {useState,useEffect} from 'react';
-import {SafeAreaView, Text,View,TouchableOpacity, ActivityIndicator,FlatList} from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { SafeAreaView, Text, View, TouchableOpacity, ActivityIndicator, FlatList } from 'react-native';
 import styles from './styles'
 import BottomBar from '../../components/BottomBar/BottomBar';
 import Modal from "react-native-modal";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { TextMask } from 'react-native-masked-text'
 const { DateTime } = require("luxon");
 
-export function Booking({navigation}:{navigation:any}) {
-  const[confirm,setconfirm]=useState(false)
-  const[details,setdetails]=useState(false)
-  const[cancel,setcancel]=useState(false)
+export function Booking({ navigation }: { navigation: any }) {
+  const [confirm, setconfirm] = useState(false)
+  const [details, setdetails] = useState(false)
+  const [cancel, setcancel] = useState(false)
   const [isLoading, setLoading] = useState(true);
   const [data, setData] = useState([]);
   const [dataConfirm, setDataConfirm] = useState([]);
   const [dataBooking, setDataBooking] = useState([]);
 
   const getBookings = async () => {
-     try {
+    try {
       const token = await AsyncStorage.getItem('token');
       const clientId = await AsyncStorage.getItem('clienteId');
-      
-      const response = await fetch('https://torder-api.vercel.app/api/reserva/obterReservas/'+ clientId, {
-        method: 'GET', 
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + token
-      }})
 
-      const json = await response.json();     
-      setData(json.reserva);  
+      const response = await fetch('https://torder-api.vercel.app/api/reserva/obterReservas/' + clientId, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+        }
+      })
+
+      const json = await response.json();
+      setData(json.reserva);
     } catch (error) {
       console.error(error);
     } finally {
@@ -38,274 +40,281 @@ export function Booking({navigation}:{navigation:any}) {
 
   const getCurrentBooking = async () => {
     try {
-     const token = await AsyncStorage.getItem('token');
-     const clientId = await AsyncStorage.getItem('clienteId');
-     
-     const response = await fetch('https://torder-api.vercel.app/api/reserva/obterReservaAtual/?idCliente='+ clientId, {
-       method: 'GET', 
-       headers: {
-           'Content-Type': 'application/json',
-           'Authorization': 'Bearer ' + token
-     }})
+      const token = await AsyncStorage.getItem('token');
+      const clientId = await AsyncStorage.getItem('clienteId');
 
-     const json = await response.json();     
-     setDataBooking(json.reserva);  
-   } catch (error) {
-     console.error(error);
-   } finally {
-     setLoading(false);
-   }
- }
-
-
- const goBooking = async () => {
-  try {
-   const token = await AsyncStorage.getItem('token');
-   const clientId = await AsyncStorage.getItem('clienteId');
-   AsyncStorage.setItem("restauranteReservadoId",dataConfirm.mesa.restaurante._id)
-
-   fetch('https://torder-api.vercel.app/api/reserva/'+ dataConfirm._id, {
-          method: 'PUT', 
-          headers: {
-              'Content-Type': 'application/json',
-              'Authorization': 'Bearer ' + token
-          },
-          body: JSON.stringify({status: "Presente"})
-        });
-    fetch('https://torder-api.vercel.app/api/mesa/'+ data.mesa._id, {
-      method: 'PUT', 
-      headers: {
+      const response = await fetch('https://torder-api.vercel.app/api/reserva/obterReservaAtual/?idCliente=' + clientId, {
+        method: 'GET',
+        headers: {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer ' + token
-      },
-      body: JSON.stringify({status: "Ocupada"})
-    });
- } catch (error) {
-   console.error(error);
- } finally {
-   setLoading(false);
- }
-}
+        }
+      })
+
+      const json = await response.json();
+      setDataBooking(json.reserva);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  }
 
 
- const cancelBooking = async () => {
-  try {
-   const token = await AsyncStorage.getItem('token');
-   const clientId = await AsyncStorage.getItem('clienteId');
-   
-   const response = await fetch('https://torder-api.vercel.app/api/reserva/obterReservaAtual/?idCliente='+ clientId, {
-     method: 'GET', 
-     headers: {
-         'Content-Type': 'application/json',
-         'Authorization': 'Bearer ' + token
-   }})
+  const goBooking = async () => {
+    try {
+      const token = await AsyncStorage.getItem('token');
+      const clientId = await AsyncStorage.getItem('clienteId');
+      AsyncStorage.setItem("restauranteReservadoId", dataConfirm.mesa.restaurante._id)
 
-   const json = await response.json();     
-   json.reserva.map(data => {
-      fetch('https://torder-api.vercel.app/api/mesa/'+ data.mesa._id, {
-        method: 'PUT', 
+      fetch('https://torder-api.vercel.app/api/reserva/' + dataConfirm._id, {
+        method: 'PUT',
         headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+        },
+        body: JSON.stringify({ status: "Presente" })
+      });
+      fetch('https://torder-api.vercel.app/api/mesa/' + data.mesa._id, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+        },
+        body: JSON.stringify({ status: "Ocupada" })
+      });
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+
+  const cancelBooking = async () => {
+    try {
+      const token = await AsyncStorage.getItem('token');
+      const clientId = await AsyncStorage.getItem('clienteId');
+
+      const response = await fetch('https://torder-api.vercel.app/api/reserva/obterReservaAtual/?idCliente=' + clientId, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token
+        }
+      })
+
+      const json = await response.json();
+      json.reserva.map(data => {
+        fetch('https://torder-api.vercel.app/api/mesa/' + data.mesa._id, {
+          method: 'PUT',
+          headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + token
-        },
-        body: JSON.stringify({status: "Disponivel"})
-      })
-      fetch('https://torder-api.vercel.app/api/reserva/'+ data._id, {
-        method: 'PUT', 
-        headers: {
+          },
+          body: JSON.stringify({ status: "Disponivel" })
+        })
+        fetch('https://torder-api.vercel.app/api/reserva/' + data._id, {
+          method: 'PUT',
+          headers: {
             'Content-Type': 'application/json',
             'Authorization': 'Bearer ' + token
-        },
-        body: JSON.stringify({status: "Cancelada"})
+          },
+          body: JSON.stringify({ status: "Cancelada" })
+        })
+        navigation.replace('Booking')
       })
-      navigation.replace('Booking')
-   })
 
- } catch (error) {
-   console.error(error);
- } finally {
-   setLoading(false);
- }
-}
-  
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
   useEffect(() => {
     getBookings();
     getCurrentBooking();
   }, []);
 
+  function listSeparator() {
+    return (
+      <View style={{ backgroundColor: 'rgba(217, 217, 217,0.5)', height: 2 }}></View>
+    )
+  }
 
 
   return (
     <SafeAreaView style={styles.container}>
-      <Modal 
-      animationIn="slideInUp"
-      animationOutTiming={1000}
-      animationInTiming={600}
-      backdropTransitionOutTiming={800}
-      animationOut="slideOutDown"
-      isVisible={confirm}
+      <Modal
+        style={{ alignItems: 'center' }}
+        animationIn="slideInUp"
+        animationOutTiming={1000}
+        animationInTiming={600}
+        backdropTransitionOutTiming={800}
+        animationOut="slideOutDown"
+        isVisible={confirm}
       >
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            
-            <View style={styles.modalView}>
-              <Text style={styles.textConfirm}>
-                Confirmar presença?
-              </Text>
-              <TouchableOpacity 
-              style={{marginTop:'10%',width:"20%",height:"20%"}}
-              onPress={()=>{setconfirm(false)}}
-              >
-                <Text style={styles.textConfirm}>
-                Não
-              </Text>
-              </TouchableOpacity>
-              <TouchableOpacity 
-              style={{marginTop:'10%',width:"20%",height:"20%"}}
-              onPress={()=>{goBooking();navigation.replace('RestaurantMenu')}}
-              >
-                <Text style={styles.textConfirm}>
+        <View style={styles.modalViewCancel}>
+
+          <Text style={{ fontSize: 20 }}>
+            Confirmar presença?
+          </Text>
+          <View style={styles.modalViewCancelAction}>
+            <TouchableOpacity
+              style={styles.confirmButton}
+              onPress={() => { goBooking(); navigation.replace('RestaurantMenu') }}
+            >
+              <Text style={styles.textButtonCancel}>
                 Sim
               </Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-        </View>
-      </Modal>
-
-      <Modal 
-      animationIn="slideInUp"
-      animationOutTiming={1000}
-      animationInTiming={600}
-      backdropTransitionOutTiming={800}
-      animationOut="slideOutDown"
-      isVisible={details}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalViewDetails}>
-            <Text style={styles.textDetails}>
-              Detalhes
-            </Text>
-            <TouchableOpacity 
-            style={{marginTop:20,backgroundColor:'black',width:40,height:40}}
-            onPress={()=>{setdetails(false)}}
-            >
             </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
 
-      <Modal 
-      animationIn="slideInUp"
-      animationOutTiming={1000}
-      animationInTiming={600}
-      backdropTransitionOutTiming={800}
-      animationOut="slideOutDown"
-      isVisible={cancel}
-      >
-        <View style={styles.centeredView}>
-          <View style={styles.modalViewCancel}>
-            <Text style={styles.textCancel}>
-              Deseja mesmo cancelar?
-            </Text>
-            <TouchableOpacity 
-            style={styles.cancelButtom}
-            onPress={()=>{setcancel(false);cancelBooking()}}
+            <TouchableOpacity
+              style={styles.cancelButton}
+              onPress={() => { setconfirm(false) }}
             >
-              <Text>
-                Cancelar
+              <Text style={styles.textButtonCancel}>
+                Não
               </Text>
             </TouchableOpacity>
 
-            <TouchableOpacity 
-            style={styles.cancelButtom}
-            onPress={()=>{setcancel(false)}}
-            >
-              <Text>
-                Não Cancelar
-              </Text>
-            </TouchableOpacity>
-            
           </View>
         </View>
       </Modal>
 
-      <View style={styles.head}> 
-        <Text> 
-          Minhas Reservas 
+
+      <Modal
+        style={{ alignItems: 'center' }}
+        animationIn="slideInUp"
+        animationOutTiming={1000}
+        animationInTiming={600}
+        backdropTransitionOutTiming={800}
+        animationOut="slideOutDown"
+        isVisible={cancel}
+      >
+        <View style={styles.modalViewCancel}>
+          <Text style={{ fontSize: 20 }}>
+            Deseja mesmo cancelar?
+          </Text>
+          <View style={styles.modalViewCancelAction}>
+            <TouchableOpacity
+              style={styles.confirmButton}
+              onPress={() => { setcancel(false); cancelBooking() }}
+            >
+              <Text style={styles.textButtonCancel}>
+                Sim
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.cancelButton}
+              onPress={() => { setcancel(false) }}
+            >
+              <Text style={styles.textButtonCancel}>
+                Não
+              </Text>
+            </TouchableOpacity>
+
+          </View>
+
+
+        </View>
+      </Modal>
+
+      <View style={styles.title}>
+        <Text>
+          Minhas Reservas
         </Text>
-      </View>  
-     <View style={{marginBottom:'80%'}}>
-      <FlatList
-        style={styles.body}
-        data={dataBooking}
-        keyExtractor={({_id }, index) => _id}
-        renderItem={({ item }) => (
-          
-          <View style={styles.midBooking}>
+      </View>
+      <View style={styles.bookingView}>
+        <FlatList
+          style={styles.booking1}
+          data={dataBooking}
+          keyExtractor={({ _id }, index) => _id}
+          renderItem={({ item }) => (
 
-            <View style={styles.nameBooking}>
-              <Text style={{fontWeight:'bold',}}>{item.mesa.restaurante.nomeFantasia}</Text>
-            </View>
-
-            <View >
+            <View style={styles.midBooking}>
+              <Text style={{ fontWeight: 'bold', }}>{item.mesa.restaurante.nomeFantasia}</Text>
               <Text>{item.status}</Text>
+              <TextMask
+                value={item.horarioReserva}
+                type={'datetime'}
+                options={{
+                  format: 'YYYY/MM/DD  HH:mm'
+                }}
+              />
+
+
+              <View style={styles.bookingAction}>
+
+                <TouchableOpacity
+                  style={styles.bookingButtonConfirm}
+                  onPress={() => { setconfirm(true); setDataConfirm(item) }}
+                >
+                  <Text style={{ color: 'white', fontSize: 16 }}>Confirmar</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={styles.bookingButtonCancel}
+                  onPress={() => { setcancel(true) }}
+                >
+                  <Text style={{ color: 'white', fontSize: 16 }}>Cancelar</Text>
+                </TouchableOpacity>
+
+
+              </View>
             </View>
 
-            <View >
-              < Text>{item.horarioReserva}</Text>
-            </View>
-
-            <View style={styles.bookingAction}>
-              <TouchableOpacity 
-              style={styles.bookingButtonCancel}
-              onPress={()=>{setcancel(true)}}
-              >
-                <Text>Cancelar</Text>
-              </TouchableOpacity>
-              
-              <TouchableOpacity 
-              style={styles.bookingButtonConfirm}
-              onPress={()=>{setconfirm(true);setDataConfirm(item)}}
-              >  
-                <Text>confirmar</Text>
-              </TouchableOpacity>
-            </View>
-          </View>
-
-        )}
+          )}
         />
       </View>
- 
 
-      <View style={styles.bottom}> 
-        <Text> 
+
+      <View style={styles.title}>
+        <Text>
           Histórico de reservas
         </Text>
-        </View>
-      
-        <FlatList
-        style={{backgroundColor:'white',width:'95%',borderRadius:20}}
+      </View>
+
+      <FlatList
+        style={{
+          borderRadius: 20,
+          backgroundColor: 'white',
+          width: '95%'
+        }}
         initialNumToRender={10}
         data={data}
-        keyExtractor={({_id }, index) => _id}
+        ItemSeparatorComponent={listSeparator}
+        keyExtractor={({ _id }, index) => _id}
         renderItem={({ item }) => (
-          <View style={styles.bodyBottom}>
-          <View style={styles.nameBooking}>
-          <Text style={{fontSize:18, fontWeight: 'bold'}}>{item.mesa.restaurante.nomeFantasia}</Text>
-           </View>
-            <View style={styles.midBooking}>
-              <Text> {item.status} </Text>
-              <Text> Reserva criada em: { item.horarioCriacao} </Text>
-              <Text> Reserva reservada em: { item.horarioCriacao} </Text>
-            </View>
+          <View style={styles.historyView}>
+            <Text style={{ fontSize: 18, fontWeight: 'bold' }}>{item.mesa.restaurante.nomeFantasia}</Text>
+            <Text> {item.status} </Text>
+            <Text>Reserva criada em: <TextMask
+              value={item.horarioCriacao}
+
+              type={'datetime'}
+              options={{
+                format: 'YYYY/MM/DD  HH:mm'
+              }}
+            />
+            </Text>
+            <Text> Reserva reservada em: <TextMask
+              value={item.horarioCriacao}
+              type={'datetime'}
+              options={{
+                format: 'YYYY/MM/DD  HH:mm'
+              }}
+            />
+            </Text>
           </View>
         )}
-        /> 
-      
-      
-      <BottomBar/>
-      
+      />
+
+
+      <BottomBar />
+
     </SafeAreaView>
   )
 }

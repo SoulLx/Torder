@@ -1,147 +1,114 @@
-import { StyleSheet,StatusBar,Platform } from 'react-native';
+import { StyleSheet, StatusBar, Platform } from 'react-native';
 
-const styles=StyleSheet.create({
-    container:{
-        backgroundColor:'rgba(217, 217, 217,0.5)', 
+const styles = StyleSheet.create({
+    container: {
+        backgroundColor: 'rgba(217, 217, 217,0.5)',
         paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-        flex:1,
-        alignItems:'center',
-        justifyContent:'space-between'
-        
-    },
-    head:{
-        padding: "5%",
-        marginTop:'5%',
-        paddingHorizontal:'36%',
-        backgroundColor: 'white',
-        marginBottom:'-4%',
-    },
-    body:{
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'space-between'
 
-        marginTop:"8%",
-        borderRadius:20,
-        backgroundColor: 'white',
-        paddingHorizontal:"25%",
-        marginBottom:"85%",
-        
-        
-        
-    },
-    nameBooking:{
-        paddingHorizontal:'0%',
-        marginTop:'5%',
-        
-    },
-    bottom:{
-        paddingVertical: "5%",
-        marginTop:'-162%',
-        marginBottom:'2%',
-        backgroundColor: 'white',
-        paddingHorizontal:'33%',
     },
 
-    bodyBottom:{
-        alignItems:'center',
-        marginTop:"0%",
-        borderBottomWidth:1,
-        borderRadius:20,
-        paddingHorizontal:"5%",
-        paddingBottom:"10%",
-        marginBottom:'10%',
+    modalViewCancel: {
+        padding: 20,
         backgroundColor: 'white',
-        borderBottomColor:'grey',
+        borderRadius: 20,
+        height: 150,
+        width: "90%",
+        justifyContent: "space-between"
     },
-    midBooking:{
-        alignItems:'center',
+
+    modalViewCancelAction: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+    },
+
+    confirmButton: {
+        backgroundColor: 'green',
+        height: 40,
+        width: 110,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 10,
+    },
+
+    cancelButton: {
+        backgroundColor: 'red',
+        height: 40,
+        width: 110,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 10,
+    },
+
+    textButtonCancel: {
+        color: 'white', 
+        fontSize: 16,
     },
     
-    bookingAction:{
-        marginTop:"10%",
-        justifyContent:'space-between',
-        flexWrap: "wrap",
-        flexDirection: "row",
-        marginHorizontal:"0%",
-        marginBottom:"5%",
-    },
-    bookingButtonConfirm:{
-        paddingHorizontal:"10%",
-        backgroundColor:"#45cc33",
-        borderRadius:20,
-        
-    },
-    bookingButtonCancel:{
-        paddingHorizontal:"10%",
-        backgroundColor:"#de423a",
-        borderRadius:20,
-        
-    },
-    textCancel:{
-        color:"black",
-        fontSize:24,
-    },
-    textCode:{
-        color:"white",
-        fontSize:36,
-    },
-    textDetails:{
-        color:"black",
-        fontSize:24,
-    },
-    textConfirm:{
-        color:"white",
-        fontSize:24,
-    },
-    modalViewDetails:{
-        alignItems:'center',
-        backgroundColor:"white",
-        paddingHorizontal:"30%",
-        paddingVertical:"80%",
-        borderRadius:20,
-        elevation:10,
-    },
-    modalViewCancel: {
-        alignItems:'center',
-        backgroundColor:"white",
-        margin:5,
-        paddingHorizontal:"10%",
-        paddingVertical:"20%",
-        borderRadius:20,
-        elevation:10,
-    },
-    modalView: {
-        alignItems:'center',
-        backgroundColor:"black",
-        margin:5,
-        paddingHorizontal:"5%",
-        paddingVertical:"20%",
-        borderRadius:20,
-        elevation:10,
-    },
-    centeredView: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        
-      },
-      confirmTouch:{
-        alignSelf: "flex-start",
-        paddingBottom:"5%",
-        marginTop: '10%',
-        
-    },bookingDetails:{
-        alignItems: "center",
-            backgroundColor:"#45cc33",
-            borderRadius:20,
-            marginTop:"15%",
-    },
-    cancelButtom:{
-        alignItems: "center",
-            backgroundColor:"#de423a",
-            borderRadius:20,
-            marginTop:"15%",
-            padding:"10%"
+
+
+
+
+
+
+
+    title: {
+        height: 60,
+        width: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginVertical: 10,
+        backgroundColor: 'white',
+
     },
 
+    bookingView: {
+        backgroundColor: 'white',
+        height: 120,
+        width: '95%',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 20,
+        padding: 10,
+    },
+
+    midBooking: {
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+
+    bookingAction: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        height: 40,
+        width: 250,
+    },
+
+    bookingButtonConfirm: {
+        height: 30,
+        width: 100,
+        borderRadius: 10,
+        backgroundColor: 'green',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    bookingButtonCancel: {
+        height: 30,
+        width: 100,
+        borderRadius: 10,
+        backgroundColor: 'red',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+
+    historyView: {
+        alignItems: 'center',
+        marginVertical: 1,
+        paddingVertical: 30,
+    }
 });
 
 export default styles;
