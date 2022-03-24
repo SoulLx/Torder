@@ -6,7 +6,7 @@ próprio app, também conseguir visualizar o cardápio do lugar.
 
 Linguagem
 
-Javascript
+Typescript
 
 Tecnologias
 
