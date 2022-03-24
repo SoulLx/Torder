@@ -4,6 +4,14 @@ Um protótipo criado para facilitar a reserva de mesas de um restaurante ou lanc
 
 próprio app, também conseguir visualizar o cardápio do lugar.
 
+Linguagem
+
+Javascript
+
+Tecnologias
+
+React Native, Mongodb
+
 App desenvolvido por:
 
 João Vitor Alves da Silva
