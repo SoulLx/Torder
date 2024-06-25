@@ -6,8 +6,7 @@ Um protótipo criado para facilitar a reserva de mesas de um restaurante ou lanc
 
 ## Recursos Principais
 
-- CRUD completo para Vendedores.
-- Validação de documentos (CPF e CNPJ).
+- CRUD completo para Restaurantes.
 - Persistência de dados.
 
 ## Tecnologias Utilizadas
