@@ -28,4 +28,6 @@ https://github.com/LDelmou/torder-api
 
 ## Autor
 
-[João vitor alves da silva](https://github.com/SoulLx)[Victor hugo coelho](https://github.com/VictorHCoelho)[Lucas delmou martins](https://github.com/LDelmou)
+[João vitor alves da silva](https://github.com/SoulLx) 
+[Victor hugo coelho](https://github.com/VictorHCoelho) 
+[Lucas delmou martins](https://github.com/LDelmou)
