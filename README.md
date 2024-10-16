@@ -1,32 +1,32 @@
 # Torder
 
-## Descrição
+## Description
 
-Um protótipo criado para facilitar a reserva de mesas de um restaurante ou lanchonete, e diretamente do próprio app, também conseguir visualizar o cardápio do lugar.
+A prototype created to facilitate table reservations for a restaurant or snack bar, allowing users to view the menu directly from the app.
 
-## Recursos Principais
+## Key Features
 
-- CRUD completo para Restaurantes.
-- Persistência de dados.
+- Complete CRUD for Restaurants.
+- Data persistence.
 
-## Tecnologias Utilizadas
+## Technologies Used
 
 - React Native
-- Mongodb
+- MongoDB
 - TypeScript
 
-## Configuração do Ambiente
+## Environment Setup
 
-1. Clone o repositório.
-2. Clone o repositório da API.
-3. Use sua IDE preferida.
-   
+1. Clone the repository.
+2. Clone the API repository.
+3. Use your preferred IDE.
+
 ## API
 
-https://github.com/LDelmou/torder-api
+[https://github.com/LDelmou/torder-api](https://github.com/LDelmou/torder-api)
 
-## Autor
+## Authors
 
-[João vitor alves da silva](https://github.com/SoulLx) 
-[Victor hugo coelho](https://github.com/VictorHCoelho) 
-[Lucas delmou martins](https://github.com/LDelmou)
+[João Vitor Alves da Silva](https://github.com/Joaovitor404silva)  
+[Victor Hugo Coelho](https://github.com/VictorHCoelho)  
+[Lucas Delmou Martins](https://github.com/LDelmou)
